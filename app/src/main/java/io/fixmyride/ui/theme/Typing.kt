@@ -25,6 +25,7 @@ private val customFont = FontFamily(
 
 class Typing {
     companion object {
+        /** Appears at the top of each page */
         val screenHeadline = TextStyle(
             color = ColorPalette.secondary,
             fontFamily = customFont,
@@ -32,8 +33,18 @@ class Typing {
             fontSize = 20.sp,
             lineHeight = 28.sp,
         )
+
+        /** Eg. appears under headline on home page */
         val screenHeadlineDesc = TextStyle(
             color = ColorPalette.secondary.copy(alpha = .5f),
+            fontFamily = customFont,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            lineHeight = 22.4.sp,
+        )
+        /** Eg. the one used in AddVehicleButton at the top-left corner*/
+        val bookmarkHeadline = TextStyle(
+            color = ColorPalette.background,
             fontFamily = customFont,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,

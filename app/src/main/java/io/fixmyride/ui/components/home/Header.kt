@@ -1,4 +1,4 @@
-package io.fixmyride.ui.components
+package io.fixmyride.ui.components.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
 
@@ -24,7 +26,10 @@ fun Header(navCtrl: NavController) {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Twoje pojazdy", style = Typing.screenHeadline)
+            Text(
+                stringResource(R.string.your_vehicles),
+                style = Typing.screenHeadline,
+            )
             Icon(
                 Icons.Outlined.Notifications,
                 contentDescription = "Go to notifications page",
@@ -33,6 +38,9 @@ fun Header(navCtrl: NavController) {
             )
 
         }
-        Text("Witaj!", style = Typing.screenHeadlineDesc)
+        Text(
+            stringResource(R.string.welcome),
+            style = Typing.screenHeadlineDesc,
+        )
     }
 }

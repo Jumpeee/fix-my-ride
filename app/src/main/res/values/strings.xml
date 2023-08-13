@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FixMyRide</string>
+    <string name="your_vehicles">Your vehicles</string>
+    <string name="notifications">Notifications</string>
+    <string name="welcome">Welcome!</string>
+    <string name="add_vehicle">Add vehicle</string>
 </resources>
