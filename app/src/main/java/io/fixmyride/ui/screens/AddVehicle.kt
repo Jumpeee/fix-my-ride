@@ -7,6 +7,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.ui.components.UniversalHeader
@@ -19,10 +20,18 @@ fun AddVehicleScreen(navCtrl: NavController) {
         color = ColorPalette.background,
         modifier = Modifier
             .fillMaxSize()
-            .padding(Measurements.screenPadding)
+            .padding(
+                top = Measurements.screenPadding,
+                bottom = 0.dp,
+                start = Measurements.screenPadding,
+                end = Measurements.screenPadding,
+            ),
     ) {
         Column {
-            UniversalHeader(caption = stringResource(R.string.add_vehicle), navCtrl = navCtrl)
+            UniversalHeader(
+                caption = stringResource(R.string.add_vehicle),
+                navCtrl = navCtrl,
+            )
         }
     }
 }

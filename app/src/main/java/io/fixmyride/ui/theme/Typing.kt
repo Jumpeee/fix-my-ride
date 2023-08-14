@@ -42,13 +42,40 @@ class Typing {
             fontSize = 16.sp,
             lineHeight = 22.4.sp,
         )
-        /** Eg. the one used in AddVehicleButton at the top-left corner*/
+
+        /** Eg. the one used in AddVehicleButton at the top-left corner */
         val bookmarkHeadline = TextStyle(
+            color = ColorPalette.background.copy(alpha = 0.5f),
+            fontFamily = customFont,
+            fontWeight = FontWeight.Bold,
+            fontSize = 13.sp,
+            lineHeight = 16.sp,
+        )
+
+        val bookmarkSubHeadline = TextStyle(
             color = ColorPalette.background,
             fontFamily = customFont,
             fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            lineHeight = 22.4.sp,
+            fontSize = 14.sp,
+            lineHeight = 22.sp,
+        )
+
+        /** Eg. the one used in AddVehicleButton as description */
+        val bookmarkBody = TextStyle(
+            color = ColorPalette.background.copy(alpha = 0.6f),
+            fontFamily = customFont,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
+            lineHeight = 16.sp,
+        )
+
+        /** Eg. button next to "All vehicles" headline on Home Page */
+        val outlinedButtonText = TextStyle(
+            color = ColorPalette.secondary.copy(alpha = 0.7f),
+            fontFamily = customFont,
+            fontWeight = FontWeight.Normal,
+            fontSize = 10.sp,
+            lineHeight = 16.sp,
         )
     }
 }

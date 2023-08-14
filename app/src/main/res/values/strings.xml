@@ -4,4 +4,9 @@
     <string name="notifications">Notifications</string>
     <string name="welcome">Welcome!</string>
     <string name="add_vehicle">Add vehicle</string>
+    <string name="all_vehicles">All vehicles</string>
+    <string name="sort">sort</string>
+    <string name="add_vehicle_description">and ensure regular inspection with notifications a week in advance.</string>
+    <string name="receive_notifications">Receive notifications</string>
+    <string name="week_in_advance">a week in advance</string>
 </resources>

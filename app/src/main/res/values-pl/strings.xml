@@ -4,4 +4,9 @@
     <string name="notifications">Powiadomienia</string>
     <string name="welcome">Witaj!</string>
     <string name="add_vehicle">Dodaj pojazd</string>
+    <string name="all_vehicles">Wszystkie pojazdy</string>
+    <string name="sort">sortuj</string>
+    <string name="add_vehicle_description">i zapewnij mu regularny przegląd dzięki powiadomieniom z tygodniowym wyprzedzeniem.</string>
+    <string name="receive_notifications">Otrzymuj powiadomienia</string>
+    <string name="week_in_advance">z tygodniowym wyprzedzeniem</string>
 </resources>

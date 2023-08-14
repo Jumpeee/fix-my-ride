@@ -4,14 +4,19 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
+import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,13 +50,16 @@ fun AddVehicleButton(navCtrl: NavController) {
                 .fillMaxSize()
                 .padding(
                     vertical = (topOffset / 2 - 16 / 2).dp,
-                    horizontal = 25.dp,
+                    horizontal = 27.5.dp,
                 )
         ) {
-            Headline()
             ArrowIcon()
-            TruckIcon()
-            Description()
+            Column {
+                Headline()
+                Spacer(Modifier.height(25.dp))
+
+                Body()
+            }
         }
     }
 }
@@ -137,11 +145,34 @@ private fun Headline() {
 }
 
 @Composable
-private fun TruckIcon() {
-    // TODO
-}
+private fun Body() {
+    Row {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.background(
+                color = ColorPalette.background,
+                shape = RoundedCornerShape(12.dp),
+            )
+        ) {
+            Icon(
+                Icons.Rounded.Notifications,
+                contentDescription = "Phone icon",
+                tint = ColorPalette.primary,
+                modifier = Modifier.padding(8.dp),
+            )
+        }
 
-@Composable
-private fun Description() {
-    // TODO
+        Spacer(Modifier.width(10.dp))
+
+        Column {
+            Text(
+                stringResource(R.string.receive_notifications),
+                style = Typing.bookmarkSubHeadline,
+            )
+            Text(
+                stringResource(R.string.week_in_advance),
+                style = Typing.bookmarkBody,
+            )
+        }
+    }
 }

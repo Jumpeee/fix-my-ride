@@ -11,17 +11,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import io.fixmyride.R
 import io.fixmyride.ui.components.UniversalHeader
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 
 @Composable
-fun NotificationsScreen(navCtrl: NavHostController) {
+fun NotificationsScreen(navCtrl: NavController) {
     Surface(
         color = ColorPalette.background,
-        modifier = Modifier.padding(Measurements.screenPadding)
+        modifier = Modifier.padding(
+            top = Measurements.screenPadding,
+            bottom = 0.dp,
+            start = Measurements.screenPadding,
+            end = Measurements.screenPadding,
+        ),
     ) {
         Column {
             UniversalHeader(stringResource(R.string.notifications), navCtrl)
@@ -30,7 +34,7 @@ fun NotificationsScreen(navCtrl: NavHostController) {
 
             LazyColumn {
                 items(10) {
-
+                    // TODO
                 }
             }
         }

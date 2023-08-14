@@ -24,17 +24,22 @@ fun HomeScreen(navCtrl: NavHostController) {
         color = ColorPalette.background,
         modifier = Modifier
             .fillMaxSize()
-            .padding(Measurements.screenPadding)
+            .padding(
+                top = Measurements.screenPadding,
+                bottom = 0.dp,
+                start = Measurements.screenPadding,
+                end = Measurements.screenPadding,
+            ),
     ) {
         Column(Modifier.verticalScroll(rememberScrollState())) {
             Header(navCtrl)
             Spacer(Modifier.height(20.dp))
 
             AddVehicleButton(navCtrl)
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(30.dp))
 
             VehicleList()
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(40.dp))
         }
     }
 }

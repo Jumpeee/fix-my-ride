@@ -8,7 +8,11 @@ class ColorPalette {
         val secondary = Color(0xFFFFFFFD)
         val tertiary = Color(0xFF262626)
         val background = Color(0xFF141414)
-        val vehicleCardColors = listOf(Color(0xFFFF7B62), Color(0xFF8BD155), Color(0xFFDFF264))
+        val vehicleCardColors = listOf(
+            Color(0xFF8BD155),
+            Color(0xFFFF7B62),
+            Color(0xFFDFF264)
+        )
     }
 }
 
