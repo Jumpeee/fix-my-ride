@@ -18,6 +18,7 @@ fun FixMyRideTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = ColorPalette.background.toArgb()
+            window.navigationBarColor = ColorPalette.background.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
         }
     }

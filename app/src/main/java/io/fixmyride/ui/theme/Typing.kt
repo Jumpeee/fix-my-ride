@@ -44,12 +44,12 @@ class Typing {
         )
 
         /** Eg. the one used in AddVehicleButton at the top-left corner */
-        val bookmarkHeadline = TextStyle(
-            color = ColorPalette.background.copy(alpha = 0.5f),
+        val categoryHeadline = TextStyle(
+            color = ColorPalette.background.copy(alpha = 1f),
             fontFamily = customFont,
-            fontWeight = FontWeight.Bold,
-            fontSize = 13.sp,
-            lineHeight = 16.sp,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp,
+            lineHeight = 19.sp,
         )
 
         val bookmarkSubHeadline = TextStyle(
@@ -71,9 +71,9 @@ class Typing {
 
         /** Eg. button next to "All vehicles" headline on Home Page */
         val outlinedButtonText = TextStyle(
-            color = ColorPalette.secondary.copy(alpha = 0.7f),
+            color = ColorPalette.background,
             fontFamily = customFont,
-            fontWeight = FontWeight.Normal,
+            fontWeight = FontWeight.Bold,
             fontSize = 10.sp,
             lineHeight = 16.sp,
         )

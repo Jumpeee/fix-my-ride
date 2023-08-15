@@ -42,7 +42,8 @@ fun AddVehicleButton(navCtrl: NavController) {
     val topOffset = (backgroundHeight - backgroundHeight * primaryBoxHeightPercent).value
 
     Box(
-        modifier = Modifier.clickable { navCtrl.navigate("/add-vehicle-screen") },
+        modifier = Modifier
+            .clickable { navCtrl.navigate("/add-vehicle-screen") },
     ) {
         Background(backgroundHeight, primaryBoxHeightPercent)
         Box(
@@ -50,7 +51,7 @@ fun AddVehicleButton(navCtrl: NavController) {
                 .fillMaxSize()
                 .padding(
                     vertical = (topOffset / 2 - 16 / 2).dp,
-                    horizontal = 27.5.dp,
+                    horizontal = 25.dp,
                 )
         ) {
             ArrowIcon()
@@ -66,14 +67,17 @@ fun AddVehicleButton(navCtrl: NavController) {
 
 
 @Composable
-private fun Background(height: Dp, primaryBoxHeightPercent: Float) {
+private fun Background(
+    height: Dp,
+    primaryBoxHeightPercent: Float,
+) {
     val cornerRadius = 80f
 
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
             .height(height)
-            .clip(RoundedCornerShape(30)),
+            .clip(RoundedCornerShape(40.dp)),
     ) {
         drawRoundRect(
             color = ColorPalette.tertiary,
@@ -134,12 +138,10 @@ private fun ArrowIcon() {
 
 @Composable
 private fun Headline() {
-    Box(
-        contentAlignment = Alignment.TopStart,
-    ) {
+    Box(contentAlignment = Alignment.TopStart) {
         Text(
             stringResource(R.string.add_vehicle),
-            style = Typing.bookmarkHeadline,
+            style = Typing.categoryHeadline,
         )
     }
 }
