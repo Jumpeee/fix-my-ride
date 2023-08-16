@@ -1,8 +1,13 @@
 package io.fixmyride.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.slideIn
+import androidx.compose.animation.core.EaseInBounce
+import androidx.compose.animation.core.EaseInElastic
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
@@ -15,17 +20,19 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import io.fixmyride.ui.components.home.AddVehicleButton
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.components.home.Header
+import io.fixmyride.ui.components.home.NavBar
 import io.fixmyride.ui.components.home.ScrollToTopButton
 import io.fixmyride.ui.components.home.VehicleList
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(navCtrl: NavHostController) {
@@ -34,7 +41,6 @@ fun HomeScreen(navCtrl: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                top = Measurements.screenPadding,
                 start = Measurements.screenPadding,
                 end = Measurements.screenPadding,
             ),
@@ -46,6 +52,8 @@ fun HomeScreen(navCtrl: NavHostController) {
                     .verticalScroll(scrollState)
                     .fillMaxSize(),
             ) {
+                Spacer(Modifier.height(Measurements.screenPadding))
+
                 Header(navCtrl)
                 Spacer(Modifier.height(20.dp))
 
@@ -55,13 +63,20 @@ fun HomeScreen(navCtrl: NavHostController) {
                 VehicleList()
                 Spacer(Modifier.height(40.dp))
             }
-            AnimatedVisibility(
-                visible = scrollState.value > 200,
-                enter = slideInVertically(),
-                exit = slideOutVertically(),
-            ) {
-                ScrollToTopButton()
 
+            NavBar(scrollState, navCtrl)
+
+            val coroutineScope = rememberCoroutineScope()
+            ScrollToTopButton(scrollState) {
+                coroutineScope.launch {
+                    scrollState.animateScrollTo(
+                        0,
+                        animationSpec = tween(
+                            durationMillis = 1000,
+                            easing = FastOutSlowInEasing,
+                        )
+                    )
+                }
             }
         }
     }

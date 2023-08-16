@@ -1,9 +1,12 @@
 package io.fixmyride.ui.components.home
 
-import androidx.compose.foundation.background
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,18 +24,25 @@ import androidx.compose.ui.unit.dp
 import io.fixmyride.ui.theme.ColorPalette
 
 @Composable
-fun ScrollToTopButton() {
+fun ScrollToTopButton(scrollState: ScrollState, onClick: () -> Unit) {
+    val showElement = scrollState.value > 200
     Box(
         contentAlignment = Alignment.BottomEnd,
         modifier = Modifier
-            .padding(20.dp)
+            .padding(15.dp)
             .fillMaxSize(),
     ) {
+        val offsetY = animateDpAsState(
+            targetValue = if (showElement) 0.dp else 150.dp,
+            animationSpec = tween(durationMillis = 500),
+            label = "",
+        )
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = ColorPalette.primary,
             ),
             modifier = Modifier
+                .offset(y = offsetY.value)
                 .shadow(
                     elevation = 7.dp,
                     spotColor = ColorPalette.background,
@@ -41,7 +51,7 @@ fun ScrollToTopButton() {
                     shape = RoundedCornerShape(20.dp),
                 )
                 .clip(RoundedCornerShape(20.dp))
-                .clickable { /* TODO */ },
+                .clickable { onClick() },
         ) {
             Icon(
                 Icons.Rounded.KeyboardArrowUp,

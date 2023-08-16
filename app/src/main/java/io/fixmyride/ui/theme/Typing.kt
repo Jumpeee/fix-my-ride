@@ -71,7 +71,7 @@ class Typing {
 
         /** Eg. button next to "All vehicles" headline on Home Page */
         val outlinedButtonText = TextStyle(
-            color = ColorPalette.background,
+            color = ColorPalette.secondary,
             fontFamily = customFont,
             fontWeight = FontWeight.Bold,
             fontSize = 10.sp,

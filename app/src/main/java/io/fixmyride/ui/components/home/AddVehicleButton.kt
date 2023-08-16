@@ -28,6 +28,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -51,7 +52,7 @@ fun AddVehicleButton(navCtrl: NavController) {
                 .fillMaxSize()
                 .padding(
                     vertical = (topOffset / 2 - 16 / 2).dp,
-                    horizontal = 25.dp,
+                    horizontal = 30.dp,
                 )
         ) {
             ArrowIcon()
@@ -142,6 +143,7 @@ private fun Headline() {
         Text(
             stringResource(R.string.add_vehicle),
             style = Typing.categoryHeadline,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
@@ -170,10 +172,14 @@ private fun Body() {
             Text(
                 stringResource(R.string.receive_notifications),
                 style = Typing.bookmarkSubHeadline,
+                overflow = TextOverflow.Ellipsis,
+
             )
             Text(
                 stringResource(R.string.week_in_advance),
                 style = Typing.bookmarkBody,
+                overflow = TextOverflow.Ellipsis,
+
             )
         }
     }
