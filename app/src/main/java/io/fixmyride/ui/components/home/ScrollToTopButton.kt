@@ -1,7 +1,6 @@
 package io.fixmyride.ui.components.home
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -22,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import io.fixmyride.ui.theme.ColorPalette
+import io.fixmyride.ui.theme.Measurements
 
 @Composable
 fun ScrollToTopButton(scrollState: ScrollState, onClick: () -> Unit) {
@@ -34,7 +34,7 @@ fun ScrollToTopButton(scrollState: ScrollState, onClick: () -> Unit) {
     ) {
         val offsetY = animateDpAsState(
             targetValue = if (showElement) 0.dp else 150.dp,
-            animationSpec = tween(durationMillis = 500),
+            animationSpec = Measurements.scrollAnimation(),
             label = "",
         )
         Card(

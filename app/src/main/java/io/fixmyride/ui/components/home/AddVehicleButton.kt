@@ -44,7 +44,7 @@ fun AddVehicleButton(navCtrl: NavController) {
 
     Box(
         modifier = Modifier
-            .clickable { navCtrl.navigate("/add-vehicle-screen") },
+            .clickable { navCtrl.navigate("/add-vehicle") },
     ) {
         Background(backgroundHeight, primaryBoxHeightPercent)
         Box(

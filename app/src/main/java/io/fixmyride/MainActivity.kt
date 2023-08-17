@@ -44,6 +44,6 @@ private fun App() {
     ) {
         composable("/home") { HomeScreen(navCtrl)  }
         composable("/notifications") { NotificationsScreen(navCtrl)  }
-        composable("/add-vehicle-screen") { AddVehicleScreen(navCtrl) }
+        composable("/add-vehicle") { AddVehicleScreen(navCtrl) }
     }
 }
