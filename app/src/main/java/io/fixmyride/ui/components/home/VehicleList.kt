@@ -141,7 +141,9 @@ private fun Headline(topPadding: Dp) {
                     shape = RoundedCornerShape(15f),
                 )
                 .clip(RoundedCornerShape(15f))
-                .clickable { /* TODO */},
+                .clickable {
+                    // TODO sort button
+                },
         ) {
             Text(
                 stringResource(R.string.sort),

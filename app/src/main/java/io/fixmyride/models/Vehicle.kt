@@ -7,5 +7,5 @@ data class Vehicle(
     val registration: String,
     val oc: Date,
     val ac: Date,
-    val inspection: Date,
+    val inspectionDate: Date,
 )

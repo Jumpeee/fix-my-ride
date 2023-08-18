@@ -9,4 +9,5 @@
     <string name="add_vehicle_description">and ensure regular inspection with notifications a week in advance.</string>
     <string name="receive_notifications">Receive notifications</string>
     <string name="week_in_advance">a week in advance</string>
+    <string name="results">results</string>
 </resources>

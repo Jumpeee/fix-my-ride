@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 class Measurements {
     companion object {
         val screenPadding = 20.dp
+        fun scrollPositionToShowToolbar(value: Int = 200): Int = value
         fun <T> scrollAnimation(
             delay: Int = 0,
             duration: Int = 500,

@@ -36,7 +36,7 @@ class Typing {
 
         /** Eg. appears under headline on home page */
         val screenHeadlineDesc = TextStyle(
-            color = ColorPalette.secondary.copy(alpha = .5f),
+            color = ColorPalette.secondary.copy(alpha = 0.5f),
             fontFamily = customFont,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
@@ -75,6 +75,14 @@ class Typing {
             fontFamily = customFont,
             fontWeight = FontWeight.Bold,
             fontSize = 10.sp,
+            lineHeight = 16.sp,
+        )
+
+        val defaultBody = TextStyle(
+            color = ColorPalette.secondary,
+            fontFamily = customFont,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
             lineHeight = 16.sp,
         )
     }
