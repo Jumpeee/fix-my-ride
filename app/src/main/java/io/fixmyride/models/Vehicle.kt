@@ -5,7 +5,7 @@ import java.util.Date
 data class Vehicle(
     val model: String,
     val registration: String,
-    val oc: Date,
-    val ac: Date,
+    val tplInsurance: Date,
+    val comprehensiveInsurance: Date,
     val inspectionDate: Date,
 )

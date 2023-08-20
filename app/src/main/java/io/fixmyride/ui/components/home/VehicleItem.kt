@@ -25,7 +25,7 @@ import io.fixmyride.R
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun VehicleItem() {
+fun VehicleItem(/* vehicle: Vehicle */) {
     Box(Modifier.padding(top = 20.dp)) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

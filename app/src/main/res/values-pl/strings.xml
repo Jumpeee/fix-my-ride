@@ -10,4 +10,11 @@
     <string name="receive_notifications">Otrzymuj powiadomienia</string>
     <string name="week_in_advance">z tygodniowym wyprzedzeniem</string>
     <string name="results">wyników</string>
+    <string name="inspection_required">Wymagany przegląd</string>
+    <string name="tpl_is_about_to_expire">OC niedługo wygaśnie</string>
+    <string name="ci_is_about_to_expire">AC niedługo wygaśnie</string>
+    <string name="settings">Ustawienia</string>
+    <string name="enabled">Włączone</string>
+    <string name="disabled">Wyłączone</string>
+    <string name="settings_notifications_desc">Ile dni przed wyznaczoną datą ma zostać wysłane powiadomienie.</string>
 </resources>

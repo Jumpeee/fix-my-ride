@@ -32,7 +32,6 @@ fun NotificationsScreen(navCtrl: NavController) {
         color = ColorPalette.background,
         modifier = Modifier.padding(
             top = Measurements.screenPadding,
-            bottom = 0.dp,
             start = Measurements.screenPadding,
             end = Measurements.screenPadding,
         ),
@@ -41,9 +40,10 @@ fun NotificationsScreen(navCtrl: NavController) {
         Column(modifier = Modifier.verticalScroll(scrollState)) {
             UniversalHeader(stringResource(R.string.notifications), navCtrl)
 
-            Spacer(Modifier.height(10.dp))
 
             for (i in 0..100) NotificationItem()
+
+            Spacer(Modifier.height(100.dp))
         }
 
         val coroutineScope = rememberCoroutineScope()
@@ -75,7 +75,7 @@ fun NotificationsScreen(navCtrl: NavController) {
             animationSpec = Measurements.scrollAnimation(delay = 125),
             scrollState = scrollState,
         ) {
-            // TODO
+            // TODO deleting all notifications
         }
     }
 }

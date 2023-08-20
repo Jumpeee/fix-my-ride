@@ -31,10 +31,13 @@ fun FloatingButton(
     icon: ImageVector,
     alignment: Alignment,
     animationSpec: AnimationSpec<Dp> = Measurements.scrollAnimation(),
-    scrollState: ScrollState,
+    scrollState: ScrollState?,
     onClick: () -> Unit,
 ) {
-    val showElement = scrollState.value > Measurements.scrollPositionToShowToolbar()
+    val showElement = when (scrollState) {
+        null -> true
+        else -> scrollState.value > Measurements.scrollPositionToShowToolbar()
+    }
 
     Box(
         contentAlignment = alignment,
@@ -48,9 +51,7 @@ fun FloatingButton(
             label = "Scroll button scroll animation",
         )
         Card(
-            colors = CardDefaults.cardColors(
-                containerColor = color,
-            ),
+            colors = CardDefaults.cardColors(containerColor = color),
             modifier = Modifier
                 .offset(y = offsetY.value)
                 .shadow(

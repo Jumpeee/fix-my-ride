@@ -4,15 +4,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
@@ -30,12 +35,23 @@ fun Header(navCtrl: NavController) {
                 stringResource(R.string.your_vehicles),
                 style = Typing.screenHeadline,
             )
-            Icon(
-                Icons.Outlined.Notifications,
-                contentDescription = "Go to notifications page",
-                tint = ColorPalette.secondary,
-                modifier = Modifier.clickable { navCtrl.navigate("/notifications") }
-            )
+            Row {
+                Icon(
+                    Icons.Outlined.Settings,
+                    contentDescription = "Go to settings",
+                    tint = ColorPalette.secondary,
+                    modifier = Modifier.clickable { navCtrl.navigate("/settings") }
+                )
+
+                Spacer(Modifier.width(15.dp))
+
+                Icon(
+                    Icons.Outlined.Notifications,
+                    contentDescription = "Go to notifications page",
+                    tint = ColorPalette.secondary,
+                    modifier = Modifier.clickable { navCtrl.navigate("/notifications") }
+                )
+            }
 
         }
         Text(

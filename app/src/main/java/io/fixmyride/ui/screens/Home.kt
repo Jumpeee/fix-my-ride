@@ -16,7 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.ResultsBar
 import io.fixmyride.ui.components.home.AddVehicleButton
@@ -27,7 +27,8 @@ import io.fixmyride.ui.theme.Measurements
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen(navCtrl: NavHostController) {
+fun HomeScreen(navCtrl: NavController) {
+    val scrollState = rememberScrollState()
     Surface(
         color = ColorPalette.background,
         modifier = Modifier
@@ -38,7 +39,6 @@ fun HomeScreen(navCtrl: NavHostController) {
             ),
     ) {
         Box {
-            val scrollState = rememberScrollState()
             Column(
                 modifier = Modifier
                     .verticalScroll(scrollState)

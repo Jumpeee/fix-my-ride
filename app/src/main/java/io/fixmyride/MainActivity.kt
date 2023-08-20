@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import io.fixmyride.ui.screens.AddVehicleScreen
 import io.fixmyride.ui.screens.HomeScreen
 import io.fixmyride.ui.screens.NotificationsScreen
+import io.fixmyride.ui.screens.SettingsScreen
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.FixMyRideTheme
 
@@ -45,5 +46,6 @@ private fun App() {
         composable("/home") { HomeScreen(navCtrl)  }
         composable("/notifications") { NotificationsScreen(navCtrl)  }
         composable("/add-vehicle") { AddVehicleScreen(navCtrl) }
+        composable("/settings") { SettingsScreen(navCtrl) }
     }
 }

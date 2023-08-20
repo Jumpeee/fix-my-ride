@@ -9,10 +9,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 @Composable
-fun FixMyRideTheme(
-    content: @Composable () -> Unit
-) {
-
+fun FixMyRideTheme(content: @Composable () -> Unit) {
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {

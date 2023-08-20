@@ -22,7 +22,6 @@ fun AddVehicleScreen(navCtrl: NavController) {
             .fillMaxSize()
             .padding(
                 top = Measurements.screenPadding,
-                bottom = 0.dp,
                 start = Measurements.screenPadding,
                 end = Measurements.screenPadding,
             ),

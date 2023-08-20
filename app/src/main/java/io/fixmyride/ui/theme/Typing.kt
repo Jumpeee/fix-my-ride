@@ -52,6 +52,7 @@ class Typing {
             lineHeight = 19.sp,
         )
 
+        /** Eg. headline for Add Vehicle Button */
         val bookmarkSubHeadline = TextStyle(
             color = ColorPalette.background,
             fontFamily = customFont,
@@ -78,8 +79,45 @@ class Typing {
             lineHeight = 16.sp,
         )
 
+        /** Eg. for Results Bar */
         val defaultBody = TextStyle(
             color = ColorPalette.secondary,
+            fontFamily = customFont,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
+            lineHeight = 16.sp,
+        )
+
+        /** Eg. notification headline */
+        val subheading = TextStyle(
+            color = ColorPalette.secondary,
+            fontFamily = customFont,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            lineHeight = 24.sp,
+        )
+
+        /** Eg. notification body */
+        val descriptionBody = TextStyle(
+            color = ColorPalette.secondary.copy(alpha = 0.6f),
+            fontFamily = customFont,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
+            lineHeight = 16.sp,
+        )
+
+        /** Eg. settings page for every single option */
+        val enabled = TextStyle(
+            color = ColorPalette.green,
+            fontFamily = customFont,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
+            lineHeight = 16.sp,
+        )
+
+        /** Eg. settings page for every single option */
+        val disabled = TextStyle(
+            color = ColorPalette.lightRed,
             fontFamily = customFont,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,

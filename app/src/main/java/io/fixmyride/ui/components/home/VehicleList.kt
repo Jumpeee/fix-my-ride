@@ -138,9 +138,9 @@ private fun Headline(topPadding: Dp) {
                 .border(
                     width = 0.5f.dp,
                     color = ColorPalette.secondary.copy(alpha = 0.5f),
-                    shape = RoundedCornerShape(15f),
+                    shape = RoundedCornerShape(5.dp),
                 )
-                .clip(RoundedCornerShape(15f))
+                .clip(RoundedCornerShape(5.dp))
                 .clickable {
                     // TODO sort button
                 },
