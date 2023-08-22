@@ -1,24 +1,25 @@
 package io.fixmyride.ui.components.settings
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,26 +29,49 @@ import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun Option(icon: ImageVector, name: String, description: String) {
+fun Option(
+    icon: ImageVector,
+    name: String,
+    description: String,
+    iconRotate: Float = 0f,
+) {
     Column {
         Spacer(Modifier.height(30.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            IconAndOptionName(icon, name, description)
-            SwitchAndExpand {
-                // TODO implement expanding
-            }
+        val isExpanded = remember { mutableStateOf(false) }
 
+        Box {
+            Box(
+                contentAlignment = Alignment.TopStart,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                IconAndOptionName(
+                    icon,
+                    name,
+                    description,
+                    iconRotate,
+                    isExpanded.value,
+                )
+            }
+            Box(
+                contentAlignment = Alignment.TopEnd,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                SwitchAndExpand(isExpanded.value) { isExpanded.value = !isExpanded.value }
+            }
         }
+
     }
 }
 
 @Composable
-private fun IconAndOptionName(icon: ImageVector, name: String, description: String) {
+internal fun IconAndOptionName(
+    icon: ImageVector,
+    name: String,
+    description: String,
+    iconRotate: Float,
+    isExpanded: Boolean,
+) {
     Row {
         Box(
             contentAlignment = Alignment.Center,
@@ -60,41 +84,63 @@ private fun IconAndOptionName(icon: ImageVector, name: String, description: Stri
                 icon,
                 contentDescription = "Option icon",
                 tint = ColorPalette.background,
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier
+                    .padding(8.dp)
+                    .rotate(iconRotate),
             )
         }
 
         Spacer(Modifier.width(10.dp))
 
-        Column {
+        Column(Modifier.animateContentSize()) {
             Text(
                 name,
                 style = Typing.subheading,
+                overflow = TextOverflow.Ellipsis,
             )
             Text(
                 description,
                 style = Typing.descriptionBody,
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
+                maxLines = when (isExpanded) {
+                    true -> Int.MAX_VALUE
+                    else -> 1
+                },
             )
         }
     }
 }
 
 @Composable
-private fun SwitchAndExpand(onClickExpand: () -> Unit) {
+private fun SwitchAndExpand(
+    isExpanded: Boolean,
+    onClickExpand: () -> Unit,
+) {
+    // TODO synchronize it with real settings
+    val isEnabled = remember { mutableStateOf(false) }
     Row {
-        // TODO implement turning on/off
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.background(
-                color = ColorPalette.green.copy(alpha = 0.1f),
-                shape = RoundedCornerShape(5.dp),
-            ),
+            modifier = Modifier
+                .background(
+                    color = when (isEnabled.value) {
+                        true -> ColorPalette.green.copy(alpha = 0.1f)
+                        else -> ColorPalette.lightRed.copy(alpha = 0.1f)
+                    },
+                    shape = RoundedCornerShape(5.dp),
+                )
+                .animateContentSize()
+                .clickable { isEnabled.value = !isEnabled.value },
         ) {
             Text(
-                stringResource(R.string.enabled),
-                style = Typing.enabled,
+                text = when (isEnabled.value) {
+                    true -> stringResource(R.string.enabled)
+                    else -> stringResource(R.string.disabled)
+                },
+                style = when (isEnabled.value) {
+                    true -> Typing.enabled
+                    else -> Typing.disabled
+                },
                 modifier = Modifier
                     .padding(
                         horizontal = 5.dp,
@@ -105,21 +151,7 @@ private fun SwitchAndExpand(onClickExpand: () -> Unit) {
 
         Spacer(Modifier.width(10.dp))
 
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .background(
-                    color = ColorPalette.secondary,
-                    shape = RoundedCornerShape(100),
-                )
-                .clickable { onClickExpand() },
-        ) {
-            Icon(
-                Icons.Rounded.KeyboardArrowDown,
-                contentDescription = "Expand option",
-                tint = ColorPalette.background,
-            )
-        }
+        ExpandButton(isExpanded) { onClickExpand() }
     }
 }
 

@@ -17,4 +17,12 @@
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
     <string name="settings_notifications_desc">How many days before the date notifications are to be sent.</string>
+    <string name="save_locally">Save locally</string>
+    <string name="settings_save_locally_desc">Save vehicles and their data locally.</string>
+    <string name="load_data">Load data</string>
+    <string name="settings_load_data_desc">Load data from local storage.</string>
+    <string name="load">Load</string>
+    <string name="addvehicle_model_headline">Vehicle model</string>
+    <string name="addvehicle_model_placeholder">e.g. Porsche Taycan Turbo S</string>
+    <string name="addvehicle_registration_number_headline">Vehicle registration number</string>
 </resources>

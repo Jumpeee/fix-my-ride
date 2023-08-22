@@ -17,4 +17,12 @@
     <string name="enabled">Włączone</string>
     <string name="disabled">Wyłączone</string>
     <string name="settings_notifications_desc">Ile dni przed wyznaczoną datą ma zostać wysłane powiadomienie.</string>
+    <string name="save_locally">Zapisuj lokalnie</string>
+    <string name="settings_save_locally_desc">Zapisuj lokalnie pojazdy i ich dane.</string>
+    <string name="load_data">Wczytaj dane</string>
+    <string name="settings_load_data_desc">Wczytaj dane z pamięci lokalnej.</string>
+    <string name="load">Wczytaj</string>
+    <string name="addvehicle_model_headline">Model pojazdu</string>
+    <string name="addvehicle_model_placeholder">np. Porsche Taycan Turbo S</string>
+    <string name="addvehicle_registration_number_headline">Numery tablicy rejestracyjnej</string>
 </resources>

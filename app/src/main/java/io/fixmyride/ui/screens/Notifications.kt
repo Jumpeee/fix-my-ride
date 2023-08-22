@@ -40,7 +40,7 @@ fun NotificationsScreen(navCtrl: NavController) {
         Column(modifier = Modifier.verticalScroll(scrollState)) {
             UniversalHeader(stringResource(R.string.notifications), navCtrl)
 
-
+            // TODO remove it later
             for (i in 0..100) NotificationItem()
 
             Spacer(Modifier.height(100.dp))

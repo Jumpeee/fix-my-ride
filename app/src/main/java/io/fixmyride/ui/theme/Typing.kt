@@ -34,7 +34,7 @@ class Typing {
             lineHeight = 28.sp,
         )
 
-        /** Eg. appears under headline on home page */
+        /** e.g. appears under headline on home page */
         val screenHeadlineDesc = TextStyle(
             color = ColorPalette.secondary.copy(alpha = 0.5f),
             fontFamily = customFont,
@@ -43,7 +43,7 @@ class Typing {
             lineHeight = 22.4.sp,
         )
 
-        /** Eg. the one used in AddVehicleButton at the top-left corner */
+        /** e.g. the one used in AddVehicleButton at the top-left corner */
         val categoryHeadline = TextStyle(
             color = ColorPalette.background.copy(alpha = 1f),
             fontFamily = customFont,
@@ -52,7 +52,7 @@ class Typing {
             lineHeight = 19.sp,
         )
 
-        /** Eg. headline for Add Vehicle Button */
+        /** e.g. headline for Add Vehicle Button */
         val bookmarkSubHeadline = TextStyle(
             color = ColorPalette.background,
             fontFamily = customFont,
@@ -61,7 +61,7 @@ class Typing {
             lineHeight = 22.sp,
         )
 
-        /** Eg. the one used in AddVehicleButton as description */
+        /** e.g. the one used in AddVehicleButton as description */
         val bookmarkBody = TextStyle(
             color = ColorPalette.background.copy(alpha = 0.6f),
             fontFamily = customFont,
@@ -70,7 +70,7 @@ class Typing {
             lineHeight = 16.sp,
         )
 
-        /** Eg. button next to "All vehicles" headline on Home Page */
+        /** e.g. button next to "All vehicles" headline on Home Page */
         val outlinedButtonText = TextStyle(
             color = ColorPalette.secondary,
             fontFamily = customFont,
@@ -79,7 +79,7 @@ class Typing {
             lineHeight = 16.sp,
         )
 
-        /** Eg. for Results Bar */
+        /** e.g. for Results Bar */
         val defaultBody = TextStyle(
             color = ColorPalette.secondary,
             fontFamily = customFont,
@@ -88,7 +88,7 @@ class Typing {
             lineHeight = 16.sp,
         )
 
-        /** Eg. notification headline */
+        /** e.g. notification headline */
         val subheading = TextStyle(
             color = ColorPalette.secondary,
             fontFamily = customFont,
@@ -97,7 +97,7 @@ class Typing {
             lineHeight = 24.sp,
         )
 
-        /** Eg. notification body */
+        /** e.g. notification body */
         val descriptionBody = TextStyle(
             color = ColorPalette.secondary.copy(alpha = 0.6f),
             fontFamily = customFont,
@@ -106,7 +106,7 @@ class Typing {
             lineHeight = 16.sp,
         )
 
-        /** Eg. settings page for every single option */
+        /** e.g. settings page for every single option */
         val enabled = TextStyle(
             color = ColorPalette.green,
             fontFamily = customFont,
@@ -115,13 +115,41 @@ class Typing {
             lineHeight = 16.sp,
         )
 
-        /** Eg. settings page for every single option */
+        /** e.g. settings page for every single option */
         val disabled = TextStyle(
             color = ColorPalette.lightRed,
             fontFamily = customFont,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,
             lineHeight = 16.sp,
+        )
+
+        /** e.g. settings page for every single option button */
+        val optionButton = TextStyle(
+            color = ColorPalette.blue,
+            fontFamily = customFont,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
+            lineHeight = 16.sp,
+        )
+
+
+        /** Used only for text field texts */
+        val textFieldText = TextStyle(
+            color = ColorPalette.secondary,
+            fontFamily = customFont,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp,
+            lineHeight = 20.sp,
+        )
+
+        /** Used only for text field placeholders */
+        val textFieldPlaceholder = TextStyle(
+            color = ColorPalette.secondary.copy(alpha = 0.5f),
+            fontFamily = customFont,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp,
+            lineHeight = 20.sp,
         )
     }
 }

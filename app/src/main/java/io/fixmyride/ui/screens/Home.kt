@@ -53,7 +53,7 @@ fun HomeScreen(navCtrl: NavController) {
                 Spacer(Modifier.height(20.dp))
 
                 VehicleList()
-                Spacer(Modifier.height(40.dp))
+                Spacer(Modifier.height(100.dp))
             }
 
             ResultsBar(
