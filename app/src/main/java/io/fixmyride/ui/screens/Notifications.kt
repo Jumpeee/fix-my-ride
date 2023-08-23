@@ -11,6 +11,8 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +38,8 @@ fun NotificationsScreen(navCtrl: NavController) {
             end = Measurements.screenPadding,
         ),
     ) {
+        val showDeleteNotificationsDialog = remember { mutableStateOf(false) }
+
         val scrollState = rememberScrollState()
         Column(modifier = Modifier.verticalScroll(scrollState)) {
             UniversalHeader(stringResource(R.string.notifications), navCtrl)
@@ -74,8 +78,15 @@ fun NotificationsScreen(navCtrl: NavController) {
             alignment = Alignment.BottomStart,
             animationSpec = Measurements.scrollAnimation(delay = 125),
             scrollState = scrollState,
-        ) {
-            // TODO deleting all notifications
+        ) { showDeleteNotificationsDialog.value = true }
+
+        if (showDeleteNotificationsDialog.value) {
+            DeleteNotificationsDialog()
         }
     }
+}
+
+@Composable
+private fun DeleteNotificationsDialog() {
+    // TODO implement UI and deleting all notifications
 }

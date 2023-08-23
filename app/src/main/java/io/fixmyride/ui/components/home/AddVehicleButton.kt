@@ -43,8 +43,7 @@ fun AddVehicleButton(navCtrl: NavController) {
     val topOffset = (backgroundHeight - backgroundHeight * primaryBoxHeightPercent).value
 
     Box(
-        modifier = Modifier
-            .clickable { navCtrl.navigate("/add-vehicle") },
+        modifier = Modifier.clickable { navCtrl.navigate("/add-vehicle") },
     ) {
         Background(backgroundHeight, primaryBoxHeightPercent)
         Box(
@@ -128,11 +127,11 @@ private fun ArrowIcon() {
             contentDescription = "Go to add vehicle page",
             tint = ColorPalette.background,
             modifier = Modifier
+                .size(16.dp)
                 .background(
                     color = ColorPalette.secondary,
                     shape = RoundedCornerShape(100),
-                )
-                .size(16.dp),
+                ),
         )
     }
 }
@@ -174,13 +173,13 @@ private fun Body() {
                 style = Typing.bookmarkSubHeadline,
                 overflow = TextOverflow.Ellipsis,
 
-            )
+                )
             Text(
                 stringResource(R.string.week_in_advance),
                 style = Typing.bookmarkBody,
                 overflow = TextOverflow.Ellipsis,
 
-            )
+                )
         }
     }
 }

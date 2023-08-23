@@ -24,5 +24,15 @@
     <string name="load">Wczytaj</string>
     <string name="addvehicle_model_headline">Model pojazdu</string>
     <string name="addvehicle_model_placeholder">np. Porsche Taycan Turbo S</string>
-    <string name="addvehicle_registration_number_headline">Numery tablicy rejestracyjnej</string>
+    <string name="addvehicle_registration_number_headline">Numer tablicy rejestracyjnej</string>
+    <string name="addvehicle_registration_number_placeholder">np. DWR 6004H</string>
+    <string name="close">Zamknij</string>
+    <string name="pick_a_date">Wybierz datę</string>
+    <string name="ci_expiry_date">AC - data ważności</string>
+    <string name="ci">AC</string>
+    <string name="tpl_insurance_expiry_date">OC - data ważności</string>
+    <string name="tpl_insurance">OC</string>
+    <string name="tpl_insurance_desc">OC to obowiązkowe ubezpieczenie dla właścicieli pojazdów, zapewniające ochronę przed odpowiedzialnością wobec osób trzecich za szkody cielesne lub materialne spowodowane przez ubezpieczony pojazd.</string>
+    <string name="ci_insurance_desc">AC (Ubezpieczenie od zdarzeń losowych) to opcjonalne ubezpieczenie, które rozszerza ochronę na ubezpieczony pojazd, obejmując szereg ryzyk, w tym klęski żywiołowe, kradzieże, wandalizm oraz szkody niebędące wynikiem kolizji z innym pojazdem.</string>
+    <string name="made_by">Stworzone przez</string>
 </resources>

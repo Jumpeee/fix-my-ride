@@ -52,7 +52,7 @@ fun HomeScreen(navCtrl: NavController) {
                 AddVehicleButton(navCtrl)
                 Spacer(Modifier.height(20.dp))
 
-                VehicleList()
+                VehicleList(navCtrl)
                 Spacer(Modifier.height(100.dp))
             }
 

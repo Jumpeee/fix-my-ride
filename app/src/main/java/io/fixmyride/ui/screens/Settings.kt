@@ -1,21 +1,28 @@
 package io.fixmyride.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Email
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -26,6 +33,7 @@ import io.fixmyride.ui.components.settings.Option
 import io.fixmyride.ui.components.settings.OptionButton
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
+import io.fixmyride.ui.theme.Typing
 
 @Composable
 fun SettingsScreen(navCtrl: NavController) {
@@ -40,13 +48,20 @@ fun SettingsScreen(navCtrl: NavController) {
             ),
     ) {
         val scrollState = rememberScrollState()
-        Column(Modifier.verticalScroll(scrollState)) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.verticalScroll(scrollState),
+        ) {
             UniversalHeader(
                 caption = stringResource(R.string.settings),
                 navCtrl = navCtrl,
             )
 
             AllOptions()
+
+            Spacer(Modifier.height(20.dp))
+
+            AuthorInfo()
 
             Spacer(Modifier.height(100.dp))
         }
@@ -84,5 +99,28 @@ private fun AllOptions() {
         description = stringResource(R.string.settings_load_data_desc),
     ) {
         // TODO implement loading data from local storage
+    }
+}
+
+@Composable
+fun AuthorInfo() {
+    val uriOpener = LocalUriHandler.current
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            stringResource(R.string.made_by),
+            style = Typing.descriptionBody,
+        )
+        Text(
+            " Jumpee ",
+            style = Typing.descriptionBody.copy(color = ColorPalette.primary),
+            modifier = Modifier.clickable { uriOpener.openUri("https://github.com/Jumpeee") }
+        )
+        Icon(
+            Icons.Rounded.Favorite,
+            contentDescription = "Heart",
+            tint = ColorPalette.lightRed,
+            modifier = Modifier.size(14.dp),
+        )
     }
 }

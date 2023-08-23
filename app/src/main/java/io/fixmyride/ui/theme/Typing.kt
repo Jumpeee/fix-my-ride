@@ -133,7 +133,6 @@ class Typing {
             lineHeight = 16.sp,
         )
 
-
         /** Used only for text field texts */
         val textFieldText = TextStyle(
             color = ColorPalette.secondary,
@@ -146,6 +145,15 @@ class Typing {
         /** Used only for text field placeholders */
         val textFieldPlaceholder = TextStyle(
             color = ColorPalette.secondary.copy(alpha = 0.5f),
+            fontFamily = customFont,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp,
+            lineHeight = 20.sp,
+        )
+
+        /** e.g. close button for use in dialogs */
+        val buttonText = TextStyle(
+            color = ColorPalette.background,
             fontFamily = customFont,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,

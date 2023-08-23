@@ -49,11 +49,25 @@ fun AddVehicleScreen(navCtrl: NavController) {
 
             FormField(
                 caption = stringResource(R.string.addvehicle_registration_number_headline),
-                placeholder = "DWR 6004H",
+                placeholder = stringResource(R.string.addvehicle_registration_number_placeholder),
             )
 
             DateField(
-                caption = "TPL insurance expiry date",
+                caption = stringResource(R.string.tpl_insurance_expiry_date),
+                hintHeadline = stringResource(R.string.tpl_insurance),
+                hintDescription = stringResource(R.string.tpl_insurance_desc),
+            )
+
+            DateField(
+                caption = stringResource(R.string.ci_expiry_date),
+                hintHeadline = stringResource(R.string.ci),
+                hintDescription = stringResource(R.string.ci_insurance_desc),
+            )
+
+            DateField(
+                caption = "Last inspection date",
+                hintHeadline = "Inspection",
+                hintDescription = "This is a hint description for custom-made dialog",
             )
 
             Spacer(Modifier.height(80.dp))

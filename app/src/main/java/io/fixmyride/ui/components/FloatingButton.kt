@@ -46,7 +46,10 @@ fun FloatingButton(
             .fillMaxSize(),
     ) {
         val offsetY = animateDpAsState(
-            targetValue = if (showElement) 0.dp else 150.dp,
+            targetValue = when (showElement) {
+                true -> 0.dp
+                else -> 150.dp
+            },
             animationSpec = animationSpec,
             label = "Scroll button scroll animation",
         )

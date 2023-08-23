@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.fixmyride.ui.theme.ColorPalette
+import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,8 +75,8 @@ fun FormField(caption: String, placeholder: String) {
             trailingIcon = {
                 AnimatedVisibility(
                     visible = fieldValue.value != "",
-                    enter = slideInVertically(initialOffsetY = { -30 }) + fadeIn(),
-                    exit = slideOutVertically(targetOffsetY = { 30 }) + fadeOut(),
+                    enter = slideInVertically { -30 } + fadeIn(),
+                    exit = slideOutVertically { 30 } + fadeOut(),
                 ) {
                     Icon(
                         Icons.Rounded.Close,
@@ -97,7 +98,7 @@ fun FormField(caption: String, placeholder: String) {
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
+                .height(Measurements.textFieldHeight),
         )
     }
 }

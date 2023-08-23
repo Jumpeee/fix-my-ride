@@ -1,6 +1,7 @@
 package io.fixmyride.ui.components.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,12 +21,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.R
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun VehicleItem(/* vehicle: Vehicle */) {
+fun VehicleItem(navCtrl: NavController /* TODO vehicle: Vehicle */) {
     Box(Modifier.padding(top = 20.dp)) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -43,8 +45,9 @@ fun VehicleItem(/* vehicle: Vehicle */) {
             ) {
                 Icon(
                     Icons.Rounded.KeyboardArrowRight,
-                    contentDescription = "View selected vehicle's info",
+                    contentDescription = "View selected vehicle's details",
                     tint = ColorPalette.secondary,
+                    modifier = Modifier.clickable { navCtrl.navigate("/selected-vehicle") }
                 )
             }
         }

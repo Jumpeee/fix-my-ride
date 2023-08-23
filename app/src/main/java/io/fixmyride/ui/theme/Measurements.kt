@@ -18,5 +18,6 @@ class Measurements {
             delayMillis = delay,
             easing = easing,
         )
+        val textFieldHeight = 50.dp
     }
 }

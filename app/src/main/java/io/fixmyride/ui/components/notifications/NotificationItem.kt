@@ -30,7 +30,7 @@ import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun NotificationItem(/* notification: Notification */) {
+fun NotificationItem(/* TODO notification: Notification */) {
     val isExpanded = remember { mutableStateOf(false) }
 
     Column {

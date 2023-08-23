@@ -25,4 +25,14 @@
     <string name="addvehicle_model_headline">Vehicle model</string>
     <string name="addvehicle_model_placeholder">e.g. Porsche Taycan Turbo S</string>
     <string name="addvehicle_registration_number_headline">Vehicle registration number</string>
+    <string name="addvehicle_registration_number_placeholder">e.g. DWR 6004H</string>
+    <string name="close">Close</string>
+    <string name="pick_a_date">Pick a date</string>
+    <string name="ci_expiry_date">CI expiry date</string>
+    <string name="ci">CI</string>
+    <string name="tpl_insurance_expiry_date">TPL insurance expiry date</string>
+    <string name="tpl_insurance">TPL insurance</string>
+    <string name="tpl_insurance_desc">TPL (Third-party liability) insurance covers the financial responsibility you have towards others for bodily injury, property damage, or legal expenses resulting from an accident where you are found at fault.</string>
+    <string name="ci_insurance_desc">CI (Collision insurance) provides coverage for the cost of repairing or replacing your own vehicle in the event of a collision, regardless of who is at fault.</string>
+    <string name="made_by">Made by</string>
 </resources>

@@ -1,36 +1,49 @@
 package io.fixmyride.ui.components.addvehicle
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
+import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DateField(caption: String) {
+fun DateField(
+    caption: String,
+    hintHeadline: String,
+    hintDescription: String,
+) {
+    val showDialog = remember { mutableStateOf(false) }
     Column {
         Spacer(Modifier.height(20.dp))
 
@@ -50,22 +63,22 @@ fun DateField(caption: String) {
             Spacer(Modifier.width(5.dp))
 
             Box(
-                modifier = Modifier.border(
-                    color = ColorPalette.secondary.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(100),
-                    width = 2.dp,
-                ),
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(16.dp)
+                    .border(
+                        color = ColorPalette.secondary.copy(alpha = 0.2f),
+                        shape = RoundedCornerShape(100),
+                        width = 2.dp,
+                    )
+                    .clickable { showDialog.value = true },
             ) {
                 Text(
                     "i",
                     style = TextStyle(
                         color = ColorPalette.secondary.copy(alpha = 0.2f),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp,
-                    ),
-                    modifier = Modifier.padding(
-                        horizontal = 7.5.dp,
-                        vertical = 1.dp,
+                        fontSize = 10.sp,
                     ),
                 )
             }
@@ -73,28 +86,87 @@ fun DateField(caption: String) {
 
         Spacer(Modifier.height(5.dp))
 
-        TextField(
-            value = "",
-            onValueChange = {},
-            readOnly = true,
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = ColorPalette.tertiary,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                cursorColor = ColorPalette.primary,
-                selectionColors = TextSelectionColors(
-                    backgroundColor = ColorPalette.primary,
-                    handleColor = ColorPalette.primary,
-                ),
-            ),
-            shape = RoundedCornerShape(10.dp),
-            placeholder = {
-                Text(
-                    "Pick a date",
-                    style = Typing.textFieldPlaceholder,
+        Box(
+            contentAlignment = Alignment.CenterStart,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(Measurements.textFieldHeight)
+                .background(
+                    color = ColorPalette.tertiary,
+                    shape = RoundedCornerShape(10.dp),
                 )
-            }
-        )
+                .clickable { /* TODO display date picker */ },
+        ) {
+            Text(
+                stringResource(R.string.pick_a_date),
+                style = Typing.textFieldPlaceholder,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+    }
 
+    if (showDialog.value) {
+        InfoDialog(
+            hintHeadline,
+            hintDescription,
+        ) { showDialog.value = false }
+    }
+}
+
+@Composable
+fun InfoDialog(
+    headline: String,
+    description: String,
+    onDismiss: () -> Unit
+) {
+    Dialog(
+        onDismissRequest = { onDismiss() },
+    ) {
+        Surface(
+            color = ColorPalette.tertiary,
+            shape = RoundedCornerShape(10.dp),
+        ) {
+            Column(modifier = Modifier.padding(10.dp)) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(
+                        headline,
+                        style = Typing.subheading,
+                    )
+                    Icon(
+                        Icons.Rounded.Close,
+                        contentDescription = "Close dialog",
+                        tint = ColorPalette.lightRed,
+                        modifier = Modifier.clickable { onDismiss() }
+                    )
+                }
+
+                Text(
+                    description,
+                    style = Typing.descriptionBody,
+                )
+
+                Spacer(Modifier.height(10.dp))
+
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = ColorPalette.primary,
+                            shape = RoundedCornerShape(5.dp),
+                        )
+                        .clickable { onDismiss() },
+                ) {
+                    Text(
+                        stringResource(R.string.close),
+                        style = Typing.buttonText,
+                        modifier = Modifier.padding(vertical = 5.dp),
+                    )
+                }
+            }
+        }
     }
 }

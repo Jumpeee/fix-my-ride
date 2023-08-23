@@ -24,12 +24,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun VehicleList() {
+fun VehicleList(navCtrl: NavController) {
     val topPadding = 36.dp
 
     Box(
@@ -64,9 +65,7 @@ fun VehicleList() {
                             end = 30.dp
                         )
                 ) {
-                    for (e in 0..50) {
-                        VehicleItem()
-                    }
+                    for (e in 0..20) VehicleItem(navCtrl)
                 }
             }
         }
