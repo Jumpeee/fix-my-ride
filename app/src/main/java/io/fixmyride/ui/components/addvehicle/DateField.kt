@@ -43,7 +43,9 @@ fun DateField(
     hintHeadline: String,
     hintDescription: String,
 ) {
-    val showDialog = remember { mutableStateOf(false) }
+    val showInfoDialog = remember { mutableStateOf(false) }
+    val showDatePicker = remember { mutableStateOf(false) }
+
     Column {
         Spacer(Modifier.height(20.dp))
 
@@ -71,7 +73,7 @@ fun DateField(
                         shape = RoundedCornerShape(100),
                         width = 2.dp,
                     )
-                    .clickable { showDialog.value = true },
+                    .clickable { showInfoDialog.value = true },
             ) {
                 Text(
                     "i",
@@ -95,7 +97,7 @@ fun DateField(
                     color = ColorPalette.tertiary,
                     shape = RoundedCornerShape(10.dp),
                 )
-                .clickable { /* TODO display date picker */ },
+                .clickable { showDatePicker.value = true },
         ) {
             Text(
                 stringResource(R.string.pick_a_date),
@@ -105,11 +107,18 @@ fun DateField(
         }
     }
 
-    if (showDialog.value) {
+    if (showDatePicker.value) {
+        CustomDatePicker {
+            showDatePicker.value = false
+            // TODO
+        }
+    }
+
+    if (showInfoDialog.value) {
         InfoDialog(
             hintHeadline,
             hintDescription,
-        ) { showDialog.value = false }
+        ) { showInfoDialog.value = false }
     }
 }
 
@@ -123,7 +132,7 @@ fun InfoDialog(
         onDismissRequest = { onDismiss() },
     ) {
         Surface(
-            color = ColorPalette.tertiary,
+            color = ColorPalette.background,
             shape = RoundedCornerShape(10.dp),
         ) {
             Column(modifier = Modifier.padding(10.dp)) {

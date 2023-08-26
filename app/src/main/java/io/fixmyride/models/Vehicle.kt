@@ -1,11 +1,11 @@
 package io.fixmyride.models
 
-import java.util.Date
+import java.time.LocalDate
 
 data class Vehicle(
     val model: String,
     val registration: String,
-    val tplInsurance: Date,
-    val comprehensiveInsurance: Date,
-    val inspectionDate: Date,
+    val tplInsurance: LocalDate,
+    val comprehensiveInsurance: LocalDate,
+    val inspectionDate: LocalDate,
 )

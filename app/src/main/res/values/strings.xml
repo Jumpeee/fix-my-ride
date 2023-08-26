@@ -35,4 +35,6 @@
     <string name="tpl_insurance_desc">TPL (Third-party liability) insurance covers the financial responsibility you have towards others for bodily injury, property damage, or legal expenses resulting from an accident where you are found at fault.</string>
     <string name="ci_insurance_desc">CI (Collision insurance) provides coverage for the cost of repairing or replacing your own vehicle in the event of a collision, regardless of who is at fault.</string>
     <string name="made_by">Made by</string>
+    <string name="month_list">January February March April June July August September October November December</string>
+    <string name="save">Save</string>
 </resources>

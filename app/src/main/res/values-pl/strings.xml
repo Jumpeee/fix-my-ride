@@ -35,4 +35,6 @@
     <string name="tpl_insurance_desc">OC to obowiązkowe ubezpieczenie dla właścicieli pojazdów, zapewniające ochronę przed odpowiedzialnością wobec osób trzecich za szkody cielesne lub materialne spowodowane przez ubezpieczony pojazd.</string>
     <string name="ci_insurance_desc">AC (Ubezpieczenie od zdarzeń losowych) to opcjonalne ubezpieczenie, które rozszerza ochronę na ubezpieczony pojazd, obejmując szereg ryzyk, w tym klęski żywiołowe, kradzieże, wandalizm oraz szkody niebędące wynikiem kolizji z innym pojazdem.</string>
     <string name="made_by">Stworzone przez</string>
+    <string name="month_list">Styczeń Luty Marzec Kwiecień Maj Czerwiec Lipiec Sierpień Wrzesień Październik Listopad Grudzień</string>
+    <string name="save">Zapisz</string>
 </resources>

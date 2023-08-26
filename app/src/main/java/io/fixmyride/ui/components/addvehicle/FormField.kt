@@ -74,7 +74,7 @@ fun FormField(caption: String, placeholder: String) {
             },
             trailingIcon = {
                 AnimatedVisibility(
-                    visible = fieldValue.value != "",
+                    visible = fieldValue.value.isNotEmpty(),
                     enter = slideInVertically { -30 } + fadeIn(),
                     exit = slideOutVertically { 30 } + fadeOut(),
                 ) {

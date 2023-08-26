@@ -1,8 +1,8 @@
 package io.fixmyride.models
 
-import java.util.Date
+import java.time.LocalDateTime
 
 data class Notification(
     val vehicle: Vehicle,
-    val receivedAt: Date,
+    val receivedAt: LocalDateTime,
 )
