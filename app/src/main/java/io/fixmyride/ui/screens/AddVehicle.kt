@@ -1,5 +1,7 @@
 package io.fixmyride.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +23,7 @@ import io.fixmyride.ui.components.addvehicle.Thumbnail
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AddVehicleScreen(navCtrl: NavController) {
     Surface(

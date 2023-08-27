@@ -3,6 +3,7 @@ package io.fixmyride.ui.theme
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 
 class Measurements {
@@ -19,5 +20,6 @@ class Measurements {
             easing = easing,
         )
         val textFieldHeight = 50.dp
+        val roundedShape = RoundedCornerShape(10.dp)
     }
 }

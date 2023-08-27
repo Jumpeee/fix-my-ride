@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -62,9 +61,9 @@ fun FormField(caption: String, placeholder: String) {
         TextField(
             value = fieldValue.value,
             onValueChange = { fieldValue.value = it },
-            shape = RoundedCornerShape(10.dp),
             textStyle = Typing.textFieldText,
             maxLines = 1,
+            shape = Measurements.roundedShape,
             placeholder = {
                 Text(
                     placeholder,

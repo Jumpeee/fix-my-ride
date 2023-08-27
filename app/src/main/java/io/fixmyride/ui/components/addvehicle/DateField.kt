@@ -1,5 +1,7 @@
 package io.fixmyride.ui.components.addvehicle
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,6 +39,7 @@ import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DateField(
     caption: String,
@@ -45,6 +48,8 @@ fun DateField(
 ) {
     val showInfoDialog = remember { mutableStateOf(false) }
     val showDatePicker = remember { mutableStateOf(false) }
+
+    val dateValue = remember { mutableStateOf<String?>(null) }
 
     Column {
         Spacer(Modifier.height(20.dp))
@@ -95,13 +100,16 @@ fun DateField(
                 .height(Measurements.textFieldHeight)
                 .background(
                     color = ColorPalette.tertiary,
-                    shape = RoundedCornerShape(10.dp),
+                    shape = Measurements.roundedShape,
                 )
                 .clickable { showDatePicker.value = true },
         ) {
             Text(
-                stringResource(R.string.pick_a_date),
-                style = Typing.textFieldPlaceholder,
+                text = dateValue.value ?: stringResource(R.string.pick_a_date),
+                style = when (dateValue.value) {
+                    null -> Typing.textFieldPlaceholder
+                    else -> Typing.textFieldText
+                },
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -110,7 +118,9 @@ fun DateField(
     if (showDatePicker.value) {
         CustomDatePicker {
             showDatePicker.value = false
-            // TODO
+            if (it != null) {
+                dateValue.value = "${it.year}.${it.monthValue}.${it.dayOfMonth}"
+            }
         }
     }
 
@@ -123,19 +133,17 @@ fun DateField(
 }
 
 @Composable
-fun InfoDialog(
+private fun InfoDialog(
     headline: String,
     description: String,
     onDismiss: () -> Unit
 ) {
-    Dialog(
-        onDismissRequest = { onDismiss() },
-    ) {
+    Dialog(onDismissRequest = { onDismiss() }) {
         Surface(
             color = ColorPalette.background,
-            shape = RoundedCornerShape(10.dp),
+            shape = Measurements.roundedShape,
         ) {
-            Column(modifier = Modifier.padding(10.dp)) {
+            Column(modifier = Modifier.padding(Measurements.screenPadding / 2)) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth(),
@@ -148,7 +156,9 @@ fun InfoDialog(
                         Icons.Rounded.Close,
                         contentDescription = "Close dialog",
                         tint = ColorPalette.lightRed,
-                        modifier = Modifier.clickable { onDismiss() }
+                        modifier = Modifier
+                            .size(18.dp)
+                            .clickable { onDismiss() }
                     )
                 }
 

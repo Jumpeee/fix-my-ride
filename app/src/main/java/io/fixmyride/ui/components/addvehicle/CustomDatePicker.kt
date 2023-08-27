@@ -1,8 +1,10 @@
 package io.fixmyride.ui.components.addvehicle
 
+import android.content.res.Resources
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,40 +14,58 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
 import io.fixmyride.R
 import io.fixmyride.models.DateType
 import io.fixmyride.ui.theme.ColorPalette
+import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CustomDatePicker(onDismiss: (LocalDate?) -> Unit) {
+    val isParseError = remember { mutableStateOf(false) }
+
+    var day = ""
+    var month = ""
+    var year = ""
+
     Dialog(
         onDismissRequest = { onDismiss(null) },
     ) {
         Surface(
-            shape = RoundedCornerShape(10.dp),
+            shape = Measurements.roundedShape,
             color = ColorPalette.background,
             modifier = Modifier.fillMaxWidth(),
         ) {
             Column(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(Measurements.screenPadding / 2),
             ) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -59,7 +79,9 @@ fun CustomDatePicker(onDismiss: (LocalDate?) -> Unit) {
                         Icons.Rounded.Close,
                         contentDescription = "Close dialog",
                         tint = ColorPalette.lightRed,
-                        modifier = Modifier.clickable { onDismiss(null) }
+                        modifier = Modifier
+                            .size(18.dp)
+                            .clickable { onDismiss(null) }
                     )
                 }
 
@@ -69,17 +91,24 @@ fun CustomDatePicker(onDismiss: (LocalDate?) -> Unit) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Row {
-                        DateRoll(DateType.DAY)
-                        Spacer(Modifier.width(20.dp))
-                    }
+                    DateBox(
+                        dateType = DateType.YEAR,
+                        parseError = isParseError.value,
+                    ) { year = it }
 
-                    Row {
-                        DateRoll(DateType.MONTH)
-                        Spacer(Modifier.width(20.dp))
-                    }
+                    Spacer(Modifier.width(10.dp))
 
-                    DateRoll(DateType.YEAR)
+                    DateBox(
+                        dateType = DateType.MONTH,
+                        parseError = isParseError.value,
+                    ) { month = it }
+
+                    Spacer(Modifier.width(10.dp))
+
+                    DateBox(
+                        dateType = DateType.DAY,
+                        parseError = isParseError.value,
+                    ) { day = it }
                 }
 
                 Spacer(Modifier.height(10.dp))
@@ -90,9 +119,13 @@ fun CustomDatePicker(onDismiss: (LocalDate?) -> Unit) {
                         .fillMaxWidth()
                         .background(
                             color = ColorPalette.primary,
-                            shape = RoundedCornerShape(10.dp),
+                            shape = Measurements.roundedShape,
                         )
-                        .clickable { /* TODO */ }
+                        .clickable {
+                            val pattern = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+                            val parsedDate = LocalDate.parse("$year.$month.$day", pattern)
+                            onDismiss(parsedDate)
+                        }
                 ) {
                     Text(
                         stringResource(R.string.save),
@@ -106,40 +139,96 @@ fun CustomDatePicker(onDismiss: (LocalDate?) -> Unit) {
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DateRoll(type: DateType) {
-    val dateValues: List<Any> = when (type) {
-        DateType.DAY -> (1..31).toList()
-        DateType.MONTH -> stringResource(R.string.month_list).split(" ")
-        DateType.YEAR -> (LocalDate.now().year..LocalDate.now().year + 30).toList()
+private fun DateBox(
+    dateType: DateType,
+    parseError: Boolean,
+    onInput: (String) -> Unit,
+) {
+    val placeholderText = when (dateType) {
+        DateType.DAY -> "dd"
+        DateType.MONTH -> "mm"
+        DateType.YEAR -> "yyyy"
     }
 
-    Column(
-        modifier = Modifier.fillMaxWidth(0.33f)
-    ) {
-        Divider(
-            color = ColorPalette.primary,
-            thickness = 2.dp,
-        )
+    val maxLength = when (dateType) {
+        DateType.DAY -> 2
+        DateType.MONTH -> 2
+        DateType.YEAR -> 4
+    }
 
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp),
-        ) {
-            items(dateValues.size) {
-                Text(
-                    "${dateValues[it]}",
-                    style = Typing.defaultBody,
-                    modifier = Modifier.padding(vertical = 10.dp)
-                )
+    val dateValue = remember { mutableStateOf("") }
+
+    val deviceMetrics = Resources.getSystem().displayMetrics
+
+
+    TextField(
+        value = dateValue.value,
+        onValueChange = {
+            var formattedValue = it.replace(Regex("\\D+"), "")
+            if (formattedValue.length <= maxLength) {
+                formattedValue = convertToValidDate(formattedValue, dateType)
+                onInput(formattedValue)
+                dateValue.value = formattedValue
             }
-        }
+        },
+        textStyle = Typing.textFieldText,
+        maxLines = 1,
+        shape = Measurements.roundedShape,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = ColorPalette.tertiary,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            cursorColor = ColorPalette.primary,
+            selectionColors = TextSelectionColors(
+                backgroundColor = ColorPalette.primary,
+                handleColor = ColorPalette.primary,
+            ),
+        ),
+        placeholder = {
+            Text(
+                placeholderText,
+                style = Typing.textFieldPlaceholder,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
+        modifier = Modifier
+            .height(Measurements.textFieldHeight)
+            .wrapContentWidth()
+            .width(((deviceMetrics.widthPixels / deviceMetrics.density).dp - (2 * Measurements.screenPadding) - (2 * (Measurements.screenPadding / 2))) / 3 - 20.dp)
+            .border(
+                color = when (parseError) {
+                    true -> ColorPalette.lightRed
+                    else -> Color.Transparent
+                },
+                width = 2.dp,
+                shape = Measurements.roundedShape,
+            ),
+    )
+}
 
-        Divider(
-            color = ColorPalette.primary,
-            thickness = 2.dp,
-        )
+@RequiresApi(Build.VERSION_CODES.O)
+private fun convertToValidDate(value: String, dateType: DateType): String {
+    val maxNumber = when (dateType) {
+        DateType.DAY -> 31
+        DateType.MONTH -> 12
+        DateType.YEAR -> LocalDate.now().year + 100
     }
+    val minNumber = when (dateType) {
+        DateType.DAY -> 1
+        DateType.MONTH -> 1
+        DateType.YEAR -> LocalDate.now().year / 1000
+    }
+
+    if (value.isEmpty()) return ""
+
+    val result = when {
+        value.toInt() > maxNumber -> maxNumber
+        value.toInt() < minNumber -> minNumber
+        else -> value.toInt()
+    }
+
+    return "$result"
 }

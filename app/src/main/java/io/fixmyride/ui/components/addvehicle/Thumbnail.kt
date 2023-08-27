@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
+import io.fixmyride.ui.theme.Measurements
 
 @Composable
 fun Thumbnail() {
@@ -45,7 +46,7 @@ private fun ThumbnailPicture() {
             )
             .background(
                 color = ColorPalette.tertiary,
-                shape = RoundedCornerShape(10.dp),
+                shape = Measurements.roundedShape,
             ),
     ) {
         // TODO implement image

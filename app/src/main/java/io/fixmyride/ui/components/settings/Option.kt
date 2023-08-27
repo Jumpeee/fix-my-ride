@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
+import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
 
 @Composable
@@ -77,7 +78,7 @@ internal fun IconAndOptionName(
             contentAlignment = Alignment.Center,
             modifier = Modifier.background(
                 color = ColorPalette.primary,
-                shape = RoundedCornerShape(10.dp)
+                shape = Measurements.roundedShape,
             ),
         ) {
             Icon(
