@@ -1,6 +1,8 @@
 package io.fixmyride.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -14,14 +16,11 @@ import io.fixmyride.ui.theme.Measurements
 fun SelectedVehicleScreen(navCtrl: NavController) {
     Surface(
         color = ColorPalette.background,
-        modifier = Modifier.padding(
-            top = Measurements.screenPadding,
-            start = Measurements.screenPadding,
-            end = Measurements.screenPadding,
-        ),
+        modifier = Modifier.padding(horizontal = Measurements.screenPadding),
     ) {
         Column {
             // TODO replace registration number with text with opacity 0.5
+            Spacer(Modifier.height(Measurements.screenPadding))
             UniversalHeader(
                 caption = "Vehicle model here" /* + registration number */,
                 navCtrl = navCtrl,

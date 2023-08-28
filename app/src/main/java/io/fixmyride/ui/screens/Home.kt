@@ -33,10 +33,7 @@ fun HomeScreen(navCtrl: NavController) {
         color = ColorPalette.background,
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                start = Measurements.screenPadding,
-                end = Measurements.screenPadding,
-            ),
+            .padding(horizontal = Measurements.screenPadding),
     ) {
         Box {
             Column(

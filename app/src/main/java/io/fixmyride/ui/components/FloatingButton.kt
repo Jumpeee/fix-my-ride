@@ -51,7 +51,7 @@ fun FloatingButton(
                 else -> 150.dp
             },
             animationSpec = animationSpec,
-            label = "Scroll button scroll animation",
+            label = "Scroll animation",
         )
         Card(
             colors = CardDefaults.cardColors(containerColor = color),

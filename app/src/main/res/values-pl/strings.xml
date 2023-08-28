@@ -36,4 +36,10 @@
     <string name="ci_insurance_desc">AC (Ubezpieczenie od zdarzeń losowych) to opcjonalne ubezpieczenie, które rozszerza ochronę na ubezpieczony pojazd, obejmując szereg ryzyk, w tym klęski żywiołowe, kradzieże, wandalizm oraz szkody niebędące wynikiem kolizji z innym pojazdem.</string>
     <string name="made_by">Stworzone przez</string>
     <string name="save">Zapisz</string>
+    <string name="year_month_day">(Rok.Miesiąc.Dzień)</string>
+    <string name="choose_the_option">Wybierz opcję</string>
+    <string name="delete_notifications_headline">Usunąć powiadomienia?</string>
+    <string name="delete_notifications_description">Czy napewno chcesz usunąć wszystkie powiadomienia?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
 </resources>

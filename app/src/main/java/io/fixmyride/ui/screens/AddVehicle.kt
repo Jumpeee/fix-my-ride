@@ -30,14 +30,11 @@ fun AddVehicleScreen(navCtrl: NavController) {
         color = ColorPalette.background,
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                top = Measurements.screenPadding,
-                start = Measurements.screenPadding,
-                end = Measurements.screenPadding,
-            ),
+            .padding(horizontal = Measurements.screenPadding),
     ) {
         val scrollState = rememberScrollState()
         Column(modifier = Modifier.verticalScroll(scrollState)) {
+            Spacer(Modifier.height(Measurements.screenPadding))
             UniversalHeader(
                 caption = stringResource(R.string.add_vehicle),
                 navCtrl = navCtrl,

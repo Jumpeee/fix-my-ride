@@ -81,7 +81,7 @@ fun CustomDatePicker(onDismiss: (LocalDate?) -> Unit) {
                         tint = ColorPalette.lightRed,
                         modifier = Modifier
                             .size(18.dp)
-                            .clickable { onDismiss(null) }
+                            .clickable { onDismiss(null) },
                     )
                 }
 
@@ -94,21 +94,30 @@ fun CustomDatePicker(onDismiss: (LocalDate?) -> Unit) {
                     DateBox(
                         dateType = DateType.YEAR,
                         parseError = isParseError.value,
-                    ) { year = it }
+                    ) {
+                        isParseError.value = false
+                        year = it
+                    }
 
                     Spacer(Modifier.width(10.dp))
 
                     DateBox(
                         dateType = DateType.MONTH,
                         parseError = isParseError.value,
-                    ) { month = it }
+                    ) {
+                        isParseError.value = false
+                        month = it
+                    }
 
                     Spacer(Modifier.width(10.dp))
 
                     DateBox(
                         dateType = DateType.DAY,
                         parseError = isParseError.value,
-                    ) { day = it }
+                    ) {
+                        isParseError.value = false
+                        day = it
+                    }
                 }
 
                 Spacer(Modifier.height(10.dp))
@@ -121,7 +130,16 @@ fun CustomDatePicker(onDismiss: (LocalDate?) -> Unit) {
                             color = ColorPalette.primary,
                             shape = Measurements.roundedShape,
                         )
-                        .clickable {
+                        .clickable(onClickLabel = "Save selected date") {
+                            if (year.isEmpty() || month.isEmpty() || day.isEmpty()) {
+                                isParseError.value = true
+                                return@clickable
+                            }
+
+                            year = convertToValidDate(year, DateType.YEAR, 4)
+                            month = convertToValidDate(month, DateType.MONTH, 2)
+                            day = convertToValidDate(day, DateType.DAY, 2)
+
                             val pattern = DateTimeFormatter.ofPattern("yyyy.MM.dd")
                             val parsedDate = LocalDate.parse("$year.$month.$day", pattern)
                             onDismiss(parsedDate)
@@ -147,31 +165,32 @@ private fun DateBox(
     onInput: (String) -> Unit,
 ) {
     val placeholderText = when (dateType) {
-        DateType.DAY -> "dd"
-        DateType.MONTH -> "mm"
         DateType.YEAR -> "yyyy"
+        DateType.MONTH -> "mm"
+        DateType.DAY -> "dd"
     }
 
     val maxLength = when (dateType) {
-        DateType.DAY -> 2
-        DateType.MONTH -> 2
         DateType.YEAR -> 4
+        DateType.MONTH -> 2
+        DateType.DAY -> 2
     }
-
-    val dateValue = remember { mutableStateOf("") }
 
     val deviceMetrics = Resources.getSystem().displayMetrics
 
-
+    val dateValue = remember { mutableStateOf("") }
     TextField(
         value = dateValue.value,
         onValueChange = {
+            if (it.length > maxLength) return@TextField
+
             var formattedValue = it.replace(Regex("\\D+"), "")
-            if (formattedValue.length <= maxLength) {
-                formattedValue = convertToValidDate(formattedValue, dateType)
-                onInput(formattedValue)
-                dateValue.value = formattedValue
+            if (formattedValue.length == maxLength) {
+                formattedValue = convertToValidDate(formattedValue, dateType, maxLength)
             }
+
+            onInput(formattedValue)
+            dateValue.value = formattedValue
         },
         textStyle = Typing.textFieldText,
         maxLines = 1,
@@ -210,25 +229,30 @@ private fun DateBox(
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-private fun convertToValidDate(value: String, dateType: DateType): String {
-    val maxNumber = when (dateType) {
-        DateType.DAY -> 31
-        DateType.MONTH -> 12
-        DateType.YEAR -> LocalDate.now().year + 100
-    }
-    val minNumber = when (dateType) {
-        DateType.DAY -> 1
-        DateType.MONTH -> 1
-        DateType.YEAR -> LocalDate.now().year / 1000
-    }
-
+private fun convertToValidDate(
+    value: String,
+    dateType: DateType,
+    maxLength: Int
+): String {
     if (value.isEmpty()) return ""
 
-    val result = when {
-        value.toInt() > maxNumber -> maxNumber
-        value.toInt() < minNumber -> minNumber
-        else -> value.toInt()
+    val now = LocalDate.now()
+    val maxNumber = when (dateType) {
+        DateType.YEAR -> now.year + 100
+        DateType.MONTH -> 12
+        DateType.DAY -> 31
+    }
+    val minNumber = when (dateType) {
+        DateType.YEAR -> now.year
+        DateType.MONTH -> 1
+        DateType.DAY -> 1
     }
 
-    return "$result"
+    val result = when {
+        value.toInt() >= maxNumber -> "$maxNumber"
+        value.toInt() <= minNumber -> "$minNumber"
+        else -> value
+    }
+
+    return result.padStart(maxLength, '0')
 }

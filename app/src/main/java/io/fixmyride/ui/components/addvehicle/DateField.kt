@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -28,11 +28,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
@@ -50,7 +47,6 @@ fun DateField(
     val showDatePicker = remember { mutableStateOf(false) }
 
     val dateValue = remember { mutableStateOf<String?>(null) }
-
     Column {
         Spacer(Modifier.height(20.dp))
 
@@ -69,26 +65,12 @@ fun DateField(
 
             Spacer(Modifier.width(5.dp))
 
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .size(16.dp)
-                    .border(
-                        color = ColorPalette.secondary.copy(alpha = 0.2f),
-                        shape = RoundedCornerShape(100),
-                        width = 2.dp,
-                    )
-                    .clickable { showInfoDialog.value = true },
-            ) {
-                Text(
-                    "i",
-                    style = TextStyle(
-                        color = ColorPalette.secondary.copy(alpha = 0.2f),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 10.sp,
-                    ),
-                )
-            }
+            Icon(
+                Icons.Outlined.Info,
+                contentDescription = "Info",
+                tint = ColorPalette.secondary.copy(alpha = 0.2f),
+                modifier = Modifier.size(16.dp)
+            )
         }
 
         Spacer(Modifier.height(5.dp))
@@ -104,23 +86,34 @@ fun DateField(
                 )
                 .clickable { showDatePicker.value = true },
         ) {
-            Text(
-                text = dateValue.value ?: stringResource(R.string.pick_a_date),
-                style = when (dateValue.value) {
-                    null -> Typing.textFieldPlaceholder
-                    else -> Typing.textFieldText
-                },
-                modifier = Modifier.padding(start = 16.dp)
-            )
+            if (dateValue.value == null) {
+                Text(
+                    text = stringResource(R.string.pick_a_date),
+                    style = Typing.textFieldPlaceholder,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            } else {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = dateValue.value!!,
+                        style = Typing.textFieldText,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                    Spacer(Modifier.width(5.dp))
+                    Text(
+                        text = stringResource(R.string.year_month_day),
+                        style = Typing.textFieldPlaceholder,
+                    )
+                }
+            }
         }
     }
 
     if (showDatePicker.value) {
         CustomDatePicker {
             showDatePicker.value = false
-            if (it != null) {
-                dateValue.value = "${it.year}.${it.monthValue}.${it.dayOfMonth}"
-            }
+            if (it == null) return@CustomDatePicker
+            dateValue.value = it.toString().replace("-", ".")
         }
     }
 
@@ -145,6 +138,7 @@ private fun InfoDialog(
         ) {
             Column(modifier = Modifier.padding(Measurements.screenPadding / 2)) {
                 Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth(),
                 ) {

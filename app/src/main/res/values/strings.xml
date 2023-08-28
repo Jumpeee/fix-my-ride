@@ -36,4 +36,10 @@
     <string name="ci_insurance_desc">CI (Collision insurance) provides coverage for the cost of repairing or replacing your own vehicle in the event of a collision, regardless of who is at fault.</string>
     <string name="made_by">Made by</string>
     <string name="save">Save</string>
+    <string name="year_month_day">(Year.Month.Day)</string>
+    <string name="choose_the_option">Choose the option</string>
+    <string name="delete_notifications_headline">Delete notifications?</string>
+    <string name="delete_notifications_description">Are you sure you want to delete all notifications?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
