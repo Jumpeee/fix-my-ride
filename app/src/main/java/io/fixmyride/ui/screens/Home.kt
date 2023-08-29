@@ -1,6 +1,5 @@
 package io.fixmyride.ui.screens
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,45 +34,44 @@ fun HomeScreen(navCtrl: NavController) {
             .fillMaxSize()
             .padding(horizontal = Measurements.screenPadding),
     ) {
-        Box {
-            Column(
-                modifier = Modifier
-                    .verticalScroll(scrollState)
-                    .fillMaxSize(),
-            ) {
-                Spacer(Modifier.height(Measurements.screenPadding))
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .fillMaxSize(),
+        ) {
+            Spacer(Modifier.height(Measurements.screenPadding))
 
-                Header(navCtrl)
-                Spacer(Modifier.height(20.dp))
+            Header(navCtrl)
+            Spacer(Modifier.height(20.dp))
 
-                AddVehicleButton(navCtrl)
-                Spacer(Modifier.height(20.dp))
+            AddVehicleButton(navCtrl)
+            Spacer(Modifier.height(20.dp))
 
-                VehicleList(navCtrl)
-                Spacer(Modifier.height(100.dp))
-            }
+            VehicleList(navCtrl)
+            Spacer(Modifier.height(100.dp))
+        }
 
-            ResultsBar(
-                results = 25,
-                alignment = Alignment.BottomStart,
-                animationSpec = Measurements.scrollAnimation(delay = 125),
-                scrollState = scrollState,
-            )
+        ResultsBar(
+            results = 25,
+            alignment = Alignment.BottomStart,
+            animationSpec = Measurements.scrollAnimation(delay = 125),
+            scrollState = scrollState,
+        )
 
-            val coroutineScope = rememberCoroutineScope()
-            FloatingButton(
-                color = ColorPalette.primary,
-                icon = Icons.Rounded.KeyboardArrowUp,
-                alignment = Alignment.BottomEnd,
-                scrollState = scrollState,
-            ) {
-                coroutineScope.launch {
-                    scrollState.animateScrollTo(
-                        value = 0,
-                        animationSpec = Measurements.scrollAnimation(duration = 1000)
-                    )
-                }
+        val coroutineScope = rememberCoroutineScope()
+        FloatingButton(
+            color = ColorPalette.primary,
+            icon = Icons.Rounded.KeyboardArrowUp,
+            alignment = Alignment.BottomEnd,
+            scrollState = scrollState,
+        ) {
+            coroutineScope.launch {
+                scrollState.animateScrollTo(
+                    value = 0,
+                    animationSpec = Measurements.scrollAnimation(duration = 1000)
+                )
             }
         }
+
     }
 }

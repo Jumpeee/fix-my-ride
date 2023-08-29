@@ -2,6 +2,7 @@ package io.fixmyride.ui.components.addvehicle
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -88,21 +89,30 @@ private fun EditIcon(onClick: () -> Unit) {
         modifier = Modifier.fillMaxSize(),
     ) {
         Box(
-            modifier = Modifier
-                .background(
-                    color = ColorPalette.primary,
-                    shape = RoundedCornerShape(100),
-                )
-                .clickable { onClick() },
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.background(
+                color = ColorPalette.background,
+                shape = RoundedCornerShape(100),
+            ),
         ) {
-            Icon(
-                Icons.Outlined.Edit,
-                contentDescription = "Pick an image button",
-                tint = ColorPalette.background,
+            Box(
                 modifier = Modifier
-                    .padding(5.dp)
-                    .size(20.dp),
-            )
+                    .padding(3.dp)
+                    .background(
+                        color = ColorPalette.primary,
+                        shape = RoundedCornerShape(100),
+                    )
+                    .clickable { onClick() },
+            ) {
+                Icon(
+                    Icons.Outlined.Edit,
+                    contentDescription = "Pick an image button",
+                    tint = ColorPalette.background,
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .size(14.dp),
+                )
+            }
         }
     }
 }
@@ -138,13 +148,11 @@ private fun ImagePickerDialog(onDismiss: () -> Unit) {
                 }
                 Spacer(Modifier.height(10.dp))
 
-                Row(
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    ImagePickerDialogButton("Take a photo") {}
-                    ImagePickerDialogButton("Choose from gallery") {}
+                Column {
+                    ImagePickerDialogButton(stringResource(R.string.take_a_photo)) {}
+                    Spacer(Modifier.height(10.dp))
+
+                    ImagePickerDialogButton(stringResource(R.string.choose_from_gallery)) {}
                 }
             }
         }
@@ -156,41 +164,48 @@ private fun ImagePickerDialogButton(caption: String, onClick: () -> Unit) {
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier = Modifier
+            .fillMaxWidth()
             .background(
-                color = ColorPalette.secondary,
+                color = ColorPalette.tertiary,
+                shape = Measurements.roundedShape,
+            )
+            .border(
+                color = ColorPalette.secondary.copy(alpha = 0.1f),
+                width = 2.dp,
                 shape = Measurements.roundedShape,
             )
             .clickable { onClick() },
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
         ) {
-            Text(
-                caption,
-                style = Typing.outlinedButtonText.copy(
-                    color = ColorPalette.background,
-                    fontSize = 12.sp,
-                ),
-            )
-
-            Spacer(Modifier.width(5.dp))
 
             Box(
                 contentAlignment = Alignment.CenterStart,
                 modifier = Modifier
                     .background(
-                        color = ColorPalette.background,
+                        color = ColorPalette.primary,
                         shape = RoundedCornerShape(100),
                     ),
             ) {
                 Icon(
                     Icons.Rounded.KeyboardArrowRight,
                     contentDescription = "",
-                    tint = ColorPalette.secondary,
+                    tint = ColorPalette.background,
                     modifier = Modifier.size(18.dp),
                 )
             }
+
+            Spacer(Modifier.width(5.dp))
+
+            Text(
+                caption,
+                style = Typing.outlinedButtonText.copy(
+                    color = ColorPalette.secondary,
+                    fontSize = 14.sp,
+                ),
+            )
         }
     }
 }

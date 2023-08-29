@@ -42,4 +42,6 @@
     <string name="delete_notifications_description">Are you sure you want to delete all notifications?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="choose_from_gallery">Choose from gallery</string>
 </resources>

@@ -3,9 +3,10 @@ package io.fixmyride.models
 import java.time.LocalDate
 
 data class Vehicle(
+    val id: String,
     val model: String,
     val registration: String,
-    val tplInsurance: LocalDate,
-    val comprehensiveInsurance: LocalDate,
+    val tplInsuranceExpiry: LocalDate,
+    val collisionInsuranceExpiry: LocalDate,
     val inspectionDate: LocalDate,
 )

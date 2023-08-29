@@ -101,7 +101,7 @@ private fun AllOptions() {
 }
 
 @Composable
-fun AuthorInfo() {
+private fun AuthorInfo() {
     val uriOpener = LocalUriHandler.current
 
     Row(verticalAlignment = Alignment.CenterVertically) {

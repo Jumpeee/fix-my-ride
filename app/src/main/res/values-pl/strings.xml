@@ -42,4 +42,6 @@
     <string name="delete_notifications_description">Czy napewno chcesz usunąć wszystkie powiadomienia?</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
+    <string name="take_a_photo">Zrób zdjęcie</string>
+    <string name="choose_from_gallery">Wybierz z galerii</string>
 </resources>

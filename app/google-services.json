@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "234066634688",
+    "project_id": "fix-my-ride-32407",
+    "storage_bucket": "fix-my-ride-32407.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234066634688:android:c8fc8544fceb2b8eb38a25",
+        "android_client_info": {
+          "package_name": "io.fixmyride"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234066634688-bkg5lg0v42qf8l7ijs7bblp5mnl14ftk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9Go1J7AP330wXpAnAI20bK1tDjAlfe2w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "234066634688-bkg5lg0v42qf8l7ijs7bblp5mnl14ftk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

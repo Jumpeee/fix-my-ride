@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
@@ -215,12 +214,11 @@ private fun DateBox(
         },
         modifier = Modifier
             .height(Measurements.textFieldHeight)
-            .wrapContentWidth()
             .width(((deviceMetrics.widthPixels / deviceMetrics.density).dp - (2 * Measurements.screenPadding) - (2 * (Measurements.screenPadding / 2))) / 3 - 20.dp)
             .border(
                 color = when (parseError) {
                     true -> ColorPalette.lightRed
-                    else -> Color.Transparent
+                    else -> ColorPalette.secondary.copy(alpha = 0.1f)
                 },
                 width = 2.dp,
                 shape = Measurements.roundedShape,

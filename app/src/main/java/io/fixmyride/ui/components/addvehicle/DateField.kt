@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,6 +36,7 @@ import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
+import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -42,6 +44,7 @@ fun DateField(
     caption: String,
     hintHeadline: String,
     hintDescription: String,
+    onDatePick: (LocalDate) -> Unit,
 ) {
     val showInfoDialog = remember { mutableStateOf(false) }
     val showDatePicker = remember { mutableStateOf(false) }
@@ -69,7 +72,9 @@ fun DateField(
                 Icons.Outlined.Info,
                 contentDescription = "Info",
                 tint = ColorPalette.secondary.copy(alpha = 0.2f),
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier
+                    .size(16.dp)
+                    .clickable { showInfoDialog.value = true },
             )
         }
 
@@ -82,6 +87,11 @@ fun DateField(
                 .height(Measurements.textFieldHeight)
                 .background(
                     color = ColorPalette.tertiary,
+                    shape = Measurements.roundedShape,
+                )
+                .border(
+                    color = ColorPalette.secondary.copy(alpha = 0.1f),
+                    width = 2.dp,
                     shape = Measurements.roundedShape,
                 )
                 .clickable { showDatePicker.value = true },
@@ -114,6 +124,7 @@ fun DateField(
             showDatePicker.value = false
             if (it == null) return@CustomDatePicker
             dateValue.value = it.toString().replace("-", ".")
+            onDatePick(it)
         }
     }
 

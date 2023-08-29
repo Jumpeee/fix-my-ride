@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,7 +37,11 @@ import io.fixmyride.ui.theme.Typing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FormField(caption: String, placeholder: String) {
+fun FormField(
+    caption: String,
+    placeholder: String,
+    onInput: (String) -> Unit,
+) {
     val fieldValue = remember { mutableStateOf("") }
 
     Column {
@@ -60,7 +65,10 @@ fun FormField(caption: String, placeholder: String) {
 
         TextField(
             value = fieldValue.value,
-            onValueChange = { fieldValue.value = it },
+            onValueChange = {
+                fieldValue.value = it
+                onInput(it)
+            },
             textStyle = Typing.textFieldText,
             maxLines = 1,
             shape = Measurements.roundedShape,
@@ -97,7 +105,12 @@ fun FormField(caption: String, placeholder: String) {
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(Measurements.textFieldHeight),
+                .height(Measurements.textFieldHeight)
+                .border(
+                    color = ColorPalette.secondary.copy(alpha = 0.1f),
+                    width = 2.dp,
+                    shape = Measurements.roundedShape,
+                ),
         )
     }
 }
