@@ -22,6 +22,7 @@ import io.fixmyride.ui.screens.SettingsScreen
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.FixMyRideTheme
 
+
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,8 +49,8 @@ private fun App() {
         enterTransition = { fadeIn() },
         exitTransition = { fadeOut() },
     ) {
-        composable("/home") { HomeScreen(navCtrl)  }
-        composable("/notifications") { NotificationsScreen(navCtrl)  }
+        composable("/home") { HomeScreen(navCtrl) }
+        composable("/notifications") { NotificationsScreen(navCtrl) }
         composable("/add-vehicle") { AddVehicleScreen(navCtrl) }
         composable("/settings") { SettingsScreen(navCtrl) }
         composable("/selected-vehicle") { SelectedVehicleScreen(navCtrl) }

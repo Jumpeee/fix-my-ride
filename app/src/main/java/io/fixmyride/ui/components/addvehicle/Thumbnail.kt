@@ -21,6 +21,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -45,7 +48,7 @@ import io.fixmyride.ui.theme.Typing
 fun Thumbnail() {
     val showImagePickerSheet = remember { mutableStateOf(false) }
     Box(
-        contentAlignment = Alignment.TopCenter,
+        contentAlignment = Alignment.BottomEnd,
         modifier = Modifier.wrapContentSize(),
     ) {
         ThumbnailPicture()
@@ -61,11 +64,6 @@ fun Thumbnail() {
 private fun ThumbnailPicture() {
     Box(
         modifier = Modifier
-            .padding(
-                start = 15.dp,
-                end = 15.dp,
-                top = 15.dp,
-            )
             .background(
                 color = ColorPalette.tertiary,
                 shape = Measurements.roundedShape,
@@ -86,33 +84,35 @@ private fun ThumbnailPicture() {
 private fun EditIcon(onClick: () -> Unit) {
     Box(
         contentAlignment = Alignment.TopEnd,
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .padding(
+                bottom = 5.dp,
+                end = 5.dp,
+            )
+            .fillMaxSize(),
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.background(
-                color = ColorPalette.background,
-                shape = RoundedCornerShape(100),
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = ColorPalette.primary,
             ),
-        ) {
-            Box(
-                modifier = Modifier
-                    .padding(3.dp)
-                    .background(
-                        color = ColorPalette.primary,
-                        shape = RoundedCornerShape(100),
-                    )
-                    .clickable { onClick() },
-            ) {
-                Icon(
-                    Icons.Outlined.Edit,
-                    contentDescription = "Pick an image button",
-                    tint = ColorPalette.background,
-                    modifier = Modifier
-                        .padding(5.dp)
-                        .size(14.dp),
+            modifier = Modifier
+                .padding(3.dp)
+                .shadow(
+                    elevation = 8.dp,
+                    ambientColor = ColorPalette.background,
+                    spotColor = ColorPalette.background,
                 )
-            }
+                .clip(RoundedCornerShape(100))
+                .clickable { onClick() },
+        ) {
+            Icon(
+                Icons.Outlined.Edit,
+                contentDescription = "Pick an image button",
+                tint = ColorPalette.background,
+                modifier = Modifier
+                    .padding(5.dp)
+                    .size(14.dp),
+            )
         }
     }
 }
@@ -149,10 +149,14 @@ private fun ImagePickerDialog(onDismiss: () -> Unit) {
                 Spacer(Modifier.height(10.dp))
 
                 Column {
-                    ImagePickerDialogButton(stringResource(R.string.take_a_photo)) {}
+                    ImagePickerDialogButton(stringResource(R.string.take_a_photo)) {
+                        openCamera()
+                    }
                     Spacer(Modifier.height(10.dp))
 
-                    ImagePickerDialogButton(stringResource(R.string.choose_from_gallery)) {}
+                    ImagePickerDialogButton(stringResource(R.string.choose_from_gallery)) {
+                        openGallery()
+                    }
                 }
             }
         }
@@ -208,4 +212,12 @@ private fun ImagePickerDialogButton(caption: String, onClick: () -> Unit) {
             )
         }
     }
+}
+
+private fun openCamera() {
+    // TODO
+}
+
+private fun openGallery() {
+    // TODO
 }

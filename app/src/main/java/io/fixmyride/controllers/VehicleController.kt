@@ -1,23 +1,15 @@
 package io.fixmyride.controllers
 
-import com.google.firebase.firestore.FirebaseFirestore
-import io.fixmyride.models.Vehicle
+object VehicleController {
+    /** Returns a list of all vehicles */
+    fun getVehicles() {}
 
-class VehicleController {
-    companion object {
-        /** Returns a list of all vehicles */
-        fun getVehicles(): List<Vehicle> {
-            val db = FirebaseFirestore.getInstance()
-            val vehicles = ArrayList<Vehicle>()
+    /** Adds a vehicles to the local database */
+    fun addVehicle() {}
 
-            db.collection("vehicles").get().addOnSuccessListener { docs ->
-                for (v in docs) {
-                    // TODO add vehicle to *vehicles* list
-                }
-            }
+    /** Edits selected vehicle */
+    fun editVehicle() {}
 
-            return vehicles.toList()
-        }
-
-    }
+    /** Deletes selected vehicle */
+    fun deleteVehicle() {}
 }

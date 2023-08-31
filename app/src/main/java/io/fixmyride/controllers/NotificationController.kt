@@ -1,5 +1,9 @@
 package io.fixmyride.controllers
 
-class NotificationController {
+object NotificationController {
+    /** Returns a list of all notifications */
+    fun getNotifications() {}
 
+    /** Deletes all notifications */
+    fun deleteNotifications() {}
 }

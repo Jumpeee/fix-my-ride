@@ -33,8 +33,8 @@ import java.time.LocalDate
 @Composable
 fun AddVehicleScreen(navCtrl: NavController) {
     var thumbnail: Bitmap? = null
-    var model: String = ""
-    var registration: String = ""
+    var model = ""
+    var registration = ""
     var tplInsurance: LocalDate? = null
     var collisionInsurance: LocalDate? = null
     var lastInspectionDate: LocalDate? = null
@@ -53,6 +53,8 @@ fun AddVehicleScreen(navCtrl: NavController) {
                 caption = stringResource(R.string.add_vehicle),
                 navCtrl = navCtrl,
             )
+
+            Spacer(Modifier.height(10.dp))
 
             Thumbnail()
 
@@ -91,14 +93,14 @@ fun AddVehicleScreen(navCtrl: NavController) {
         val requiredData = arrayOf<Any?>(model, registration, tplInsurance)
         FloatingButton(
             color = when {
-                emptyIndexes(*requiredData).isEmpty() -> ColorPalette.primary
+                emptyIndexes(*requiredData).isNotEmpty() -> ColorPalette.primary
                 else -> ColorPalette.tertiary
             },
             icon = Icons.Rounded.Done,
             alignment = Alignment.BottomEnd,
             scrollState = null,
         ) {
-
+            // TODO
         }
     }
 }
@@ -107,7 +109,7 @@ fun AddVehicleScreen(navCtrl: NavController) {
 private fun emptyIndexes(vararg requiredData: Any?): List<Int> {
     val emptyIndexes = ArrayList<Int>()
     for (i in requiredData.indices) {
-        if ((requiredData[i] is String && (requiredData[i] as? String)!!.isEmpty()) || requiredData[i] == null) {
+        if ((requiredData[i] as? String).isNullOrEmpty()) {
             emptyIndexes.add(i)
         }
     }
