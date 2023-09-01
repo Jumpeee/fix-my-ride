@@ -35,6 +35,7 @@ fun Option(
     name: String,
     description: String,
     iconRotate: Float = 0f,
+    content: @Composable () -> Unit,
 ) {
     Column {
         Spacer(Modifier.height(30.dp))
@@ -42,24 +43,16 @@ fun Option(
         val isExpanded = remember { mutableStateOf(false) }
 
         Box {
-            Box(
-                contentAlignment = Alignment.TopStart,
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                IconAndOptionName(
-                    icon,
-                    name,
-                    description,
-                    iconRotate,
-                    isExpanded.value,
-                )
-            }
-            Box(
-                contentAlignment = Alignment.TopEnd,
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                SwitchAndExpand(isExpanded.value) { isExpanded.value = !isExpanded.value }
-            }
+            IconAndOptionName(
+                icon,
+                name,
+                description,
+                iconRotate,
+                isExpanded.value,
+            )
+
+            SwitchAndExpand(isExpanded.value) { isExpanded.value = !isExpanded.value }
+
         }
 
     }
@@ -73,41 +66,46 @@ internal fun IconAndOptionName(
     iconRotate: Float,
     isExpanded: Boolean,
 ) {
-    Row {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.background(
-                color = ColorPalette.primary,
-                shape = Measurements.roundedShape,
-            ),
-        ) {
-            Icon(
-                icon,
-                contentDescription = "Option icon",
-                tint = ColorPalette.background,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .rotate(iconRotate),
-            )
-        }
+    Box(
+        contentAlignment = Alignment.TopStart,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Row {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.background(
+                    color = ColorPalette.primary,
+                    shape = Measurements.roundedShape,
+                ),
+            ) {
+                Icon(
+                    icon,
+                    contentDescription = "Option icon",
+                    tint = ColorPalette.background,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .rotate(iconRotate),
+                )
+            }
 
-        Spacer(Modifier.width(10.dp))
+            Spacer(Modifier.width(10.dp))
 
-        Column(Modifier.animateContentSize()) {
-            Text(
-                name,
-                style = Typing.subheading,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Text(
-                description,
-                style = Typing.descriptionBody,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = when (isExpanded) {
-                    true -> Int.MAX_VALUE
-                    else -> 1
-                },
-            )
+            Column(Modifier.animateContentSize()) {
+                Text(
+                    name,
+                    style = Typing.subheading,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    description,
+                    style = Typing.descriptionBody,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = when (isExpanded) {
+                        true -> Int.MAX_VALUE
+                        else -> 1
+                    },
+                )
+            }
         }
     }
 }
@@ -119,41 +117,47 @@ private fun SwitchAndExpand(
 ) {
     // TODO synchronize it with real settings
     val isEnabled = remember { mutableStateOf(false) }
-    Row {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .background(
-                    color = when (isEnabled.value) {
-                        true -> ColorPalette.green.copy(alpha = 0.1f)
-                        else -> ColorPalette.lightRed.copy(alpha = 0.1f)
-                    },
-                    shape = RoundedCornerShape(5.dp),
-                )
-                .animateContentSize()
-                .clickable { isEnabled.value = !isEnabled.value },
-        ) {
-            Text(
-                text = when (isEnabled.value) {
-                    true -> stringResource(R.string.enabled)
-                    else -> stringResource(R.string.disabled)
-                },
-                style = when (isEnabled.value) {
-                    true -> Typing.enabled
-                    else -> Typing.disabled
-                },
+    Box(
+        contentAlignment = Alignment.TopEnd,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Row {
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .padding(
-                        horizontal = 5.dp,
-                        vertical = 2.dp,
-                    ),
-            )
+                    .background(
+                        color = when (isEnabled.value) {
+                            true -> ColorPalette.green.copy(alpha = 0.1f)
+                            else -> ColorPalette.lightRed.copy(alpha = 0.1f)
+                        },
+                        shape = RoundedCornerShape(5.dp),
+                    )
+                    .animateContentSize()
+                    .clickable { isEnabled.value = !isEnabled.value },
+            ) {
+                Text(
+                    text = when (isEnabled.value) {
+                        true -> stringResource(R.string.enabled)
+                        else -> stringResource(R.string.disabled)
+                    },
+                    style = when (isEnabled.value) {
+                        true -> Typing.enabled
+                        else -> Typing.disabled
+                    },
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 5.dp,
+                            vertical = 2.dp,
+                        ),
+                )
+            }
+
+            Spacer(Modifier.width(10.dp))
+
+            ExpandButton(isExpanded) { onClickExpand() }
         }
-
-        Spacer(Modifier.width(10.dp))
-
-        ExpandButton(isExpanded) { onClickExpand() }
     }
+
 }
 
 

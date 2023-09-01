@@ -22,9 +22,9 @@ import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.UniversalHeader
-import io.fixmyride.ui.components.addvehicle.DateField
-import io.fixmyride.ui.components.addvehicle.FormField
-import io.fixmyride.ui.components.addvehicle.Thumbnail
+import io.fixmyride.ui.components.managevehicle.DateField
+import io.fixmyride.ui.components.managevehicle.FormField
+import io.fixmyride.ui.components.managevehicle.Thumbnail
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import java.time.LocalDate

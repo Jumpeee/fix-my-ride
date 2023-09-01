@@ -36,6 +36,7 @@ import io.fixmyride.R
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.ResultsBar
 import io.fixmyride.ui.components.UniversalHeader
+import io.fixmyride.ui.components.notifications.NoNotificationsIndicator
 import io.fixmyride.ui.components.notifications.NotificationItem
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
@@ -43,58 +44,68 @@ import io.fixmyride.ui.theme.Typing
 import kotlinx.coroutines.launch
 
 @Composable
-fun NotificationsScreen(navCtrl: NavController) {
+fun NotificationsScreen(
+    navCtrl: NavController,
+    notifications: Int,
+) {
+    val scrollState = rememberScrollState()
+    val showDeleteNotificationsDialog = remember { mutableStateOf(false) }
     Surface(
         color = ColorPalette.background,
         modifier = Modifier.padding(horizontal = Measurements.screenPadding),
     ) {
-        val showDeleteNotificationsDialog = remember { mutableStateOf(false) }
 
-        val scrollState = rememberScrollState()
-        Column(modifier = Modifier.verticalScroll(scrollState)) {
+        Column(
+            modifier = when (notifications) {
+                0 -> Modifier
+                else -> Modifier.verticalScroll(scrollState)
+            },
+        ) {
             Spacer(Modifier.height(Measurements.screenPadding))
             UniversalHeader(stringResource(R.string.notifications), navCtrl)
 
-            // TODO remove it later
-            for (i in 0..100) NotificationItem()
+            // TODO pass notification as parameter to NotificationItem
+            when (notifications) {
+                0 -> NoNotificationsIndicator()
+                else -> for (i in 0 until notifications) NotificationItem()
+            }
 
             Spacer(Modifier.height(100.dp))
         }
+    }
 
-        val coroutineScope = rememberCoroutineScope()
-        FloatingButton(
-            color = ColorPalette.primary,
-            icon = Icons.Rounded.KeyboardArrowUp,
-            alignment = Alignment.BottomEnd,
-            scrollState = scrollState
-        ) {
-            coroutineScope.launch {
-                scrollState.animateScrollTo(
-                    0,
-                    animationSpec = Measurements.scrollAnimation(duration = 1000)
-                )
-            }
+    val coroutineScope = rememberCoroutineScope()
+    FloatingButton(
+        color = ColorPalette.primary,
+        icon = Icons.Rounded.KeyboardArrowUp,
+        alignment = Alignment.BottomEnd,
+        scrollState = scrollState
+    ) {
+        coroutineScope.launch {
+            scrollState.animateScrollTo(
+                0, animationSpec = Measurements.scrollAnimation(duration = 1000)
+            )
         }
+    }
 
-        ResultsBar(
-            results = 12,
-            alignment = Alignment.BottomCenter,
-            animationSpec = Measurements.scrollAnimation(delay = 250),
-            scrollState = scrollState,
-        )
+    ResultsBar(
+        results = 12,
+        alignment = Alignment.BottomCenter,
+        animationSpec = Measurements.scrollAnimation(delay = 250),
+        scrollState = scrollState,
+    )
 
-        FloatingButton(
-            color = ColorPalette.lightRed,
-            icon = Icons.Rounded.Delete,
-            alignment = Alignment.BottomStart,
-            animationSpec = Measurements.scrollAnimation(delay = 125),
-            scrollState = scrollState,
-        ) { showDeleteNotificationsDialog.value = true }
+    FloatingButton(
+        color = ColorPalette.lightRed,
+        icon = Icons.Rounded.Delete,
+        alignment = Alignment.BottomStart,
+        animationSpec = Measurements.scrollAnimation(delay = 125),
+        scrollState = scrollState,
+    ) { showDeleteNotificationsDialog.value = true }
 
-        if (showDeleteNotificationsDialog.value) {
-            DeleteNotificationsDialog {
-                showDeleteNotificationsDialog.value = false
-            }
+    if (showDeleteNotificationsDialog.value) {
+        DeleteNotificationsDialog {
+            showDeleteNotificationsDialog.value = false
         }
     }
 }
@@ -119,14 +130,12 @@ private fun DeleteNotificationsDialog(onDismiss: (Decision?) -> Unit) {
                         style = Typing.subheading,
                         overflow = TextOverflow.Ellipsis,
                     )
-                    Icon(
-                        Icons.Rounded.Close,
+                    Icon(Icons.Rounded.Close,
                         contentDescription = "Close dialog",
                         tint = ColorPalette.lightRed,
                         modifier = Modifier
                             .size(18.dp)
-                            .clickable { onDismiss(null) }
-                    )
+                            .clickable { onDismiss(null) })
                 }
                 Text(
                     stringResource(R.string.delete_notifications_description),

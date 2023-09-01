@@ -9,4 +9,7 @@ data class Vehicle(
     val tplInsuranceExpiry: LocalDate,
     val collisionInsuranceExpiry: LocalDate,
     val inspectionDate: LocalDate,
-)
+) {
+    override fun toString(): String =
+        "$id $model $registration $tplInsuranceExpiry $collisionInsuranceExpiry $inspectionDate"
+}

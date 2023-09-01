@@ -158,4 +158,13 @@ object Typing {
         fontSize = 14.sp,
         lineHeight = 20.sp,
     )
+
+    /** e.g. in Notifications screen when user has no notifications under the crossed out notification icon */
+    val emptyScreenText = TextStyle(
+        color = ColorPalette.secondary,
+        fontFamily = customFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        lineHeight = 22.sp,
+    )
 }

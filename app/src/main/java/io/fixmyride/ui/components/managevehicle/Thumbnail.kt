@@ -1,4 +1,4 @@
-package io.fixmyride.ui.components.addvehicle
+package io.fixmyride.ui.components.managevehicle
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -1,4 +1,4 @@
-package io.fixmyride.ui.components.addvehicle
+package io.fixmyride.ui.components.dialogs
 
 import android.content.res.Resources
 import android.os.Build
@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
 import io.fixmyride.R
-import io.fixmyride.models.DateType
+import io.fixmyride.enums.DateType
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
@@ -48,7 +48,7 @@ import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CustomDatePicker(onDismiss: (LocalDate?) -> Unit) {
+fun CustomDatePickerDialog(onDismiss: (LocalDate?) -> Unit) {
     val isParseError = remember { mutableStateOf(false) }
 
     var day = ""

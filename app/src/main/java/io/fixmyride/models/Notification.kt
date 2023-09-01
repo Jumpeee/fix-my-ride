@@ -1,9 +1,9 @@
 package io.fixmyride.models
 
-import java.time.LocalDateTime
+import io.fixmyride.enums.NotificationType
 
 data class Notification(
     val id: String,
     val vehicle: Vehicle,
-    val receivedAt: LocalDateTime,
+    val type: NotificationType,
 )

@@ -34,11 +34,7 @@ fun HomeScreen(navCtrl: NavController) {
             .fillMaxSize()
             .padding(horizontal = Measurements.screenPadding),
     ) {
-        Column(
-            modifier = Modifier
-                .verticalScroll(scrollState)
-                .fillMaxSize(),
-        ) {
+        Column(modifier = Modifier.verticalScroll(scrollState)) {
             Spacer(Modifier.height(Measurements.screenPadding))
 
             Header(navCtrl)

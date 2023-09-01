@@ -1,4 +1,4 @@
-package io.fixmyride.models
+package io.fixmyride.enums
 
 enum class DateType {
     DAY,

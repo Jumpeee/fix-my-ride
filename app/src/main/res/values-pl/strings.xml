@@ -44,4 +44,5 @@
     <string name="no">Nie</string>
     <string name="take_a_photo">Zrób zdjęcie</string>
     <string name="choose_from_gallery">Wybierz z galerii</string>
+    <string name="you_have_no_notifications">Nie masz żadnych powiadomień</string>
 </resources>

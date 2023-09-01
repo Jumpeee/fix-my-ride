@@ -14,11 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import io.fixmyride.enums.ViewVehicleType
 import io.fixmyride.ui.screens.AddVehicleScreen
 import io.fixmyride.ui.screens.HomeScreen
 import io.fixmyride.ui.screens.NotificationsScreen
-import io.fixmyride.ui.screens.SelectedVehicleScreen
 import io.fixmyride.ui.screens.SettingsScreen
+import io.fixmyride.ui.screens.ViewVehicleScreen
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.FixMyRideTheme
 
@@ -50,9 +51,10 @@ private fun App() {
         exitTransition = { fadeOut() },
     ) {
         composable("/home") { HomeScreen(navCtrl) }
-        composable("/notifications") { NotificationsScreen(navCtrl) }
-        composable("/add-vehicle") { AddVehicleScreen(navCtrl) }
+        composable("/notifications") { NotificationsScreen(navCtrl, 0) }
         composable("/settings") { SettingsScreen(navCtrl) }
-        composable("/selected-vehicle") { SelectedVehicleScreen(navCtrl) }
+        composable("/add-vehicle") { AddVehicleScreen(navCtrl) }
+        composable("/edit-vehicle") { ViewVehicleScreen(navCtrl, ViewVehicleType.EDIT) }
+        composable("/selected-vehicle") { ViewVehicleScreen(navCtrl, ViewVehicleType.VIEW) }
     }
 }

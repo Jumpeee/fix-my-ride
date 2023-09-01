@@ -81,23 +81,7 @@ private fun AllOptions() {
         icon = Icons.Rounded.Email,
         name = stringResource(R.string.notifications),
         description = stringResource(R.string.settings_notifications_desc),
-    )
-
-    Option(
-        icon = Icons.Rounded.ArrowForward,
-        name = stringResource(R.string.save_locally),
-        description = stringResource(R.string.settings_save_locally_desc),
-        iconRotate = 90f,
-    )
-
-    OptionButton(
-        icon = Icons.Rounded.Refresh,
-        name = stringResource(R.string.load_data),
-        buttonText = stringResource(R.string.load),
-        description = stringResource(R.string.settings_load_data_desc),
-    ) {
-        // TODO implement loading data from local storage
-    }
+    ) { /* TODO make days input */}
 }
 
 @Composable
