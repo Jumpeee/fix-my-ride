@@ -1,4 +1,4 @@
-package io.fixmyride.ui.components.managevehicle
+package io.fixmyride.ui.components.vehiclescreen
 
 import android.os.Build
 import androidx.annotation.RequiresApi

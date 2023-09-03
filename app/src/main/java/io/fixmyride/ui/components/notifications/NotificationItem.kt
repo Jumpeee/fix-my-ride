@@ -26,13 +26,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.fixmyride.R
+import io.fixmyride.models.Notification
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun NotificationItem(/* TODO notification: Notification */) {
+fun NotificationItem(notification: Notification) {
     val isExpanded = remember { mutableStateOf(false) }
-
     Column {
         Spacer(Modifier.height(30.dp))
         Box(
@@ -80,7 +80,7 @@ fun NotificationItem(/* TODO notification: Notification */) {
 
                     Spacer(Modifier.height(10.dp))
 
-                    // TODO get date from notification
+                    // TODO related vehicle
                     Text(
                         "08-19-2023",
                         style = Typing.descriptionBody,

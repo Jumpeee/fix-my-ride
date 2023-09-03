@@ -11,11 +11,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import io.fixmyride.database.DatabaseManager
+import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.ResultsBar
 import io.fixmyride.ui.components.home.AddVehicleButton
@@ -27,6 +32,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(navCtrl: NavController) {
+    val vehicles = remember { mutableStateOf<List<Vehicle>>(emptyList()) }
+    LaunchedEffect(Unit) {
+        val db = DatabaseManager.getInstance().dao
+        vehicles.value = db.getVehicles()
+    }
+
     val scrollState = rememberScrollState()
     Surface(
         color = ColorPalette.background,
@@ -34,7 +45,12 @@ fun HomeScreen(navCtrl: NavController) {
             .fillMaxSize()
             .padding(horizontal = Measurements.screenPadding),
     ) {
-        Column(modifier = Modifier.verticalScroll(scrollState)) {
+        Column(
+            modifier = when (vehicles.value.size) {
+                0 -> Modifier
+                else -> Modifier.verticalScroll(scrollState)
+            },
+        ) {
             Spacer(Modifier.height(Measurements.screenPadding))
 
             Header(navCtrl)
@@ -43,7 +59,7 @@ fun HomeScreen(navCtrl: NavController) {
             AddVehicleButton(navCtrl)
             Spacer(Modifier.height(20.dp))
 
-            VehicleList(navCtrl)
+            VehicleList(navCtrl, vehicles.value)
             Spacer(Modifier.height(100.dp))
         }
 

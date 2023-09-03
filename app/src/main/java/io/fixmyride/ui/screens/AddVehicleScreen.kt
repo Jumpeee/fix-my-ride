@@ -20,14 +20,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
+import io.fixmyride.database.DatabaseManager
+import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.UniversalHeader
-import io.fixmyride.ui.components.managevehicle.DateField
-import io.fixmyride.ui.components.managevehicle.FormField
-import io.fixmyride.ui.components.managevehicle.Thumbnail
+import io.fixmyride.ui.components.vehiclescreen.DateField
+import io.fixmyride.ui.components.vehiclescreen.FormField
+import io.fixmyride.ui.components.vehiclescreen.Thumbnail
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
-import java.time.LocalDate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -35,9 +39,9 @@ fun AddVehicleScreen(navCtrl: NavController) {
     var thumbnail: Bitmap? = null
     var model = ""
     var registration = ""
-    var tplInsurance: LocalDate? = null
-    var collisionInsurance: LocalDate? = null
-    var lastInspectionDate: LocalDate? = null
+    var tplInsurance = ""
+    var collisionInsurance: String? = null
+    var lastInspectionDate: String? = null
 
     Surface(
         color = ColorPalette.background,
@@ -72,25 +76,25 @@ fun AddVehicleScreen(navCtrl: NavController) {
                 caption = stringResource(R.string.tpl_insurance_expiry_date),
                 hintHeadline = stringResource(R.string.tpl_insurance),
                 hintDescription = stringResource(R.string.tpl_insurance_desc),
-            ) { tplInsurance = it }
+            ) { tplInsurance = it.toString().replace("-", ".") }
 
             DateField(
                 caption = stringResource(R.string.ci_expiry_date),
                 hintHeadline = stringResource(R.string.ci),
                 hintDescription = stringResource(R.string.ci_insurance_desc),
-            ) { collisionInsurance = it }
+            ) { collisionInsurance = it.toString().replace("-", ".") }
 
             DateField(
                 caption = "Last inspection date",
                 hintHeadline = "Inspection",
                 hintDescription = "This is a hint description for custom-made dialog",
-            ) { lastInspectionDate = it }
+            ) { lastInspectionDate = it.toString().replace("-", ".") }
 
             Spacer(Modifier.height(80.dp))
         }
 
         // FIXME changing color based on the provided data
-        val requiredData = arrayOf<Any?>(model, registration, tplInsurance)
+        val requiredData = arrayOf(model, registration, tplInsurance)
         FloatingButton(
             color = when {
                 emptyIndexes(*requiredData).isNotEmpty() -> ColorPalette.primary
@@ -101,15 +105,29 @@ fun AddVehicleScreen(navCtrl: NavController) {
             scrollState = null,
         ) {
             // TODO
+            val db = DatabaseManager.getInstance().dao
+            val coroutine = CoroutineScope(Dispatchers.Default)
+            coroutine.launch {
+                db.addVehicle(
+                    Vehicle(
+                        model = model,
+                        registration = registration,
+                        tplInsuranceExpiry = tplInsurance,
+                        collisionInsuranceExpiry = collisionInsurance,
+                        inspectionDate = lastInspectionDate,
+                    )
+                )
+            }
+            navCtrl.popBackStack()
         }
     }
 }
 
 /** Returns a list of indexes of fields whose values are empty or null. */
-private fun emptyIndexes(vararg requiredData: Any?): List<Int> {
+private fun emptyIndexes(vararg requiredData: String): List<Int> {
     val emptyIndexes = ArrayList<Int>()
     for (i in requiredData.indices) {
-        if ((requiredData[i] as? String).isNullOrEmpty()) {
+        if (requiredData[i].isEmpty()) {
             emptyIndexes.add(i)
         }
     }

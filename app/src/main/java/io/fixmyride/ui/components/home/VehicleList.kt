@@ -20,55 +20,73 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
+import io.fixmyride.models.Vehicle
+import io.fixmyride.ui.components.EmptyPageIndicator
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun VehicleList(navCtrl: NavController) {
-    val topPadding = 36.dp
+fun VehicleList(navCtrl: NavController, vehicles: List<Vehicle>) {
+    if (vehicles.isNotEmpty()) {
+        val topPadding = 36.dp
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = ColorPalette.tertiary,
+                    shape = RoundedCornerShape(40.dp),
+                ),
+        ) {
+            Background()
+            Headline(topPadding)
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = ColorPalette.tertiary,
-                shape = RoundedCornerShape(40.dp),
-            ),
-    ) {
-        Background()
-        Headline(topPadding)
-
-        Box(Modifier.padding(top = topPadding)) {
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = ColorPalette.secondary,
-                        shape = RoundedCornerShape(
-                            topEnd = 40.dp,
-                            bottomStart = 40.dp,
-                            bottomEnd = 40.dp,
-                        ),
-                    ),
-            ) {
-                Column(
+            Box(Modifier.padding(top = topPadding)) {
+                Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            bottom = 10.dp,
-                            start = 30.dp,
-                            end = 30.dp
-                        )
+                        .background(
+                            color = ColorPalette.secondary,
+                            shape = RoundedCornerShape(
+                                topEnd = 40.dp,
+                                bottomStart = 40.dp,
+                                bottomEnd = 40.dp,
+                            ),
+                        ),
                 ) {
-                    for (e in 0..20) VehicleItem(navCtrl)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(
+                                bottom = 10.dp,
+                                start = 30.dp,
+                                end = 30.dp
+                            )
+                    ) {
+                        vehicles.forEach { VehicleItem(navCtrl, it) }
+                    }
+
                 }
             }
         }
+    } else {
+        EmptyPageIndicator(
+            bottomText = {
+                Text(
+                    stringResource(R.string.no_vehicles_found),
+                    style = Typing.emptyScreenText,
+                )
+            },
+            backgroundColor = ColorPalette.tertiary,
+            icon = painterResource(R.drawable.truck_icon),
+            iconColor = ColorPalette.secondary,
+            iconPadding = 20.dp,
+        )
     }
 }
 

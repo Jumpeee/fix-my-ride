@@ -31,7 +31,7 @@ fun Header(navCtrl: NavController) {
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
-                stringResource(R.string.your_vehicles),
+                stringResource(R.string.home_page),
                 style = Typing.screenHeadline,
             )
             Row {
@@ -53,9 +53,6 @@ fun Header(navCtrl: NavController) {
             }
 
         }
-        Text(
-            stringResource(R.string.welcome),
-            style = Typing.screenHeadlineDesc,
-        )
+
     }
 }

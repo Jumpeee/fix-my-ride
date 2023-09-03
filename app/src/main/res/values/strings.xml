@@ -1,14 +1,13 @@
 <resources>
     <string name="app_name">FixMyRide</string>
-    <string name="your_vehicles">Your vehicles</string>
+    <string name="home_page">Home page</string>
     <string name="notifications">Notifications</string>
-    <string name="welcome">Welcome!</string>
     <string name="add_vehicle">Add vehicle</string>
     <string name="all_vehicles">All vehicles</string>
     <string name="sort">sort</string>
-    <string name="add_vehicle_description">and ensure regular inspection with notifications a week in advance.</string>
+    <string name="no_vehicles_found">No vehicles found</string>
     <string name="receive_notifications">Receive notifications</string>
-    <string name="week_in_advance">a week in advance</string>
+    <string name="week_in_advance">in advance</string>
     <string name="results">results</string>
     <string name="inspection_required">Inspection required</string>
     <string name="tpl_is_about_to_expire">TPL insurance is about to expire</string>
@@ -17,11 +16,6 @@
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
     <string name="settings_notifications_desc">How many days before the date notifications are to be sent.</string>
-    <string name="save_locally">Save locally</string>
-    <string name="settings_save_locally_desc">Save vehicles and their data locally.</string>
-    <string name="load_data">Load data</string>
-    <string name="settings_load_data_desc">Load data from local storage.</string>
-    <string name="load">Load</string>
     <string name="addvehicle_model_headline">Vehicle model</string>
     <string name="addvehicle_model_placeholder">e.g. Porsche Taycan Turbo S</string>
     <string name="addvehicle_registration_number_headline">Vehicle registration number</string>
@@ -45,4 +39,10 @@
     <string name="take_a_photo">Take a photo</string>
     <string name="choose_from_gallery">Choose from gallery</string>
     <string name="you_have_no_notifications">You have no notifications</string>
+    <string name="import_data">Import data</string>
+    <string name="import_button">Import</string>
+    <string name="import_data_from_an_existing_file">Import data from an existing file.</string>
+    <string name="export_data">Export data</string>
+    <string name="export_button">Export</string>
+    <string name="export_data_to_a_file">Export data to a file.</string>
 </resources>

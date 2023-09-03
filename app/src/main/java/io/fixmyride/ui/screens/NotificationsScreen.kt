@@ -17,10 +17,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
+import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -33,21 +35,31 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import io.fixmyride.R
+import io.fixmyride.database.DatabaseManager
+import io.fixmyride.models.Notification
+import io.fixmyride.ui.components.EmptyPageIndicator
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.ResultsBar
 import io.fixmyride.ui.components.UniversalHeader
-import io.fixmyride.ui.components.notifications.NoNotificationsIndicator
 import io.fixmyride.ui.components.notifications.NotificationItem
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
 fun NotificationsScreen(
     navCtrl: NavController,
-    notifications: Int,
 ) {
+    val notifications = remember { mutableStateOf<List<Notification>>(emptyList()) }
+    LaunchedEffect(Unit) {
+        val db = DatabaseManager.getInstance().dao
+        val coroutine = CoroutineScope(Dispatchers.Default)
+        coroutine.launch { notifications.value = db.getNotifications() }
+    }
+
     val scrollState = rememberScrollState()
     val showDeleteNotificationsDialog = remember { mutableStateOf(false) }
     Surface(
@@ -56,7 +68,7 @@ fun NotificationsScreen(
     ) {
 
         Column(
-            modifier = when (notifications) {
+            modifier = when (notifications.value.size) {
                 0 -> Modifier
                 else -> Modifier.verticalScroll(scrollState)
             },
@@ -64,10 +76,20 @@ fun NotificationsScreen(
             Spacer(Modifier.height(Measurements.screenPadding))
             UniversalHeader(stringResource(R.string.notifications), navCtrl)
 
-            // TODO pass notification as parameter to NotificationItem
-            when (notifications) {
-                0 -> NoNotificationsIndicator()
-                else -> for (i in 0 until notifications) NotificationItem()
+            when (notifications.value.size) {
+                0 -> EmptyPageIndicator(
+                    bottomText = {
+                        Text(
+                            stringResource(R.string.you_have_no_notifications),
+                            style = Typing.emptyScreenText,
+                        )
+                    },
+                    backgroundColor = ColorPalette.tertiary,
+                    icon = Icons.Rounded.Notifications,
+                    iconColor = ColorPalette.secondary,
+                )
+
+                else -> for (n in notifications.value) NotificationItem(n)
             }
 
             Spacer(Modifier.height(100.dp))
@@ -105,6 +127,14 @@ fun NotificationsScreen(
 
     if (showDeleteNotificationsDialog.value) {
         DeleteNotificationsDialog {
+            if (it == Decision.YES) {
+                val db = DatabaseManager.getInstance().dao
+                val coroutine = CoroutineScope(Dispatchers.Default)
+                coroutine.launch {
+                    db.deleteNotifications()
+                    notifications.value = emptyList()
+                }
+            }
             showDeleteNotificationsDialog.value = false
         }
     }
@@ -113,7 +143,6 @@ fun NotificationsScreen(
 
 @Composable
 private fun DeleteNotificationsDialog(onDismiss: (Decision?) -> Unit) {
-    // TODO implement deleting all notifications
     Dialog(onDismissRequest = { onDismiss(null) }) {
         Surface(
             color = ColorPalette.background,

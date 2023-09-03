@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import io.fixmyride.database.DatabaseManager
 import io.fixmyride.enums.ViewVehicleType
 import io.fixmyride.ui.screens.AddVehicleScreen
 import io.fixmyride.ui.screens.HomeScreen
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DatabaseManager.initialize(this)
         setContent {
             FixMyRideTheme {
                 Surface(
@@ -51,7 +53,7 @@ private fun App() {
         exitTransition = { fadeOut() },
     ) {
         composable("/home") { HomeScreen(navCtrl) }
-        composable("/notifications") { NotificationsScreen(navCtrl, 0) }
+        composable("/notifications") { NotificationsScreen(navCtrl) }
         composable("/settings") { SettingsScreen(navCtrl) }
         composable("/add-vehicle") { AddVehicleScreen(navCtrl) }
         composable("/edit-vehicle") { ViewVehicleScreen(navCtrl, ViewVehicleType.EDIT) }

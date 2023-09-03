@@ -1,14 +1,13 @@
 <resources>
     <string name="app_name">FixMyRide</string>
-    <string name="your_vehicles">Twoje pojazdy</string>
+    <string name="home_page">Strona główna</string>
     <string name="notifications">Powiadomienia</string>
-    <string name="welcome">Witaj!</string>
     <string name="add_vehicle">Dodaj pojazd</string>
     <string name="all_vehicles">Wszystkie pojazdy</string>
     <string name="sort">sortuj</string>
-    <string name="add_vehicle_description">i zapewnij mu regularny przegląd dzięki powiadomieniom z tygodniowym wyprzedzeniem.</string>
+    <string name="no_vehicles_found">Nie znaleziono żadnych pojazdów</string>
     <string name="receive_notifications">Otrzymuj powiadomienia</string>
-    <string name="week_in_advance">z tygodniowym wyprzedzeniem</string>
+    <string name="week_in_advance">z wyprzedzeniem</string>
     <string name="results">wyników</string>
     <string name="inspection_required">Wymagany przegląd</string>
     <string name="tpl_is_about_to_expire">OC niedługo wygaśnie</string>
@@ -17,11 +16,6 @@
     <string name="enabled">Włączone</string>
     <string name="disabled">Wyłączone</string>
     <string name="settings_notifications_desc">Ile dni przed wyznaczoną datą ma zostać wysłane powiadomienie.</string>
-    <string name="save_locally">Zapisuj lokalnie</string>
-    <string name="settings_save_locally_desc">Zapisuj lokalnie pojazdy i ich dane.</string>
-    <string name="load_data">Wczytaj dane</string>
-    <string name="settings_load_data_desc">Wczytaj dane z pamięci lokalnej.</string>
-    <string name="load">Wczytaj</string>
     <string name="addvehicle_model_headline">Model pojazdu</string>
     <string name="addvehicle_model_placeholder">np. Porsche Taycan Turbo S</string>
     <string name="addvehicle_registration_number_headline">Numer tablicy rejestracyjnej</string>
@@ -45,4 +39,10 @@
     <string name="take_a_photo">Zrób zdjęcie</string>
     <string name="choose_from_gallery">Wybierz z galerii</string>
     <string name="you_have_no_notifications">Nie masz żadnych powiadomień</string>
+    <string name="import_data">Importuj dane</string>
+    <string name="import_button">Importuj</string>
+    <string name="import_data_from_an_existing_file">Importuj dane z pliku.</string>
+    <string name="export_data">Eksportuj dane</string>
+    <string name="export_button">Eksportuj</string>
+    <string name="export_data_to_a_file">Eksportuj dane do pliku.</string>
 </resources>

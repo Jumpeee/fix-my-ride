@@ -1,4 +1,4 @@
-package io.fixmyride.ui.components.managevehicle
+package io.fixmyride.ui.components.vehiclescreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

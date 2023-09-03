@@ -11,11 +11,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -58,7 +58,6 @@ fun SettingsScreen(navCtrl: NavController) {
             AllOptions()
 
             Spacer(Modifier.height(20.dp))
-
             AuthorInfo()
 
             Spacer(Modifier.height(100.dp))
@@ -81,7 +80,23 @@ private fun AllOptions() {
         icon = Icons.Rounded.Email,
         name = stringResource(R.string.notifications),
         description = stringResource(R.string.settings_notifications_desc),
-    ) { /* TODO make days input */}
+    ) { /* TODO make days input */ }
+
+    OptionButton(
+        icon = Icons.Rounded.ArrowForward,
+        name = stringResource(R.string.import_data),
+        buttonText = stringResource(R.string.import_button),
+        description = stringResource(R.string.import_data_from_an_existing_file),
+        iconRotate = 90f,
+    ) { /* TODO importing data */ }
+
+    OptionButton(
+        icon = Icons.Rounded.ArrowBack,
+        name = stringResource(R.string.export_data),
+        buttonText = stringResource(R.string.export_button),
+        description = stringResource(R.string.export_data_to_a_file),
+        iconRotate = 90f,
+    ) { /* TODO exporting data */ }
 }
 
 @Composable

@@ -22,19 +22,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.R
+import io.fixmyride.models.Vehicle
+import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun VehicleItem(navCtrl: NavController /* TODO vehicle: Vehicle */) {
+fun VehicleItem(navCtrl: NavController, vehicle: Vehicle) {
     Box(Modifier.padding(top = 20.dp)) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Info()
+            Info(vehicle)
 
             Box(
                 contentAlignment = Alignment.Center,
@@ -55,7 +56,7 @@ fun VehicleItem(navCtrl: NavController /* TODO vehicle: Vehicle */) {
 }
 
 @Composable
-private fun Info() {
+private fun Info(vehicle: Vehicle) {
     Row {
         Box(
             contentAlignment = Alignment.Center,
@@ -78,11 +79,11 @@ private fun Info() {
 
         Column {
             Text(
-                "Volvo XC40",
+                vehicle.model,
                 style = Typing.bookmarkSubHeadline,
             )
             Text(
-                "XSD 421578",
+                vehicle.registration,
                 style = Typing.bookmarkBody,
             )
         }

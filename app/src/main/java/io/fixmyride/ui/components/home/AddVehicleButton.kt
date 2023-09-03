@@ -39,13 +39,16 @@ import io.fixmyride.ui.theme.Typing
 @Composable
 fun AddVehicleButton(navCtrl: NavController) {
     val backgroundHeight = 120.dp
-    val primaryBoxHeightPercent = 0.7f
-    val topOffset = (backgroundHeight - backgroundHeight * primaryBoxHeightPercent).value
 
     Box(
-        modifier = Modifier.clickable { navCtrl.navigate("/add-vehicle") },
+        modifier = Modifier
+            .height(backgroundHeight)
+            .clickable { navCtrl.navigate("/add-vehicle") },
     ) {
+        val primaryBoxHeightPercent = 0.7f
+        val topOffset = (backgroundHeight - backgroundHeight * primaryBoxHeightPercent).value
         Background(backgroundHeight, primaryBoxHeightPercent)
+        
         Box(
             modifier = Modifier
                 .fillMaxSize()
