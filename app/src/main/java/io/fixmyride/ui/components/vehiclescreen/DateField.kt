@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,6 +39,7 @@ import java.time.LocalDate
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DateField(
+    initialValue: String? = null,
     caption: String,
     hintHeadline: String,
     hintDescription: String,
@@ -47,6 +49,13 @@ fun DateField(
     val showDatePicker = remember { mutableStateOf(false) }
 
     val dateValue = remember { mutableStateOf<String?>(null) }
+
+    if (initialValue != null) {
+        LaunchedEffect(Unit) {
+            dateValue.value = initialValue
+        }
+    }
+
     Column {
         Spacer(Modifier.height(20.dp))
 

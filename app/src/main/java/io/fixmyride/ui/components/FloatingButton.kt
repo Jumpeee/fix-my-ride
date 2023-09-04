@@ -31,7 +31,7 @@ fun FloatingButton(
     icon: ImageVector,
     alignment: Alignment,
     animationSpec: AnimationSpec<Dp> = Measurements.scrollAnimation(),
-    scrollState: ScrollState?,
+    scrollState: ScrollState? = null,
     onClick: () -> Unit,
 ) {
     val showElement = when (scrollState) {

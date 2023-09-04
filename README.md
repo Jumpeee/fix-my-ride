@@ -2,6 +2,7 @@
 
 FixMyRide is a user-friendly mobile application designed to help you easily keep track of important vehicle details such as model, registration number, insurance, and inspection dates. The app offers timely notifications, ensuring that you never miss a vehicle inspection or experience the inconvenience of expired documents again.
 
+
 ## Features
 
 - **Vehicle Information**: Store essential vehicle information, including model, registration number, insurance details, and inspection dates, all in one place.
@@ -9,6 +10,7 @@ FixMyRide is a user-friendly mobile application designed to help you easily keep
 - **Timely Notifications**: The app sends in-app notifications before an upcoming inspection date or when your insurance is about to expire, helping you stay on top of your vehicle's maintenance requirements.
 
 - **Offline Access**: The app is designed to work offline, allowing you to access and update your vehicle information even without an internet connection.
+
 
 ## Getting Started
 

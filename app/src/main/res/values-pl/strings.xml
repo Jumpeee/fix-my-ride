@@ -45,4 +45,7 @@
     <string name="export_data">Eksportuj dane</string>
     <string name="export_button">Eksportuj</string>
     <string name="export_data_to_a_file">Eksportuj dane do pliku.</string>
+    <string name="edit_vehicle">Edytuj pojazd</string>
+    <string name="delete_vehicle">Usunąć pojazd?</string>
+    <string name="are_you_sure_you_want_to_delete_the_vehicle">Czy napewno chcesz usunąć pojazd?</string>
 </resources>

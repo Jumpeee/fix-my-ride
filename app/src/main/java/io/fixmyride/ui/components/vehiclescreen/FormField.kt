@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,11 +39,18 @@ import io.fixmyride.ui.theme.Typing
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormField(
+    initialValue: String? = null,
     caption: String,
     placeholder: String,
     onInput: (String) -> Unit,
 ) {
     val fieldValue = remember { mutableStateOf("") }
+
+    if (initialValue != null) {
+        LaunchedEffect(Unit) {
+            fieldValue.value = initialValue
+        }
+    }
 
     Column {
 

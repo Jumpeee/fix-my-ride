@@ -10,7 +10,7 @@ object DatabaseManager {
         database = Room.databaseBuilder(
             context.applicationContext,
             Database::class.java, "fixmyride-db"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     fun getInstance(): Database {
