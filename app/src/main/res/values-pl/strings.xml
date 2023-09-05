@@ -48,4 +48,6 @@
     <string name="edit_vehicle">Edytuj pojazd</string>
     <string name="delete_vehicle">Usunąć pojazd?</string>
     <string name="are_you_sure_you_want_to_delete_the_vehicle">Czy napewno chcesz usunąć pojazd?</string>
+    <string name="vehicle_preview">Podgląd pojazdu</string>
+    <string name="empty">Brak</string>
 </resources>

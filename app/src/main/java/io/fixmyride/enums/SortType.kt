@@ -5,5 +5,4 @@ enum class SortType {
     REGISTRATION,
     TPL_INSURANCE,
     COLLISION_INSURANCE,
-    LAST_INSPECTION_DATE,
 }

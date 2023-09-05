@@ -28,10 +28,10 @@ import io.fixmyride.enums.ManageVehicleType
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.UniversalHeader
+import io.fixmyride.ui.components.VehicleThumbnail
 import io.fixmyride.ui.components.dialogs.DecisionDialog
-import io.fixmyride.ui.components.vehiclescreen.DateField
-import io.fixmyride.ui.components.vehiclescreen.FormField
-import io.fixmyride.ui.components.vehiclescreen.Thumbnail
+import io.fixmyride.ui.components.managevehicle.DateField
+import io.fixmyride.ui.components.managevehicle.FormField
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import kotlinx.coroutines.CoroutineScope
@@ -81,7 +81,10 @@ fun ManageVehicleScreen(
 
             Spacer(Modifier.height(10.dp))
 
-            Thumbnail()
+            VehicleThumbnail(
+                imagePath = vehicle?.imagePath,
+                allowEditing = true,
+            )
 
             FormField(
                 initialValue = model.value,

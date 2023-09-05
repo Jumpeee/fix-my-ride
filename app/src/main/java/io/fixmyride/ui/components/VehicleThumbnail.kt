@@ -1,4 +1,4 @@
-package io.fixmyride.ui.components.vehiclescreen
+package io.fixmyride.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -45,14 +45,16 @@ import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun Thumbnail() {
+fun VehicleThumbnail(imagePath: String?, allowEditing: Boolean = false) {
     val showImagePickerSheet = remember { mutableStateOf(false) }
     Box(
         contentAlignment = Alignment.BottomEnd,
         modifier = Modifier.wrapContentSize(),
     ) {
         ThumbnailPicture()
-        EditIcon { showImagePickerSheet.value = true }
+        if (allowEditing) {
+            EditIcon { showImagePickerSheet.value = true }
+        }
     }
 
     if (showImagePickerSheet.value) {
