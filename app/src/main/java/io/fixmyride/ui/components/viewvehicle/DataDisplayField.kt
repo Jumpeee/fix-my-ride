@@ -18,12 +18,15 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.fixmyride.R
+import io.fixmyride.ui.components.dialogs.InfoDialog
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
@@ -32,19 +35,30 @@ import io.fixmyride.ui.theme.Typing
 fun DataDisplayField(
     caption: String,
     value: String,
+    infoHeadline: String = "",
+    infoDescription: String = "",
     isDate: Boolean = false,
 ) {
+    val showInfoDialog = remember { mutableStateOf(false) }
+
     Column {
-        DataDisplayHeadline(caption, isDate)
+        DataDisplayHeadline(caption, isDate) { showInfoDialog.value = true }
         Spacer(Modifier.height(5.dp))
 
         DataDisplayFrame(value, isDate)
         Spacer(Modifier.size(20.dp))
     }
+
+    if (showInfoDialog.value) {
+        InfoDialog(
+            headline = infoHeadline,
+            description = infoDescription,
+        ) { showInfoDialog.value = false }
+    }
 }
 
 @Composable
-private fun DataDisplayHeadline(caption: String, isDate: Boolean) {
+private fun DataDisplayHeadline(caption: String, isDate: Boolean, onInfoClick: () -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Canvas(modifier = Modifier.size(10.dp)) {
             drawCircle(color = ColorPalette.primary)
@@ -64,7 +78,7 @@ private fun DataDisplayHeadline(caption: String, isDate: Boolean) {
                 tint = ColorPalette.secondary.copy(alpha = 0.2f),
                 modifier = Modifier
                     .size(16.dp)
-                    .clickable { },
+                    .clickable { onInfoClick() },
             )
         }
     }
@@ -93,7 +107,7 @@ private fun DataDisplayFrame(value: String, isDate: Boolean) {
                 style = Typing.textFieldText,
                 modifier = Modifier.padding(start = 16.dp),
             )
-            if (isDate) {
+            if (isDate && value != stringResource(R.string.empty)) {
                 Spacer(Modifier.width(5.dp))
                 Text(
                     text = stringResource(R.string.year_month_day),

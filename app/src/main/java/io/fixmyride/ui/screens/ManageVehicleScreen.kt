@@ -2,6 +2,7 @@ package io.fixmyride.ui.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,6 +46,8 @@ fun ManageVehicleScreen(
     viewType: ManageVehicleType,
     vehicle: Vehicle?,
 ) {
+    val showDeleteConfirmationDialog = remember { mutableStateOf(false) }
+
     val imagePath = remember { mutableStateOf<String?>(null) }
     val model = remember { mutableStateOf("") }
     val registration = remember { mutableStateOf("") }
@@ -59,7 +62,7 @@ fun ManageVehicleScreen(
         collisionInsurance.value = vehicle.collisionInsuranceExpiry
     }
 
-    val showDeleteConfirmationDialog = remember { mutableStateOf(false) }
+    val emptyFields = remember { mutableStateOf(emptyArray<Int>()) }
 
     Surface(
         color = ColorPalette.background,
@@ -70,43 +73,52 @@ fun ManageVehicleScreen(
         val scrollState = rememberScrollState()
         Column(modifier = Modifier.verticalScroll(scrollState)) {
             Spacer(Modifier.height(Measurements.screenPadding))
-
             UniversalHeader(
                 caption = when (viewType) {
                     ManageVehicleType.ADD -> stringResource(R.string.add_vehicle)
                     ManageVehicleType.EDIT -> stringResource(R.string.edit_vehicle)
+                    else -> ""
                 },
                 navCtrl = navCtrl,
             )
 
             Spacer(Modifier.height(10.dp))
-
             VehicleThumbnail(
+                viewType = viewType,
                 imagePath = vehicle?.imagePath,
                 allowEditing = true,
             )
 
             FormField(
+                isError = 0 in emptyFields.value,
                 initialValue = model.value,
                 caption = stringResource(R.string.addvehicle_model_headline),
                 placeholder = stringResource(R.string.addvehicle_model_placeholder),
             ) { model.value = it }
 
             FormField(
+                isError = 1 in emptyFields.value,
                 initialValue = registration.value,
                 caption = stringResource(R.string.addvehicle_registration_number_headline),
                 placeholder = stringResource(R.string.addvehicle_registration_number_placeholder),
             ) { registration.value = it }
 
             DateField(
-                initialValue = tplInsurance.value,
+                isError = 2 in emptyFields.value,
+                initialValue = when (tplInsurance.value) {
+                    "" -> null
+                    else -> tplInsurance.value
+                },
                 caption = stringResource(R.string.tpl_insurance_expiry_date),
                 hintHeadline = stringResource(R.string.tpl_insurance),
                 hintDescription = stringResource(R.string.tpl_insurance_desc),
             ) { tplInsurance.value = it.toString().replace("-", ".") }
 
             DateField(
-                initialValue = collisionInsurance.value,
+                initialValue = when (collisionInsurance.value) {
+                    "null" -> null
+                    else -> collisionInsurance.value
+                },
                 caption = stringResource(R.string.ci_expiry_date),
                 hintHeadline = stringResource(R.string.ci),
                 hintDescription = stringResource(R.string.ci_insurance_desc),
@@ -115,20 +127,30 @@ fun ManageVehicleScreen(
             Spacer(Modifier.height(80.dp))
         }
 
+        val requiredData = arrayOf(model.value, registration.value, tplInsurance.value)
+        val buttonColor = animateColorAsState(
+            targetValue = when {
+                emptyIndexes(*requiredData).isEmpty() -> ColorPalette.primary
+                else -> ColorPalette.tertiary
+            },
+            animationSpec = Measurements.colorChangeAnimation(),
+            label = "",
+        )
         if (viewType == ManageVehicleType.ADD) {
-            val requiredData = arrayOf(model.value, registration.value, tplInsurance.value)
             FloatingButton(
-                color = when {
-                    emptyIndexes(*requiredData).isNotEmpty() -> ColorPalette.primary
-                    else -> ColorPalette.tertiary
-                },
+                color = buttonColor.value,
                 icon = Icons.Rounded.Done,
                 alignment = Alignment.BottomEnd,
                 scrollState = null,
             ) {
+                val emptyRequiredFields = emptyIndexes(*requiredData)
+                if (emptyRequiredFields.isNotEmpty()) {
+                    emptyFields.value = emptyRequiredFields.toTypedArray()
+                    return@FloatingButton
+                }
+
                 val db = DatabaseManager.getInstance().dao
-                val coroutine = CoroutineScope(Dispatchers.Default)
-                coroutine.launch {
+                CoroutineScope(Dispatchers.Default).launch {
                     db.addVehicle(
                         Vehicle(
                             model = model.value,
@@ -144,10 +166,15 @@ fun ManageVehicleScreen(
 
         if (viewType == ManageVehicleType.EDIT) {
             FloatingButton(
-                color = ColorPalette.primary,
+                color = buttonColor.value,
                 icon = Icons.Rounded.Done,
                 alignment = Alignment.BottomEnd,
             ) {
+                val emptyRequiredFields = emptyIndexes(*requiredData)
+                if (emptyRequiredFields.isNotEmpty()) {
+                    emptyFields.value = emptyRequiredFields.toTypedArray()
+                    return@FloatingButton
+                }
                 val db = DatabaseManager.getInstance().dao
                 CoroutineScope(Dispatchers.Default).launch {
                     db.updateVehicle(
@@ -188,11 +215,11 @@ fun ManageVehicleScreen(
     }
 }
 
-/** Returns a list of indexes of fields whose values are empty or null. */
+/** Returns a list of indexes of fields whose values are empty. */
 private fun emptyIndexes(vararg requiredData: String): List<Int> {
     val emptyIndexes = ArrayList<Int>()
     for (i in requiredData.indices) {
-        if (requiredData[i].isEmpty()) {
+        if (requiredData[i].isBlank()) {
             emptyIndexes.add(i)
         }
     }

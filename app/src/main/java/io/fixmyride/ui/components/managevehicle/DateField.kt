@@ -39,6 +39,7 @@ import java.time.LocalDate
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DateField(
+    isError: Boolean = false,
     initialValue: String? = null,
     caption: String,
     hintHeadline: String,
@@ -51,9 +52,7 @@ fun DateField(
     val dateValue = remember { mutableStateOf<String?>(null) }
 
     if (initialValue != null) {
-        LaunchedEffect(Unit) {
-            dateValue.value = initialValue
-        }
+        LaunchedEffect(Unit) { dateValue.value = initialValue }
     }
 
     Column {
@@ -96,7 +95,10 @@ fun DateField(
                     shape = Measurements.roundedShape,
                 )
                 .border(
-                    color = ColorPalette.secondary.copy(alpha = 0.1f),
+                    color = when (isError) {
+                        true -> ColorPalette.lightRed
+                        else -> ColorPalette.secondary.copy(alpha = 0.1f)
+                    },
                     width = 2.dp,
                     shape = Measurements.roundedShape,
                 )

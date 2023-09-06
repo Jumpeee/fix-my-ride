@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
+import io.fixmyride.enums.ManageVehicleType
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.UniversalHeader
@@ -27,6 +28,7 @@ fun ViewVehicleScreen(
     navCtrl: NavController,
     vehicle: Vehicle,
 ) {
+
     Surface(
         color = ColorPalette.background,
         modifier = Modifier.padding(horizontal = Measurements.screenPadding),
@@ -39,7 +41,7 @@ fun ViewVehicleScreen(
             )
 
             Spacer(Modifier.height(10.dp))
-            VehicleThumbnail(vehicle.imagePath)
+            VehicleThumbnail(ManageVehicleType.PREVIEW, vehicle.imagePath)
 
             Spacer(Modifier.height(20.dp))
             DataDisplayField(
@@ -53,11 +55,18 @@ fun ViewVehicleScreen(
             DataDisplayField(
                 caption = stringResource(R.string.tpl_insurance_expiry_date),
                 value = vehicle.tplInsuranceExpiry,
+                infoHeadline = stringResource(R.string.tpl_insurance),
+                infoDescription = stringResource(R.string.tpl_insurance_desc),
                 isDate = true,
             )
             DataDisplayField(
                 caption = stringResource(R.string.ci_expiry_date),
-                value = vehicle.collisionInsuranceExpiry ?: stringResource(R.string.empty),
+                value = when (vehicle.collisionInsuranceExpiry) {
+                    "null" -> stringResource(R.string.empty)
+                    else -> vehicle.collisionInsuranceExpiry!!
+                },
+                infoHeadline = stringResource(R.string.ci),
+                infoDescription = stringResource(R.string.ci_insurance_desc),
                 isDate = true,
             )
         }
@@ -67,6 +76,5 @@ fun ViewVehicleScreen(
             icon = Icons.Rounded.Edit,
             alignment = Alignment.BottomEnd,
         ) { navCtrl.navigate("/edit-vehicle/$vehicle") }
-
     }
 }

@@ -39,6 +39,7 @@ import io.fixmyride.ui.theme.Typing
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormField(
+    isError: Boolean = false,
     initialValue: String? = null,
     caption: String,
     placeholder: String,
@@ -47,9 +48,7 @@ fun FormField(
     val fieldValue = remember { mutableStateOf("") }
 
     if (initialValue != null) {
-        LaunchedEffect(Unit) {
-            fieldValue.value = initialValue
-        }
+        LaunchedEffect(Unit) { fieldValue.value = initialValue }
     }
 
     Column {
@@ -97,7 +96,10 @@ fun FormField(
                         Icons.Rounded.Close,
                         contentDescription = "Clear text",
                         tint = ColorPalette.lightRed,
-                        modifier = Modifier.clickable { fieldValue.value = "" }
+                        modifier = Modifier.clickable {
+                            fieldValue.value = ""
+                            onInput(fieldValue.value)
+                        }
                     )
                 }
             },
@@ -115,7 +117,10 @@ fun FormField(
                 .fillMaxWidth()
                 .height(Measurements.textFieldHeight)
                 .border(
-                    color = ColorPalette.secondary.copy(alpha = 0.1f),
+                    color = when (isError) {
+                        true -> ColorPalette.lightRed
+                        else -> ColorPalette.secondary.copy(alpha = 0.1f)
+                    },
                     width = 2.dp,
                     shape = Measurements.roundedShape,
                 ),

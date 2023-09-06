@@ -19,6 +19,16 @@ object Measurements {
         easing = easing,
     )
 
+    fun <T> colorChangeAnimation(
+        delay: Int = 0,
+        duration: Int = 250,
+        easing: Easing = FastOutSlowInEasing,
+    ) = tween<T>(
+        durationMillis = duration,
+        delayMillis = delay,
+        easing = easing,
+    )
+
     val textFieldHeight = 50.dp
     val roundedShape = RoundedCornerShape(10.dp)
 }
