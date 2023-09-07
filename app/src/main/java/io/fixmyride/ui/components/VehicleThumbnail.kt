@@ -1,6 +1,9 @@
 package io.fixmyride.ui.components
 
-import androidx.compose.foundation.Image
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -38,17 +41,16 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import coil.compose.AsyncImage
 import io.fixmyride.R
 import io.fixmyride.enums.ManageVehicleType
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
-import io.fixmyride.utils.ImageUtils
 
 @Composable
 fun VehicleThumbnail(
@@ -57,12 +59,22 @@ fun VehicleThumbnail(
     allowEditing: Boolean = false
 ) {
     val showImagePickerSheet = remember { mutableStateOf(false) }
+
+    val image = remember {
+        mutableStateOf(
+            when (imagePath) {
+                null -> null
+                else -> Uri.parse(imagePath)
+            }
+        )
+    }
+
     Box(
-        contentAlignment = when (imagePath) {
+        contentAlignment = when (image.value) {
             null -> Alignment.Center
             else -> Alignment.BottomEnd
         },
-        modifier = when (imagePath) {
+        modifier = when (image.value) {
             null -> Modifier
                 .fillMaxWidth()
                 .height(100.dp)
@@ -76,23 +88,28 @@ fun VehicleThumbnail(
                         ),
                     )
                 }
+                .clickable { showImagePickerSheet.value = true }
+
 
             else -> Modifier.wrapContentSize()
         },
     ) {
-        ThumbnailPicture(imagePath, viewType)
+        ThumbnailPicture(image.value, viewType)
         if (allowEditing) {
-            EditIcon(imagePath != null) { showImagePickerSheet.value = true }
+            EditIcon(image.value != null) { showImagePickerSheet.value = true }
         }
     }
 
     if (showImagePickerSheet.value) {
-        ImagePickerDialog { showImagePickerSheet.value = false }
+        ImagePickerDialog {
+            image.value = it
+            showImagePickerSheet.value = false
+        }
     }
 }
 
 @Composable
-private fun ThumbnailPicture(imagePath: String?, viewType: ManageVehicleType) {
+private fun ThumbnailPicture(imagePath: Uri?, viewType: ManageVehicleType) {
     if (imagePath != null) {
         Box(
             modifier = Modifier
@@ -101,10 +118,10 @@ private fun ThumbnailPicture(imagePath: String?, viewType: ManageVehicleType) {
                     shape = Measurements.roundedShape,
                 ),
         ) {
-            Image(
-                painter = painterResource(R.drawable.thumbnail),
-                contentDescription = "Vehicle image",
-                contentScale = ContentScale.Crop,
+            AsyncImage(
+                model = imagePath,
+                contentDescription = "",
+                contentScale = ContentScale.FillWidth,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp)),
@@ -163,8 +180,8 @@ private fun EditIcon(visible: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-private fun ImagePickerDialog(onDismiss: () -> Unit) {
-    Dialog(onDismissRequest = { onDismiss() }) {
+private fun ImagePickerDialog(onDismiss: (Uri?) -> Unit) {
+    Dialog(onDismissRequest = { onDismiss(null) }) {
         Surface(
             color = ColorPalette.background,
             shape = Measurements.roundedShape,
@@ -188,19 +205,23 @@ private fun ImagePickerDialog(onDismiss: () -> Unit) {
                         tint = ColorPalette.lightRed,
                         modifier = Modifier
                             .size(18.dp)
-                            .clickable { onDismiss() }
+                            .clickable { onDismiss(null) }
                     )
                 }
                 Spacer(Modifier.height(10.dp))
 
                 Column {
                     ImagePickerDialogButton(stringResource(R.string.take_a_photo)) {
-                        ImageUtils.openCamera()
+                        // TODO
                     }
                     Spacer(Modifier.height(10.dp))
 
+                    val galleryLauncher = rememberLauncherForActivityResult(
+                        contract = ActivityResultContracts.PickVisualMedia(),
+                        onResult = { onDismiss(it) }
+                    )
                     ImagePickerDialogButton(stringResource(R.string.choose_from_gallery)) {
-                        ImageUtils.openGallery()
+                        galleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                     }
                 }
             }

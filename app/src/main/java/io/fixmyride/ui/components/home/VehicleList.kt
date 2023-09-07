@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -69,6 +70,7 @@ fun VehicleList(navCtrl: NavController, vehicles: List<Vehicle>) {
                             )
                     ) {
                         vehicles.forEach { VehicleItem(navCtrl, it) }
+                        Spacer(Modifier.height(10.dp))
                     }
 
                 }
@@ -95,20 +97,14 @@ private fun Background() {
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .height(100.dp)
             .clip(RoundedCornerShape(topStart = 40.dp)),
     ) {
-
         val curveStart = this.size.width / 2.28f
+        val topOffset = this.size.height - this.size.height * 0.64f
         drawRect(
             color = ColorPalette.secondary,
-            size = Size(curveStart, this.size.height)
-        )
-
-        val topOffset = this.size.height - this.size.height * 0.7f
-        drawRect(
-            color = ColorPalette.secondary,
-            size = Size(curveStart, this.size.height)
+            size = Size(curveStart, topOffset),
         )
 
         val curvePath = Path()
@@ -158,9 +154,7 @@ private fun Headline(topPadding: Dp) {
                     shape = RoundedCornerShape(5.dp),
                 )
                 .clip(RoundedCornerShape(5.dp))
-                .clickable {
-                    // TODO sort button
-                },
+                .clickable { /* TODO sort button */ },
         ) {
             Text(
                 stringResource(R.string.sort),

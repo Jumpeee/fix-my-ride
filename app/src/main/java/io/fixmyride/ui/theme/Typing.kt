@@ -33,18 +33,9 @@ object Typing {
         lineHeight = 28.sp,
     )
 
-    /** e.g. appears under headline on home page */
-    val screenHeadlineDesc = TextStyle(
-        color = ColorPalette.secondary.copy(alpha = 0.5f),
-        fontFamily = customFont,
-        fontWeight = FontWeight.Bold,
-        fontSize = 16.sp,
-        lineHeight = 22.4.sp,
-    )
-
     /** e.g. the one used in AddVehicleButton at the top-left corner */
     val categoryHeadline = TextStyle(
-        color = ColorPalette.background.copy(alpha = 1f),
+        color = ColorPalette.background.copy(alpha = 0.75f),
         fontFamily = customFont,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
