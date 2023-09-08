@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Surface
@@ -28,12 +30,11 @@ fun ViewVehicleScreen(
     navCtrl: NavController,
     vehicle: Vehicle,
 ) {
-
     Surface(
         color = ColorPalette.background,
         modifier = Modifier.padding(horizontal = Measurements.screenPadding),
     ) {
-        Column {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
             Spacer(Modifier.height(Measurements.screenPadding))
             UniversalHeader(
                 caption = stringResource(R.string.vehicle_preview),
@@ -41,7 +42,7 @@ fun ViewVehicleScreen(
             )
 
             Spacer(Modifier.height(10.dp))
-            VehicleThumbnail(ManageVehicleType.PREVIEW, vehicle.imagePath)
+            VehicleThumbnail(ManageVehicleType.PREVIEW, vehicle.imagePath) {}
 
             Spacer(Modifier.height(20.dp))
             DataDisplayField(
@@ -69,6 +70,7 @@ fun ViewVehicleScreen(
                 infoDescription = stringResource(R.string.ci_insurance_desc),
                 isDate = true,
             )
+            Spacer(Modifier.height(100.dp))
         }
 
         FloatingButton(

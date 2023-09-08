@@ -77,7 +77,7 @@ private fun App() {
             val vehicle = it.arguments?.getString("vehicle") ?: ""
             ViewVehicleScreen(
                 navCtrl,
-                Vehicle.from(vehicle),
+                Vehicle.from(vehicle.replace("", "")),
             )
         }
     }

@@ -2,6 +2,7 @@ package io.fixmyride.ui.theme
 
 import android.app.Activity
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
@@ -20,5 +21,15 @@ fun FixMyRideTheme(content: @Composable () -> Unit) {
         }
     }
 
-    MaterialTheme(content = content)
+    val colorScheme = darkColorScheme(
+        primary = ColorPalette.primary,
+        secondary = ColorPalette.secondary,
+        tertiary = ColorPalette.tertiary,
+        background = ColorPalette.background,
+    )
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        content = content,
+    )
 }

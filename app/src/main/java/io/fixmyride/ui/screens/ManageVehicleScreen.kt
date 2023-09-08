@@ -56,6 +56,7 @@ fun ManageVehicleScreen(
 
     if (viewType == ManageVehicleType.EDIT) {
         imagePath.value = vehicle!!.imagePath
+        println(imagePath.value)
         model.value = vehicle.model
         registration.value = vehicle.registration
         tplInsurance.value = vehicle.tplInsuranceExpiry
@@ -85,9 +86,9 @@ fun ManageVehicleScreen(
             Spacer(Modifier.height(10.dp))
             VehicleThumbnail(
                 viewType = viewType,
-                imagePath = vehicle?.imagePath,
+                imagePath = imagePath.value,
                 allowEditing = true,
-            )
+            ) { imagePath.value = it }
 
             FormField(
                 isError = 0 in emptyFields.value,
@@ -124,7 +125,7 @@ fun ManageVehicleScreen(
                 hintDescription = stringResource(R.string.ci_insurance_desc),
             ) { collisionInsurance.value = it.toString().replace("-", ".") }
 
-            Spacer(Modifier.height(80.dp))
+            Spacer(Modifier.height(100.dp))
         }
 
         val requiredData = arrayOf(model.value, registration.value, tplInsurance.value)
@@ -153,10 +154,12 @@ fun ManageVehicleScreen(
                 CoroutineScope(Dispatchers.Default).launch {
                     db.addVehicle(
                         Vehicle(
-                            model = model.value,
-                            registration = registration.value,
-                            tplInsuranceExpiry = tplInsurance.value,
-                            collisionInsuranceExpiry = collisionInsurance.value,
+                            0,
+                            imagePath.value,
+                            model.value,
+                            registration.value,
+                            tplInsurance.value,
+                            collisionInsurance.value,
                         )
                     )
                 }
@@ -179,12 +182,12 @@ fun ManageVehicleScreen(
                 CoroutineScope(Dispatchers.Default).launch {
                     db.updateVehicle(
                         Vehicle(
-                            id = vehicle!!.id,
-                            imagePath = imagePath.value,
-                            model = model.value,
-                            registration = registration.value,
-                            tplInsuranceExpiry = tplInsurance.value,
-                            collisionInsuranceExpiry = collisionInsurance.value,
+                            vehicle!!.id,
+                            imagePath.value,
+                            model.value,
+                            registration.value,
+                            tplInsurance.value,
+                            collisionInsurance.value,
                         )
                     )
                 }

@@ -1,33 +1,26 @@
 package io.fixmyride.ui.components
 
 import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -41,32 +34,39 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import io.fixmyride.R
 import io.fixmyride.enums.ManageVehicleType
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
+import io.fixmyride.utils.ImageUtils
+import java.io.File
 
 @Composable
 fun VehicleThumbnail(
     viewType: ManageVehicleType,
     imagePath: String?,
-    allowEditing: Boolean = false
+    allowEditing: Boolean = false,
+    onSelect: (String?) -> Unit,
 ) {
-    val showImagePickerSheet = remember { mutableStateOf(false) }
-
     val image = remember {
         mutableStateOf(
             when (imagePath) {
                 null -> null
-                else -> Uri.parse(imagePath)
+                else -> Uri.fromFile(File(imagePath))
             }
         )
+    }
+    val ctx = LocalContext.current
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) {
+        image.value = it
+        onSelect(ImageUtils.getRealPathFromUri(ctx, it))
     }
 
     Box(
@@ -81,35 +81,35 @@ fun VehicleThumbnail(
                 .drawBehind {
                     drawRoundRect(
                         color = ColorPalette.secondary.copy(alpha = 0.3f),
-                        cornerRadius = CornerRadius(50f, 50f),
+                        cornerRadius = CornerRadius(40f, 40f),
                         style = Stroke(
                             width = 6f,
                             pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f, 20f), 0f)
                         ),
                     )
                 }
-                .clickable { showImagePickerSheet.value = true }
-
+                .clip(Measurements.roundedShape)
+                .clickable {
+                    if (allowEditing) {
+                        galleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    }
+                }
 
             else -> Modifier.wrapContentSize()
         },
     ) {
         ThumbnailPicture(image.value, viewType)
         if (allowEditing) {
-            EditIcon(image.value != null) { showImagePickerSheet.value = true }
-        }
-    }
-
-    if (showImagePickerSheet.value) {
-        ImagePickerDialog {
-            image.value = it
-            showImagePickerSheet.value = false
+            EditIcon(image.value != null, galleryLauncher)
         }
     }
 }
 
 @Composable
-private fun ThumbnailPicture(imagePath: Uri?, viewType: ManageVehicleType) {
+private fun ThumbnailPicture(
+    imagePath: Uri?,
+    viewType: ManageVehicleType
+) {
     if (imagePath != null) {
         Box(
             modifier = Modifier
@@ -118,6 +118,7 @@ private fun ThumbnailPicture(imagePath: Uri?, viewType: ManageVehicleType) {
                     shape = Measurements.roundedShape,
                 ),
         ) {
+
             AsyncImage(
                 model = imagePath,
                 contentDescription = "",
@@ -141,7 +142,10 @@ private fun ThumbnailPicture(imagePath: Uri?, viewType: ManageVehicleType) {
 }
 
 @Composable
-private fun EditIcon(visible: Boolean, onClick: () -> Unit) {
+private fun EditIcon(
+    visible: Boolean,
+    galleryLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
+) {
     if (visible) {
         Box(
             contentAlignment = Alignment.TopEnd,
@@ -164,7 +168,9 @@ private fun EditIcon(visible: Boolean, onClick: () -> Unit) {
                         spotColor = ColorPalette.background,
                     )
                     .clip(RoundedCornerShape(100))
-                    .clickable { onClick() },
+                    .clickable {
+                        galleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    },
             ) {
                 Icon(
                     Icons.Outlined.Edit,
@@ -179,103 +185,4 @@ private fun EditIcon(visible: Boolean, onClick: () -> Unit) {
     }
 }
 
-@Composable
-private fun ImagePickerDialog(onDismiss: (Uri?) -> Unit) {
-    Dialog(onDismissRequest = { onDismiss(null) }) {
-        Surface(
-            color = ColorPalette.background,
-            shape = Measurements.roundedShape,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Column(
-                modifier = Modifier.padding(Measurements.screenPadding / 2),
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Text(
-                        stringResource(R.string.choose_the_option),
-                        style = Typing.subheading,
-                    )
-                    Icon(
-                        Icons.Rounded.Close,
-                        contentDescription = "Close dialog",
-                        tint = ColorPalette.lightRed,
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable { onDismiss(null) }
-                    )
-                }
-                Spacer(Modifier.height(10.dp))
 
-                Column {
-                    ImagePickerDialogButton(stringResource(R.string.take_a_photo)) {
-                        // TODO
-                    }
-                    Spacer(Modifier.height(10.dp))
-
-                    val galleryLauncher = rememberLauncherForActivityResult(
-                        contract = ActivityResultContracts.PickVisualMedia(),
-                        onResult = { onDismiss(it) }
-                    )
-                    ImagePickerDialogButton(stringResource(R.string.choose_from_gallery)) {
-                        galleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun ImagePickerDialogButton(caption: String, onClick: () -> Unit) {
-    Box(
-        contentAlignment = Alignment.CenterStart,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = ColorPalette.tertiary,
-                shape = Measurements.roundedShape,
-            )
-            .border(
-                color = ColorPalette.secondary.copy(alpha = 0.1f),
-                width = 2.dp,
-                shape = Measurements.roundedShape,
-            )
-            .clickable { onClick() },
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
-        ) {
-
-            Box(
-                contentAlignment = Alignment.CenterStart,
-                modifier = Modifier
-                    .background(
-                        color = ColorPalette.primary,
-                        shape = RoundedCornerShape(100),
-                    ),
-            ) {
-                Icon(
-                    Icons.Rounded.KeyboardArrowRight,
-                    contentDescription = "",
-                    tint = ColorPalette.background,
-                    modifier = Modifier.size(18.dp),
-                )
-            }
-
-            Spacer(Modifier.width(5.dp))
-
-            Text(
-                caption,
-                style = Typing.outlinedButtonText.copy(
-                    color = ColorPalette.secondary,
-                    fontSize = 14.sp,
-                ),
-            )
-        }
-    }
-}
