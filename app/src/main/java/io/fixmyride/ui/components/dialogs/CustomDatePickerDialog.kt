@@ -55,9 +55,7 @@ fun CustomDatePickerDialog(onDismiss: (LocalDate?) -> Unit) {
     var month = ""
     var year = ""
 
-    Dialog(
-        onDismissRequest = { onDismiss(null) },
-    ) {
+    Dialog(onDismissRequest = { onDismiss(null) }) {
         Surface(
             shape = Measurements.roundedShape,
             color = ColorPalette.background,

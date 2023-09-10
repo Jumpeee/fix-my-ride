@@ -2,20 +2,28 @@ package io.fixmyride.utils
 
 import android.content.Context
 import android.net.Uri
-import android.provider.MediaStore
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 
 object ImageUtils {
-
-    fun getRealPathFromUri(ctx: Context, uri: Uri?): String? {
-        if (uri == null) return null
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = ctx.contentResolver.query(uri, projection, null, null, null)
-        cursor?.use {
-            val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            if (it.moveToFirst()) {
-                return it.getString(columnIndex)
+    fun uriToByteArray(context: Context, uri: Uri): ByteArray? {
+        var inputStream: InputStream? = null
+        return try {
+            inputStream = context.contentResolver.openInputStream(uri)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            val buffer = ByteArray(1024)
+            var bytesRead: Int
+            if (inputStream != null) {
+                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                    byteArrayOutputStream.write(buffer, 0, bytesRead)
+                }
             }
+            byteArrayOutputStream.toByteArray()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        } finally {
+            inputStream?.close()
         }
-        return null
     }
 }

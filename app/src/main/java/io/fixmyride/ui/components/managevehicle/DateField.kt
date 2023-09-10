@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -42,8 +43,9 @@ fun DateField(
     isError: Boolean = false,
     initialValue: String? = null,
     caption: String,
-    hintHeadline: String,
-    hintDescription: String,
+    hintHeadline: String? = null,
+    hintDescription: String? = null,
+    showHint: Boolean = true,
     onDatePick: (LocalDate) -> Unit,
 ) {
     val showInfoDialog = remember { mutableStateOf(false) }
@@ -73,14 +75,16 @@ fun DateField(
 
             Spacer(Modifier.width(5.dp))
 
-            Icon(
-                Icons.Outlined.Info,
-                contentDescription = "Info",
-                tint = ColorPalette.secondary.copy(alpha = 0.2f),
-                modifier = Modifier
-                    .size(16.dp)
-                    .clickable { showInfoDialog.value = true },
-            )
+            if (showHint) {
+                Icon(
+                    Icons.Outlined.Info,
+                    contentDescription = "Info",
+                    tint = ColorPalette.secondary.copy(alpha = 0.2f),
+                    modifier = Modifier
+                        .size(16.dp)
+                        .clickable { showInfoDialog.value = true },
+                )
+            }
         }
 
         Spacer(Modifier.height(5.dp))
@@ -102,6 +106,7 @@ fun DateField(
                     width = 2.dp,
                     shape = Measurements.roundedShape,
                 )
+                .clip(Measurements.roundedShape)
                 .clickable { showDatePicker.value = true },
         ) {
             if (dateValue.value == null) {
@@ -136,10 +141,10 @@ fun DateField(
         }
     }
 
-    if (showInfoDialog.value) {
+    if (showInfoDialog.value && showHint) {
         InfoDialog(
-            hintHeadline,
-            hintDescription,
+            hintHeadline ?: "",
+            hintDescription ?: "",
         ) { showInfoDialog.value = false }
     }
 }

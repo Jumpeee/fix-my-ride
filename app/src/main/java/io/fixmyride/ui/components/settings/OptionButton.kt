@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import io.fixmyride.ui.theme.ColorPalette
@@ -69,14 +70,16 @@ private fun ButtonAndExpand(
     onButtonClick: () -> Unit,
     onClickExpand: () -> Unit,
 ) {
+    val borderRadius = RoundedCornerShape(5.dp)
     Row {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .background(
                     color = ColorPalette.blue.copy(alpha = 0.1f),
-                    shape = RoundedCornerShape(5.dp),
+                    shape = borderRadius,
                 )
+                .clip(borderRadius)
                 .clickable { onButtonClick() }
         ) {
             Text(
@@ -95,3 +98,4 @@ private fun ButtonAndExpand(
         ExpandButton(isExpanded) { onClickExpand() }
     }
 }
+

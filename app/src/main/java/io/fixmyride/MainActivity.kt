@@ -17,10 +17,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import io.fixmyride.database.DatabaseManager
-import io.fixmyride.enums.ManageVehicleType
-import io.fixmyride.models.Vehicle
+import io.fixmyride.ui.screens.AddVehicleScreen
+import io.fixmyride.ui.screens.EditVehicleScreen
 import io.fixmyride.ui.screens.HomeScreen
-import io.fixmyride.ui.screens.ManageVehicleScreen
 import io.fixmyride.ui.screens.NotificationsScreen
 import io.fixmyride.ui.screens.SettingsScreen
 import io.fixmyride.ui.screens.ViewVehicleScreen
@@ -36,8 +35,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FixMyRideTheme {
                 Surface(
-                    color = ColorPalette.background,
-                    modifier = Modifier.fillMaxSize()
+                    color = ColorPalette.background, modifier = Modifier.fillMaxSize()
                 ) { App() }
             }
         }
@@ -58,27 +56,21 @@ private fun App() {
         composable("/home") { HomeScreen(navCtrl) }
         composable("/notifications") { NotificationsScreen(navCtrl) }
         composable("/settings") { SettingsScreen(navCtrl) }
-        composable("/add-vehicle") { ManageVehicleScreen(navCtrl, ManageVehicleType.ADD, null) }
+        composable("/add-vehicle") { AddVehicleScreen(navCtrl) }
         composable(
-            "/edit-vehicle/{vehicle}",
-            arguments = listOf(navArgument("vehicle") { type = NavType.StringType }),
+            route = "/edit-vehicle/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
-            val vehicle = it.arguments?.getString("vehicle") ?: ""
-            ManageVehicleScreen(
-                navCtrl,
-                ManageVehicleType.EDIT,
-                Vehicle.from(vehicle),
-            )
+            val vehicleId = it.arguments?.getString("id")
+            EditVehicleScreen(navCtrl, vehicleId!!.toInt())
         }
+
         composable(
-            "/selected-vehicle/{vehicle}",
-            arguments = listOf(navArgument("vehicle") { type = NavType.StringType }),
+            route = "/selected-vehicle/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
-            val vehicle = it.arguments?.getString("vehicle") ?: ""
-            ViewVehicleScreen(
-                navCtrl,
-                Vehicle.from(vehicle.replace("", "")),
-            )
+            val vehicleId = it.arguments?.getString("id")
+            ViewVehicleScreen(navCtrl, vehicleId!!.toInt())
         }
     }
 }

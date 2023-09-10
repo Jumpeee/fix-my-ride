@@ -14,8 +14,8 @@ interface DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addVehicle(vehicle: Vehicle)
 
-    @Delete
-    suspend fun deleteVehicle(vehicle: Vehicle)
+    @Query("DELETE FROM vehicle WHERE id = :id")
+    suspend fun deleteVehicleById(id: Int)
 
     @Upsert
     suspend fun updateVehicle(vehicle: Vehicle)

@@ -17,7 +17,7 @@
     <string name="disabled">Wyłączone</string>
     <string name="settings_notifications_desc">Ile dni przed wyznaczoną datą ma zostać wysłane powiadomienie.</string>
     <string name="addvehicle_model_headline">Model pojazdu</string>
-    <string name="addvehicle_model_placeholder">np. Porsche Taycan Turbo S</string>
+    <string name="addvehicle_model_placeholder">np. Porsche Taycan</string>
     <string name="addvehicle_registration_number_headline">Numer tablicy rejestracyjnej</string>
     <string name="addvehicle_registration_number_placeholder">np. DWR 6004H</string>
     <string name="close">Zamknij</string>
@@ -52,4 +52,5 @@
     <string name="empty">Brak</string>
     <string name="select_image">Wybierz zdjęcie</string>
     <string name="no_image">Brak zdjęcia</string>
+    <string name="next_inspection_date">Następny przegląd</string>
 </resources>

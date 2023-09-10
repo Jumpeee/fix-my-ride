@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -53,6 +54,7 @@ fun Option(
 
             SwitchAndExpand(isExpanded.value) { isExpanded.value = !isExpanded.value }
 
+            if (isExpanded.value) content()
         }
 
     }
@@ -115,6 +117,8 @@ private fun SwitchAndExpand(
     isExpanded: Boolean,
     onClickExpand: () -> Unit,
 ) {
+    val borderRadius = RoundedCornerShape(5.dp)
+
     // TODO synchronize it with real settings
     val isEnabled = remember { mutableStateOf(false) }
     Box(
@@ -130,8 +134,9 @@ private fun SwitchAndExpand(
                             true -> ColorPalette.green.copy(alpha = 0.1f)
                             else -> ColorPalette.lightRed.copy(alpha = 0.1f)
                         },
-                        shape = RoundedCornerShape(5.dp),
+                        shape = borderRadius,
                     )
+                    .clip(borderRadius)
                     .animateContentSize()
                     .clickable { isEnabled.value = !isEnabled.value },
             ) {

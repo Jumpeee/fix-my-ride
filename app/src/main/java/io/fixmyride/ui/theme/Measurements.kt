@@ -29,6 +29,6 @@ object Measurements {
         easing = easing,
     )
 
-    val textFieldHeight = 50.dp
+    val textFieldHeight = 52.dp
     val roundedShape = RoundedCornerShape(10.dp)
 }

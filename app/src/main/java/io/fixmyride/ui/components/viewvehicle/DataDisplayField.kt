@@ -37,19 +37,19 @@ fun DataDisplayField(
     value: String,
     infoHeadline: String = "",
     infoDescription: String = "",
+    showHint: Boolean = true,
     isDate: Boolean = false,
 ) {
     val showInfoDialog = remember { mutableStateOf(false) }
-
     Column {
-        DataDisplayHeadline(caption, isDate) { showInfoDialog.value = true }
+        DataDisplayHeadline(caption, isDate, showHint) { showInfoDialog.value = true }
         Spacer(Modifier.height(5.dp))
 
         DataDisplayFrame(value, isDate)
         Spacer(Modifier.size(20.dp))
     }
 
-    if (showInfoDialog.value) {
+    if (showInfoDialog.value && showHint) {
         InfoDialog(
             headline = infoHeadline,
             description = infoDescription,
@@ -58,7 +58,12 @@ fun DataDisplayField(
 }
 
 @Composable
-private fun DataDisplayHeadline(caption: String, isDate: Boolean, onInfoClick: () -> Unit) {
+private fun DataDisplayHeadline(
+    caption: String,
+    isDate: Boolean,
+    showHint: Boolean,
+    onInfoClick: () -> Unit,
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Canvas(modifier = Modifier.size(10.dp)) {
             drawCircle(color = ColorPalette.primary)
@@ -69,9 +74,8 @@ private fun DataDisplayHeadline(caption: String, isDate: Boolean, onInfoClick: (
             style = Typing.subheading,
             overflow = TextOverflow.Ellipsis,
         )
-        // TODO display info header
         Spacer(Modifier.width(5.dp))
-        if (isDate) {
+        if (isDate && showHint) {
             Icon(
                 Icons.Outlined.Info,
                 contentDescription = "Info",

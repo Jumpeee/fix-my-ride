@@ -48,7 +48,9 @@ fun VehicleItem(navCtrl: NavController, vehicle: Vehicle) {
                     Icons.Rounded.KeyboardArrowRight,
                     contentDescription = "View selected vehicle's details",
                     tint = ColorPalette.secondary,
-                    modifier = Modifier.clickable { navCtrl.navigate("/selected-vehicle/$vehicle") }
+                    modifier = Modifier.clickable {
+                        navCtrl.navigate("/selected-vehicle/${vehicle.id}")
+                    }
                 )
             }
         }

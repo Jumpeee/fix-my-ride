@@ -1,10 +1,12 @@
 package io.fixmyride.ui.components
 
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -32,41 +34,36 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import io.fixmyride.R
 import io.fixmyride.enums.ManageVehicleType
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
 import io.fixmyride.utils.ImageUtils
-import java.io.File
 
 @Composable
 fun VehicleThumbnail(
     viewType: ManageVehicleType,
-    imagePath: String?,
+    imagePath: ByteArray?,
     allowEditing: Boolean = false,
-    onSelect: (String?) -> Unit,
+    onSelect: ((ByteArray?) -> Unit)? = null,
 ) {
-    val image = remember {
-        mutableStateOf(
-            when (imagePath) {
-                null -> null
-                else -> Uri.fromFile(File(imagePath))
-            }
-        )
-    }
+    val image = remember { mutableStateOf(imagePath) }
+
     val ctx = LocalContext.current
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) {
-        image.value = it
-        onSelect(ImageUtils.getRealPathFromUri(ctx, it))
+        if (it != null) {
+            image.value = ImageUtils.uriToByteArray(ctx, it)
+            onSelect?.invoke(image.value)
+        }
     }
 
     Box(
@@ -98,6 +95,7 @@ fun VehicleThumbnail(
             else -> Modifier.wrapContentSize()
         },
     ) {
+        // FIXME fix null value (image is not being shown in PREVIEW and EDIT modes)
         ThumbnailPicture(image.value, viewType)
         if (allowEditing) {
             EditIcon(image.value != null, galleryLauncher)
@@ -107,7 +105,7 @@ fun VehicleThumbnail(
 
 @Composable
 private fun ThumbnailPicture(
-    imagePath: Uri?,
+    imagePath: ByteArray?,
     viewType: ManageVehicleType
 ) {
     if (imagePath != null) {
@@ -118,9 +116,9 @@ private fun ThumbnailPicture(
                     shape = Measurements.roundedShape,
                 ),
         ) {
-
-            AsyncImage(
-                model = imagePath,
+            Image(
+                bitmap = BitmapFactory.decodeByteArray(imagePath, 0, imagePath.size)
+                    .asImageBitmap(),
                 contentDescription = "",
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier

@@ -10,12 +10,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
+import io.fixmyride.database.DatabaseManager
 import io.fixmyride.enums.ManageVehicleType
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
@@ -28,8 +32,14 @@ import io.fixmyride.ui.theme.Measurements
 @Composable
 fun ViewVehicleScreen(
     navCtrl: NavController,
-    vehicle: Vehicle,
+    vehicleId: Int,
 ) {
+    val vehicle = remember { mutableStateOf(Vehicle.empty()) }
+    LaunchedEffect(Unit) {
+        val db = DatabaseManager.getInstance().dao
+        vehicle.value = db.getVehicleById(vehicleId)
+    }
+
     Surface(
         color = ColorPalette.background,
         modifier = Modifier.padding(horizontal = Measurements.screenPadding),
@@ -42,34 +52,47 @@ fun ViewVehicleScreen(
             )
 
             Spacer(Modifier.height(10.dp))
-            VehicleThumbnail(ManageVehicleType.PREVIEW, vehicle.imagePath) {}
+
+            println(vehicle.value.imagePath)
+            VehicleThumbnail(
+                ManageVehicleType.PREVIEW,
+                vehicle.value.imagePath,
+            )
 
             Spacer(Modifier.height(20.dp))
             DataDisplayField(
                 caption = stringResource(R.string.addvehicle_model_headline),
-                value = vehicle.model,
+                value = vehicle.value.model,
             )
             DataDisplayField(
                 caption = stringResource(R.string.addvehicle_registration_number_headline),
-                value = vehicle.registration,
+                value = vehicle.value.registration,
             )
             DataDisplayField(
                 caption = stringResource(R.string.tpl_insurance_expiry_date),
-                value = vehicle.tplInsuranceExpiry,
+                value = vehicle.value.tplInsuranceExpiry,
                 infoHeadline = stringResource(R.string.tpl_insurance),
                 infoDescription = stringResource(R.string.tpl_insurance_desc),
                 isDate = true,
             )
             DataDisplayField(
                 caption = stringResource(R.string.ci_expiry_date),
-                value = when (vehicle.collisionInsuranceExpiry) {
-                    "null" -> stringResource(R.string.empty)
-                    else -> vehicle.collisionInsuranceExpiry!!
+                value = when (vehicle.value.collisionInsuranceExpiry) {
+                    null -> stringResource(R.string.empty)
+                    else -> vehicle.value.collisionInsuranceExpiry!!
                 },
                 infoHeadline = stringResource(R.string.ci),
                 infoDescription = stringResource(R.string.ci_insurance_desc),
                 isDate = true,
             )
+
+            DataDisplayField(
+                caption = stringResource(R.string.next_inspection_date),
+                value = vehicle.value.nextInspectionDate,
+                isDate = true,
+                showHint = false,
+            )
+
             Spacer(Modifier.height(100.dp))
         }
 
@@ -77,6 +100,6 @@ fun ViewVehicleScreen(
             color = ColorPalette.primary,
             icon = Icons.Rounded.Edit,
             alignment = Alignment.BottomEnd,
-        ) { navCtrl.navigate("/edit-vehicle/$vehicle") }
+        ) { navCtrl.navigate("/edit-vehicle/${vehicle.value.id}") }
     }
 }

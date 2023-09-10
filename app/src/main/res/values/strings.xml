@@ -17,7 +17,7 @@
     <string name="disabled">Disabled</string>
     <string name="settings_notifications_desc">How many days before the date notifications are to be sent.</string>
     <string name="addvehicle_model_headline">Vehicle model</string>
-    <string name="addvehicle_model_placeholder">e.g. Porsche Taycan Turbo S</string>
+    <string name="addvehicle_model_placeholder">e.g. Porsche Taycan</string>
     <string name="addvehicle_registration_number_headline">Vehicle registration number</string>
     <string name="addvehicle_registration_number_placeholder">e.g. DWR 6004H</string>
     <string name="close">Close</string>
@@ -52,4 +52,5 @@
     <string name="empty">Empty</string>
     <string name="select_image">Select image</string>
     <string name="no_image">No image</string>
+    <string name="next_inspection_date">Next inspection date</string>
 </resources>
