@@ -69,16 +69,18 @@ private fun DataDisplayHeadline(
             drawCircle(color = ColorPalette.primary)
         }
         Spacer(Modifier.width(5.dp))
+
         Text(
             caption,
             style = Typing.subheading,
             overflow = TextOverflow.Ellipsis,
         )
         Spacer(Modifier.width(5.dp))
+
         if (isDate && showHint) {
             Icon(
                 Icons.Outlined.Info,
-                contentDescription = "Info",
+                contentDescription = "Show info button",
                 tint = ColorPalette.secondary.copy(alpha = 0.2f),
                 modifier = Modifier
                     .size(16.dp)
@@ -111,6 +113,7 @@ private fun DataDisplayFrame(value: String, isDate: Boolean) {
                 style = Typing.textFieldText,
                 modifier = Modifier.padding(start = 16.dp),
             )
+
             if (isDate && value != stringResource(R.string.empty)) {
                 Spacer(Modifier.width(5.dp))
                 Text(

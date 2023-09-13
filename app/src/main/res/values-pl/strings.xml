@@ -53,4 +53,10 @@
     <string name="select_image">Wybierz zdjęcie</string>
     <string name="no_image">Brak zdjęcia</string>
     <string name="next_inspection_date">Następny przegląd</string>
+    <string name="sort_vehicles">Sortuj pojazdy</string>
+    <string name="by_model">Według modelu</string>
+    <string name="by_registration">Według rejestracji</string>
+    <string name="by_tpl_insurance">Według OC</string>
+    <string name="by_collision_insurance">Według AC</string>
+    <string name="by_inspection_date">Według daty przeglądu</string>
 </resources>

@@ -21,8 +21,8 @@ import io.fixmyride.ui.screens.AddVehicleScreen
 import io.fixmyride.ui.screens.EditVehicleScreen
 import io.fixmyride.ui.screens.HomeScreen
 import io.fixmyride.ui.screens.NotificationsScreen
+import io.fixmyride.ui.screens.PreviewVehicleScreen
 import io.fixmyride.ui.screens.SettingsScreen
-import io.fixmyride.ui.screens.ViewVehicleScreen
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.FixMyRideTheme
 
@@ -35,7 +35,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             FixMyRideTheme {
                 Surface(
-                    color = ColorPalette.background, modifier = Modifier.fillMaxSize()
+                    color = ColorPalette.background,
+                    modifier = Modifier.fillMaxSize(),
                 ) { App() }
             }
         }
@@ -70,7 +71,7 @@ private fun App() {
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
             val vehicleId = it.arguments?.getString("id")
-            ViewVehicleScreen(navCtrl, vehicleId!!.toInt())
+            PreviewVehicleScreen(navCtrl, vehicleId!!.toInt())
         }
     }
 }

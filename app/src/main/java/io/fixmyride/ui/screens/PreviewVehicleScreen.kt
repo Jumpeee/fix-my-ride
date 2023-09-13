@@ -30,7 +30,7 @@ import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 
 @Composable
-fun ViewVehicleScreen(
+fun PreviewVehicleScreen(
     navCtrl: NavController,
     vehicleId: Int,
 ) {
@@ -53,7 +53,6 @@ fun ViewVehicleScreen(
 
             Spacer(Modifier.height(10.dp))
 
-            println(vehicle.value.imagePath)
             VehicleThumbnail(
                 ManageVehicleType.PREVIEW,
                 vehicle.value.imagePath,

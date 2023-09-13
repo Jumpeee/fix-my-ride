@@ -88,7 +88,9 @@ fun VehicleThumbnail(
                 .clip(Measurements.roundedShape)
                 .clickable {
                     if (allowEditing) {
-                        galleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                        galleryLauncher.launch(
+                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                        )
                     }
                 }
 

@@ -13,9 +13,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.KeyboardArrowRight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,19 +32,29 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import io.fixmyride.R
+import io.fixmyride.enums.SortType
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.EmptyPageIndicator
 import io.fixmyride.ui.theme.ColorPalette
+import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun VehicleList(navCtrl: NavController, vehicles: List<Vehicle>) {
+fun VehicleList(
+    navCtrl: NavController,
+    vehicles: List<Vehicle>,
+    onSortSelect: (SortType) -> Unit,
+) {
+
     if (vehicles.isNotEmpty()) {
+        val showSortDialog = remember { mutableStateOf(false) }
         val topPadding = 36.dp
         Box(
             modifier = Modifier
@@ -46,7 +65,7 @@ fun VehicleList(navCtrl: NavController, vehicles: List<Vehicle>) {
                 ),
         ) {
             Background()
-            Headline(topPadding)
+            Headline(topPadding) { showSortDialog.value = true }
 
             Box(Modifier.padding(top = topPadding)) {
                 Box(
@@ -76,6 +95,16 @@ fun VehicleList(navCtrl: NavController, vehicles: List<Vehicle>) {
                 }
             }
         }
+
+        if (showSortDialog.value) {
+            SortDialog {
+                if (it != null) {
+                    onSortSelect(it)
+                }
+                showSortDialog.value = false
+            }
+        }
+
     } else {
         EmptyPageIndicator(
             bottomText = {
@@ -125,7 +154,10 @@ private fun Background() {
 }
 
 @Composable
-private fun Headline(topPadding: Dp) {
+private fun Headline(
+    topPadding: Dp,
+    onClickSortButton: () -> Unit,
+) {
     val headlineStyle = Typing.categoryHeadline
 
     Row(
@@ -154,7 +186,7 @@ private fun Headline(topPadding: Dp) {
                     shape = RoundedCornerShape(5.dp),
                 )
                 .clip(RoundedCornerShape(5.dp))
-                .clickable { /* TODO sort button */ },
+                .clickable { onClickSortButton() },
         ) {
             Text(
                 stringResource(R.string.sort),
@@ -163,6 +195,110 @@ private fun Headline(topPadding: Dp) {
                 modifier = Modifier.padding(
                     horizontal = 5.dp,
                     vertical = 2.dp,
+                ),
+            )
+        }
+    }
+}
+
+@Composable
+private fun SortDialog(selectedOption: (SortType?) -> Unit) {
+    Dialog(onDismissRequest = { selectedOption(null) }) {
+        Surface(
+            shape = Measurements.roundedShape,
+            color = ColorPalette.background,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Column(
+                modifier = Modifier.padding(Measurements.screenPadding / 2),
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(
+                        stringResource(R.string.sort_vehicles),
+                        style = Typing.subheading,
+                    )
+                    Icon(
+                        Icons.Rounded.Close,
+                        contentDescription = "Close dialog",
+                        tint = ColorPalette.lightRed,
+                        modifier = Modifier
+                            .size(18.dp)
+                            .clickable { selectedOption(null) },
+                    )
+                }
+                Spacer(Modifier.height(10.dp))
+
+                enumValues<SortType>().forEach { st ->
+                    SortDialogOption(st) { selectedOption(st) }
+                    Spacer(Modifier.height(10.dp))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SortDialogOption(
+    sortType: SortType,
+    onClick: (SortType) -> Unit,
+) {
+    val caption = when (sortType) {
+        SortType.MODEL -> stringResource(R.string.by_model)
+        SortType.REGISTRATION -> stringResource(R.string.by_registration)
+        SortType.TPL_INSURANCE -> stringResource(R.string.by_tpl_insurance)
+        SortType.COLLISION_INSURANCE -> stringResource(R.string.by_collision_insurance)
+        SortType.NEXT_INSPECTION_DATE -> stringResource(R.string.by_inspection_date)
+    }
+
+    Box(
+        contentAlignment = Alignment.CenterStart,
+        modifier = Modifier
+            .background(
+                color = ColorPalette.tertiary,
+                shape = Measurements.roundedShape,
+            )
+            .border(
+                color = ColorPalette.secondary.copy(alpha = 0.1f),
+                width = 2.dp,
+                shape = Measurements.roundedShape,
+            )
+            .clip(Measurements.roundedShape)
+            .clickable { onClick(sortType) },
+
+        ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = 10.dp,
+                    vertical = 7.5.dp,
+                ),
+        ) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.background(
+                    color = ColorPalette.secondary,
+                    shape = RoundedCornerShape(100),
+                )
+            ) {
+                Icon(
+                    Icons.Rounded.KeyboardArrowRight,
+                    contentDescription = "Sort by selected element",
+                    tint = ColorPalette.background,
+                    modifier = Modifier.size(18.dp),
+                )
+            }
+            Spacer(Modifier.width(7.5.dp))
+
+            Text(
+                caption,
+                style = Typing.buttonText.copy(
+                    color = ColorPalette.secondary,
+                    fontWeight = FontWeight.Bold,
                 ),
             )
         }

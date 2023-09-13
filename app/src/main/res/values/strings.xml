@@ -53,4 +53,10 @@
     <string name="select_image">Select image</string>
     <string name="no_image">No image</string>
     <string name="next_inspection_date">Next inspection date</string>
+    <string name="sort_vehicles">Sort vehicles</string>
+    <string name="by_model">By model</string>
+    <string name="by_registration">By registration</string>
+    <string name="by_tpl_insurance">By TPL insurance</string>
+    <string name="by_collision_insurance">By collision insurance</string>
+    <string name="by_inspection_date">By inspection date</string>
 </resources>

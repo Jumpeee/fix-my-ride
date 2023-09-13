@@ -1,7 +1,6 @@
 package io.fixmyride.database
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -23,11 +22,20 @@ interface DatabaseDao {
     @Query("SELECT * FROM vehicle")
     suspend fun getVehicles(): List<Vehicle>
 
-    @Query("SELECT * FROM vehicle ORDER BY model ASC")
+    @Query("SELECT * FROM vehicle ORDER BY model DESC")
     suspend fun getVehiclesOrderedByModel(): List<Vehicle>
 
-    @Query("SELECT * FROM vehicle ORDER BY registration ASC")
+    @Query("SELECT * FROM vehicle ORDER BY registration DESC")
     suspend fun getVehiclesOrderedByRegistration(): List<Vehicle>
+
+    @Query("SELECT * FROM vehicle ORDER BY tplInsuranceExpiry DESC")
+    suspend fun getVehiclesOrderedByTPLInsurance(): List<Vehicle>
+
+    @Query("SELECT * FROM vehicle ORDER BY collisionInsuranceExpiry DESC")
+    suspend fun getVehiclesOrderedByCIInsurance(): List<Vehicle>
+
+    @Query("SELECT * FROM vehicle ORDER BY nextInspectionDate DESC")
+    suspend fun getVehiclesOrderedByNextInspectionDate(): List<Vehicle>
 
     @Query("SELECT * FROM vehicle WHERE id = :id")
     suspend fun getVehicleById(id: Int): Vehicle

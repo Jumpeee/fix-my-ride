@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.database.DatabaseManager
+import io.fixmyride.enums.SortType
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.ResultsBar
@@ -59,7 +60,40 @@ fun HomeScreen(navCtrl: NavController) {
             AddVehicleButton(navCtrl)
             Spacer(Modifier.height(20.dp))
 
-            VehicleList(navCtrl, vehicles.value)
+            val coroutineScope = rememberCoroutineScope()
+            VehicleList(navCtrl, vehicles.value) {
+                val db = DatabaseManager.getInstance().dao
+                when (it) {
+                    SortType.MODEL -> {
+                        coroutineScope.launch {
+                            vehicles.value = db.getVehiclesOrderedByModel()
+                        }
+                    }
+                    SortType.REGISTRATION -> {
+                        coroutineScope.launch {
+                            vehicles.value = db.getVehiclesOrderedByRegistration()
+                        }
+                    }
+                    SortType.TPL_INSURANCE -> {
+                        coroutineScope.launch {
+                            // TODO order by TPL_INSURANCE
+                            vehicles.value = db.getVehiclesOrderedByTPLInsurance()
+                        }
+                    }
+                    SortType.COLLISION_INSURANCE -> {
+                        coroutineScope.launch {
+                            // TODO order by COLLISION_INSURANCE
+                            vehicles.value = db.getVehiclesOrderedByCIInsurance()
+                        }
+                    }
+                    SortType.NEXT_INSPECTION_DATE -> {
+                        coroutineScope.launch {
+                            // TODO order by NEXT_INSPECTION_DATE
+                            vehicles.value = db.getVehiclesOrderedByNextInspectionDate()
+                        }
+                    }
+                }
+            }
             Spacer(Modifier.height(100.dp))
         }
 
