@@ -42,7 +42,6 @@ fun Option(
         Spacer(Modifier.height(30.dp))
 
         val isExpanded = remember { mutableStateOf(false) }
-
         Box {
             IconAndOptionName(
                 icon,
@@ -56,7 +55,6 @@ fun Option(
 
             if (isExpanded.value) content()
         }
-
     }
 }
 
@@ -117,9 +115,9 @@ private fun SwitchAndExpand(
     isExpanded: Boolean,
     onClickExpand: () -> Unit,
 ) {
+    // TODO synchronize it with real settings
     val borderRadius = RoundedCornerShape(5.dp)
 
-    // TODO synchronize it with real settings
     val isEnabled = remember { mutableStateOf(false) }
     Box(
         contentAlignment = Alignment.TopEnd,
@@ -156,9 +154,7 @@ private fun SwitchAndExpand(
                         ),
                 )
             }
-
             Spacer(Modifier.width(10.dp))
-
             ExpandButton(isExpanded) { onClickExpand() }
         }
     }

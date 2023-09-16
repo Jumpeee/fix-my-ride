@@ -1,5 +1,7 @@
 package io.fixmyride.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,8 +22,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -34,7 +38,10 @@ import io.fixmyride.ui.components.settings.OptionButton
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
+import io.fixmyride.utils.DataExchange
+import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SettingsScreen(navCtrl: NavController) {
     Surface(
@@ -74,8 +81,11 @@ fun SettingsScreen(navCtrl: NavController) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun AllOptions() {
+    val ctx = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     Option(
         icon = Icons.Rounded.Email,
         name = stringResource(R.string.notifications),
@@ -96,7 +106,11 @@ private fun AllOptions() {
         buttonText = stringResource(R.string.export_button),
         description = stringResource(R.string.export_data_to_a_file),
         iconRotate = 90f,
-    ) { /* TODO exporting data */ }
+    ) {
+        coroutineScope.launch {
+            DataExchange.exportData()
+        }
+    }
 }
 
 @Composable
@@ -108,11 +122,9 @@ private fun AuthorInfo() {
             stringResource(R.string.made_by),
             style = Typing.descriptionBody,
         )
-        Text(
-            " Jumpee ",
+        Text(" Jumpee ",
             style = Typing.descriptionBody.copy(color = ColorPalette.primary),
-            modifier = Modifier.clickable { uriOpener.openUri("https://github.com/Jumpeee") }
-        )
+            modifier = Modifier.clickable { uriOpener.openUri("https://github.com/Jumpeee") })
         Icon(
             Icons.Rounded.Favorite,
             contentDescription = "Heart",

@@ -1,4 +1,4 @@
-package io.fixmyride.ui.components.viewvehicle
+package io.fixmyride.ui.components.previewvehicle
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background

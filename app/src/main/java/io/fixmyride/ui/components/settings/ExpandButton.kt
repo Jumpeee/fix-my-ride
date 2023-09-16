@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
@@ -28,6 +29,7 @@ fun ExpandButton(
                 color = ColorPalette.secondary,
                 shape = RoundedCornerShape(100),
             )
+            .clip(RoundedCornerShape(100))
             .clickable { onClickExpand() },
     ) {
         val rotation = animateFloatAsState(

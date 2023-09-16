@@ -24,11 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.database.DatabaseManager
-import io.fixmyride.enums.ManageVehicleType
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.UniversalHeader
-import io.fixmyride.ui.components.VehicleThumbnail
 import io.fixmyride.ui.components.managevehicle.DateField
 import io.fixmyride.ui.components.managevehicle.FormField
 import io.fixmyride.ui.theme.ColorPalette
@@ -39,7 +37,6 @@ import kotlinx.coroutines.launch
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AddVehicleScreen(navCtrl: NavController) {
-    val imagePath = remember { mutableStateOf<ByteArray?>(null) }
     val model = remember { mutableStateOf("") }
     val registration = remember { mutableStateOf("") }
     val tplInsurance = remember { mutableStateOf("") }
@@ -63,11 +60,6 @@ fun AddVehicleScreen(navCtrl: NavController) {
             )
 
             Spacer(Modifier.height(10.dp))
-            VehicleThumbnail(
-                viewType = ManageVehicleType.ADD,
-                imagePath = imagePath.value,
-                allowEditing = true,
-            ) { imagePath.value = it }
 
             FormField(
                 isError = 0 in emptyFields.value,
@@ -150,7 +142,6 @@ fun AddVehicleScreen(navCtrl: NavController) {
             coroutineScope.launch {
                 db.addVehicle(
                     Vehicle(
-                        imagePath = imagePath.value,
                         model = model.value,
                         registration = registration.value,
                         tplInsuranceExpiry = tplInsurance.value,

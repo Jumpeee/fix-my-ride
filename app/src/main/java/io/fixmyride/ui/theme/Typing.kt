@@ -158,13 +158,4 @@ object Typing {
         fontSize = 16.sp,
         lineHeight = 22.sp,
     )
-
-    /** empty thumbnail text placeholder */
-    val emptyThumbnailText = TextStyle(
-        color = ColorPalette.secondary.copy(alpha = 0.3f),
-        fontFamily = customFont,
-        fontWeight = FontWeight.Bold,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-    )
 }

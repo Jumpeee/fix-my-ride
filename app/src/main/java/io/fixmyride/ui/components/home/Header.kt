@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Settings
@@ -15,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -39,7 +41,9 @@ fun Header(navCtrl: NavController) {
                     Icons.Outlined.Settings,
                     contentDescription = "Go to settings",
                     tint = ColorPalette.secondary,
-                    modifier = Modifier.clickable { navCtrl.navigate("/settings") }
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(100))
+                        .clickable { navCtrl.navigate("/settings") }
                 )
 
                 Spacer(Modifier.width(15.dp))
@@ -48,7 +52,9 @@ fun Header(navCtrl: NavController) {
                     Icons.Outlined.Notifications,
                     contentDescription = "Go to notifications page",
                     tint = ColorPalette.secondary,
-                    modifier = Modifier.clickable { navCtrl.navigate("/notifications") }
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(100))
+                        .clickable { navCtrl.navigate("/notifications") }
                 )
             }
 

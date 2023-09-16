@@ -27,19 +27,15 @@ import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.database.DatabaseManager
 import io.fixmyride.enums.Decision
-import io.fixmyride.enums.ManageVehicleType
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.UniversalHeader
-import io.fixmyride.ui.components.VehicleThumbnail
 import io.fixmyride.ui.components.dialogs.DecisionDialog
 import io.fixmyride.ui.components.managevehicle.DateField
 import io.fixmyride.ui.components.managevehicle.FormField
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.utils.ValidationUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -51,7 +47,6 @@ fun EditVehicleScreen(
     val emptyFields = remember { mutableStateOf(emptyArray<Int>()) }
     val showDeleteConfirmationDialog = remember { mutableStateOf(false) }
 
-    val imagePath = remember { mutableStateOf<ByteArray?>(null) }
     val model = remember { mutableStateOf("") }
     val registration = remember { mutableStateOf("") }
     val tplInsurance = remember { mutableStateOf("") }
@@ -62,7 +57,6 @@ fun EditVehicleScreen(
         val db = DatabaseManager.getInstance().dao
         val vehicle = db.getVehicleById(vehicleId)
 
-        imagePath.value = vehicle.imagePath
         model.value = vehicle.model
         registration.value = vehicle.registration
         tplInsurance.value = vehicle.tplInsuranceExpiry
@@ -85,11 +79,6 @@ fun EditVehicleScreen(
             )
 
             Spacer(Modifier.height(10.dp))
-            VehicleThumbnail(
-                ManageVehicleType.EDIT,
-                imagePath.value,
-                true,
-            ) { imagePath.value = it }
 
             FormField(
                 isError = 0 in emptyFields.value,
@@ -171,7 +160,6 @@ fun EditVehicleScreen(
                 db.updateVehicle(
                     Vehicle(
                         vehicleId,
-                        imagePath.value,
                         model.value,
                         registration.value,
                         tplInsurance.value,

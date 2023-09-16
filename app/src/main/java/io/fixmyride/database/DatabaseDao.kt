@@ -10,6 +10,9 @@ import io.fixmyride.models.Vehicle
 
 @Dao
 interface DatabaseDao {
+    @Query("SELECT * FROM vehicle")
+    suspend fun getData(): List<Vehicle>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addVehicle(vehicle: Vehicle)
 

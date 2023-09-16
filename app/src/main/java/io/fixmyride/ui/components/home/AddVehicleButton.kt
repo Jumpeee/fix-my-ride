@@ -43,6 +43,7 @@ fun AddVehicleButton(navCtrl: NavController) {
     Box(
         modifier = Modifier
             .height(backgroundHeight)
+            .clip(RoundedCornerShape(40.dp))
             .clickable { navCtrl.navigate("/add-vehicle") },
     ) {
         val primaryBoxHeightPercent = 0.7f
@@ -80,7 +81,6 @@ private fun Background(
         modifier = Modifier
             .fillMaxWidth()
             .height(height)
-            .clip(RoundedCornerShape(40.dp)),
     ) {
         drawRoundRect(
             color = ColorPalette.tertiary,

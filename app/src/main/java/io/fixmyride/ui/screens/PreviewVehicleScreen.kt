@@ -20,12 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.database.DatabaseManager
-import io.fixmyride.enums.ManageVehicleType
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.UniversalHeader
-import io.fixmyride.ui.components.VehicleThumbnail
-import io.fixmyride.ui.components.viewvehicle.DataDisplayField
+import io.fixmyride.ui.components.previewvehicle.DataDisplayField
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 
@@ -34,7 +32,7 @@ fun PreviewVehicleScreen(
     navCtrl: NavController,
     vehicleId: Int,
 ) {
-    val vehicle = remember { mutableStateOf(Vehicle.empty()) }
+    val vehicle = remember { mutableStateOf(Vehicle.EMPTY) }
     LaunchedEffect(Unit) {
         val db = DatabaseManager.getInstance().dao
         vehicle.value = db.getVehicleById(vehicleId)
@@ -52,11 +50,6 @@ fun PreviewVehicleScreen(
             )
 
             Spacer(Modifier.height(10.dp))
-
-            VehicleThumbnail(
-                ManageVehicleType.PREVIEW,
-                vehicle.value.imagePath,
-            )
 
             Spacer(Modifier.height(20.dp))
             DataDisplayField(
