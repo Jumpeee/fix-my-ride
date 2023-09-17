@@ -41,7 +41,7 @@ import io.fixmyride.ui.theme.Typing
 import io.fixmyride.utils.DataExchange
 import kotlinx.coroutines.launch
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.R)
 @Composable
 fun SettingsScreen(navCtrl: NavController) {
     Surface(
@@ -81,7 +81,7 @@ fun SettingsScreen(navCtrl: NavController) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.R)
 @Composable
 private fun AllOptions() {
     val ctx = LocalContext.current
@@ -107,9 +107,12 @@ private fun AllOptions() {
         description = stringResource(R.string.export_data_to_a_file),
         iconRotate = 90f,
     ) {
+
         coroutineScope.launch {
             DataExchange.exportData()
         }
+
+
     }
 }
 

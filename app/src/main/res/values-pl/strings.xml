@@ -36,7 +36,6 @@
     <string name="delete_notifications_description">Czy napewno chcesz usunąć wszystkie powiadomienia?</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
-    <string name="take_a_photo">Zrób zdjęcie</string>
     <string name="choose_from_gallery">Wybierz z galerii</string>
     <string name="you_have_no_notifications">Nie masz żadnych powiadomień</string>
     <string name="import_data">Importuj dane</string>
@@ -50,8 +49,6 @@
     <string name="are_you_sure_you_want_to_delete_the_vehicle">Czy napewno chcesz usunąć pojazd?</string>
     <string name="vehicle_preview">Podgląd pojazdu</string>
     <string name="empty">Brak</string>
-    <string name="select_image">Wybierz zdjęcie</string>
-    <string name="no_image">Brak zdjęcia</string>
     <string name="next_inspection_date">Następny przegląd</string>
     <string name="sort_vehicles">Sortuj pojazdy</string>
     <string name="by_model">Według modelu</string>

@@ -2,6 +2,7 @@ package io.fixmyride.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import io.fixmyride.models.Notification
 import io.fixmyride.models.Vehicle
 
@@ -12,6 +13,7 @@ import io.fixmyride.models.Vehicle
         Notification::class,
     ]
 )
+@TypeConverters(DateConverter::class)
 abstract class Database : RoomDatabase() {
     abstract val dao: DatabaseDao
 }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -28,6 +29,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -46,9 +48,7 @@ fun FormField(
 ) {
     val fieldValue = remember { mutableStateOf("") }
 
-    if (initialValue != null) {
-        fieldValue.value = initialValue
-    }
+    if (initialValue != null) fieldValue.value = initialValue
 
     Column {
 
@@ -95,10 +95,12 @@ fun FormField(
                         Icons.Rounded.Close,
                         contentDescription = "Clear text",
                         tint = ColorPalette.lightRed,
-                        modifier = Modifier.clickable {
-                            fieldValue.value = ""
-                            onInput(fieldValue.value)
-                        }
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(100))
+                            .clickable {
+                                fieldValue.value = ""
+                                onInput(fieldValue.value)
+                            }
                     )
                 }
             },

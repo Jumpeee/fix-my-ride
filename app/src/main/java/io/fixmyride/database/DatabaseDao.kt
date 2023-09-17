@@ -31,13 +31,13 @@ interface DatabaseDao {
     @Query("SELECT * FROM vehicle ORDER BY registration DESC")
     suspend fun getVehiclesOrderedByRegistration(): List<Vehicle>
 
-    @Query("SELECT * FROM vehicle ORDER BY tplInsuranceExpiry DESC")
+    @Query("SELECT * FROM vehicle ORDER BY tplInsuranceExpiry ASC")
     suspend fun getVehiclesOrderedByTPLInsurance(): List<Vehicle>
 
-    @Query("SELECT * FROM vehicle ORDER BY collisionInsuranceExpiry DESC")
+    @Query("SELECT * FROM vehicle ORDER BY collisionInsuranceExpiry ASC")
     suspend fun getVehiclesOrderedByCIInsurance(): List<Vehicle>
 
-    @Query("SELECT * FROM vehicle ORDER BY nextInspectionDate DESC")
+    @Query("SELECT * FROM vehicle ORDER BY nextInspectionDate ASC")
     suspend fun getVehiclesOrderedByNextInspectionDate(): List<Vehicle>
 
     @Query("SELECT * FROM vehicle WHERE id = :id")

@@ -1,7 +1,12 @@
 package io.fixmyride.models
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import io.fixmyride.database.DateConverter
+import java.time.LocalDate
 
 
 @Entity
@@ -11,9 +16,15 @@ data class Vehicle(
 
     val model: String,
     val registration: String,
-    val tplInsuranceExpiry: String, // e.g. 2005.05.16
-    val collisionInsuranceExpiry: String? = null, // e.g. 2005.05.16
-    val nextInspectionDate: String,
+
+    @TypeConverters(DateConverter::class)
+    val tplInsuranceExpiry: LocalDate,
+
+    @TypeConverters(DateConverter::class)
+    val collisionInsuranceExpiry: LocalDate? = null,
+
+    @TypeConverters(DateConverter::class)
+    val nextInspectionDate: LocalDate,
 ) {
     fun toMap() = mapOf(
         "id" to id,
@@ -24,12 +35,13 @@ data class Vehicle(
         "nextInspectionDate" to nextInspectionDate,
     )
     companion object {
+        @RequiresApi(Build.VERSION_CODES.O)
         val EMPTY = Vehicle(
             model = "",
             registration = "",
-            tplInsuranceExpiry = "",
+            tplInsuranceExpiry = LocalDate.MIN,
             collisionInsuranceExpiry = null,
-            nextInspectionDate = "",
+            nextInspectionDate = LocalDate.MIN,
         )
     }
 }

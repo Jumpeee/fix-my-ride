@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -32,7 +33,7 @@ import io.fixmyride.ui.theme.Typing
 fun InfoDialog(
     headline: String,
     description: String,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     Dialog(onDismissRequest = { onDismiss() }) {
         Surface(
@@ -55,6 +56,7 @@ fun InfoDialog(
                         tint = ColorPalette.lightRed,
                         modifier = Modifier
                             .size(18.dp)
+                            .clip(RoundedCornerShape(100))
                             .clickable { onDismiss() }
                     )
                 }

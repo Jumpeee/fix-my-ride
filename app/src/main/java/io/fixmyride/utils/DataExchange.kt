@@ -17,7 +17,6 @@ object DataExchange {
     /** Used for importing data from previously exported file */
     suspend fun importData() {
         // TODO
-        val gson = Gson()
     }
 
     /** Used for exporting data to a file */
@@ -25,9 +24,8 @@ object DataExchange {
     suspend fun exportData() {
         val vehicleData = DatabaseManager.getInstance().dao.getData()
         val gson = Gson()
-        val extStorage = Environment.getExternalStorageDirectory()
         val fileName = "FixMyRide_${LocalDate.now()}.json"
-        val file = File(extStorage, fileName)
+        val file = File("${Environment.getExternalStorageDirectory()}/${File.separator}$fileName")
 
         try {
             val dataToConvert = mutableListOf<Map<String, Any?>>()
@@ -35,6 +33,9 @@ object DataExchange {
             val json = gson.toJson(dataToConvert)
 
             withContext(Dispatchers.IO) {
+                if (!file.exists()) {
+                    file.createNewFile()
+                }
                 val fos = FileOutputStream(file)
                 fos.write(json.toByteArray())
                 fos.close()

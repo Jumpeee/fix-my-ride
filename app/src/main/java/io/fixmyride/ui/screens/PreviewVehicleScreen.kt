@@ -1,5 +1,7 @@
 package io.fixmyride.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -19,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
+import io.fixmyride.database.DateConverter
 import io.fixmyride.database.DatabaseManager
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
@@ -27,6 +30,7 @@ import io.fixmyride.ui.components.previewvehicle.DataDisplayField
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PreviewVehicleScreen(
     navCtrl: NavController,
@@ -62,7 +66,7 @@ fun PreviewVehicleScreen(
             )
             DataDisplayField(
                 caption = stringResource(R.string.tpl_insurance_expiry_date),
-                value = vehicle.value.tplInsuranceExpiry,
+                value = DateConverter.fromLocalDate(vehicle.value.tplInsuranceExpiry),
                 infoHeadline = stringResource(R.string.tpl_insurance),
                 infoDescription = stringResource(R.string.tpl_insurance_desc),
                 isDate = true,
@@ -71,7 +75,7 @@ fun PreviewVehicleScreen(
                 caption = stringResource(R.string.ci_expiry_date),
                 value = when (vehicle.value.collisionInsuranceExpiry) {
                     null -> stringResource(R.string.empty)
-                    else -> vehicle.value.collisionInsuranceExpiry!!
+                    else -> DateConverter.fromLocalDate(vehicle.value.collisionInsuranceExpiry!!)
                 },
                 infoHeadline = stringResource(R.string.ci),
                 infoDescription = stringResource(R.string.ci_insurance_desc),
@@ -80,7 +84,7 @@ fun PreviewVehicleScreen(
 
             DataDisplayField(
                 caption = stringResource(R.string.next_inspection_date),
-                value = vehicle.value.nextInspectionDate,
+                value = DateConverter.fromLocalDate(vehicle.value.nextInspectionDate),
                 isDate = true,
                 showHint = false,
             )

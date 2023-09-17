@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
+import io.fixmyride.database.DateConverter
 import io.fixmyride.database.DatabaseManager
 import io.fixmyride.enums.Decision
 import io.fixmyride.models.Vehicle
@@ -59,9 +60,12 @@ fun EditVehicleScreen(
 
         model.value = vehicle.model
         registration.value = vehicle.registration
-        tplInsurance.value = vehicle.tplInsuranceExpiry
-        collisionInsurance.value = vehicle.collisionInsuranceExpiry
-        nextInspectionDate.value = vehicle.nextInspectionDate
+        tplInsurance.value = DateConverter.fromLocalDate(vehicle.tplInsuranceExpiry)
+        collisionInsurance.value = when (vehicle.collisionInsuranceExpiry) {
+            null -> null
+            else -> DateConverter.fromLocalDate(vehicle.collisionInsuranceExpiry)
+        }
+        nextInspectionDate.value = DateConverter.fromLocalDate(vehicle.nextInspectionDate)
     }
 
     Surface(
@@ -162,9 +166,12 @@ fun EditVehicleScreen(
                         vehicleId,
                         model.value,
                         registration.value,
-                        tplInsurance.value,
-                        collisionInsurance.value,
-                        nextInspectionDate.value
+                        DateConverter.toLocalDate(tplInsurance.value),
+                        when (collisionInsurance.value) {
+                            null -> null
+                            else -> DateConverter.toLocalDate(collisionInsurance.value!!)
+                        },
+                        DateConverter.toLocalDate(nextInspectionDate.value),
                     )
                 )
             }

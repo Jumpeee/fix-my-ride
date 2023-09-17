@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
+import io.fixmyride.database.DateConverter
 import io.fixmyride.database.DatabaseManager
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
@@ -144,9 +145,12 @@ fun AddVehicleScreen(navCtrl: NavController) {
                     Vehicle(
                         model = model.value,
                         registration = registration.value,
-                        tplInsuranceExpiry = tplInsurance.value,
-                        collisionInsuranceExpiry = collisionInsurance.value,
-                        nextInspectionDate = nextInspectionDate.value,
+                        tplInsuranceExpiry = DateConverter.toLocalDate(tplInsurance.value),
+                        collisionInsuranceExpiry = when (collisionInsurance.value) {
+                            null -> null
+                            else -> DateConverter.toLocalDate(collisionInsurance.value!!)
+                        },
+                        nextInspectionDate = DateConverter.toLocalDate(nextInspectionDate.value),
                     )
                 )
             }

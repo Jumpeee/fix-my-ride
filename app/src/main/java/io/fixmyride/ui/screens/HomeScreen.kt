@@ -61,34 +61,35 @@ fun HomeScreen(navCtrl: NavController) {
             Spacer(Modifier.height(20.dp))
 
             val coroutineScope = rememberCoroutineScope()
-            VehicleList(navCtrl, vehicles.value) {
+            VehicleList(navCtrl, vehicles.value) { st ->
                 val db = DatabaseManager.getInstance().dao
-                when (it) {
+                when (st) {
                     SortType.MODEL -> {
                         coroutineScope.launch {
                             vehicles.value = db.getVehiclesOrderedByModel()
                         }
                     }
+
                     SortType.REGISTRATION -> {
                         coroutineScope.launch {
                             vehicles.value = db.getVehiclesOrderedByRegistration()
                         }
                     }
+
                     SortType.TPL_INSURANCE -> {
                         coroutineScope.launch {
-                            // TODO order by TPL_INSURANCE
                             vehicles.value = db.getVehiclesOrderedByTPLInsurance()
                         }
                     }
+
                     SortType.COLLISION_INSURANCE -> {
                         coroutineScope.launch {
-                            // TODO order by COLLISION_INSURANCE
                             vehicles.value = db.getVehiclesOrderedByCIInsurance()
                         }
                     }
+
                     SortType.NEXT_INSPECTION_DATE -> {
                         coroutineScope.launch {
-                            // TODO order by NEXT_INSPECTION_DATE
                             vehicles.value = db.getVehiclesOrderedByNextInspectionDate()
                         }
                     }
