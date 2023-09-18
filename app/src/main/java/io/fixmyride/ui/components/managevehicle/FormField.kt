@@ -55,12 +55,8 @@ fun FormField(
         Spacer(Modifier.height(20.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Canvas(modifier = Modifier.size(10.dp)) {
-                drawCircle(color = ColorPalette.primary)
-            }
-
+            Canvas(Modifier.size(10.dp)) { drawCircle(color = ColorPalette.primary) }
             Spacer(Modifier.width(5.dp))
-
             Text(
                 caption,
                 style = Typing.subheading,

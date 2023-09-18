@@ -158,4 +158,21 @@ object Typing {
         fontSize = 16.sp,
         lineHeight = 22.sp,
     )
+
+    /** Used for value boxes in settings */
+    val selectedValueBoxText = TextStyle(
+        color = ColorPalette.background,
+        fontFamily = customFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        lineHeight = 22.sp,
+    )
+
+    val unselectedValueBoxText = TextStyle(
+        color = ColorPalette.secondary,
+        fontFamily = customFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        lineHeight = 22.sp,
+    )
 }

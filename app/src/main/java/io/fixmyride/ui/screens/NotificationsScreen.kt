@@ -40,9 +40,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun NotificationsScreen(
-    navCtrl: NavController,
-) {
+fun NotificationsScreen(navCtrl: NavController) {
     val notifications = remember { mutableStateOf<List<Notification>>(emptyList()) }
     LaunchedEffect(Unit) {
         val db = DatabaseManager.getInstance().dao

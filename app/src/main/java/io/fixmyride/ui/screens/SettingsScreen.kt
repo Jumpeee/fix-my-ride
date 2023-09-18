@@ -3,10 +3,12 @@ package io.fixmyride.ui.screens
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,19 +24,24 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.UniversalHeader
+import io.fixmyride.ui.components.dialogs.SingleValueDialog
 import io.fixmyride.ui.components.settings.Option
 import io.fixmyride.ui.components.settings.OptionButton
+import io.fixmyride.ui.components.settings.ValueBox
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
@@ -56,17 +63,15 @@ fun SettingsScreen(navCtrl: NavController) {
             modifier = Modifier.verticalScroll(scrollState),
         ) {
             Spacer(Modifier.height(Measurements.screenPadding))
-
             UniversalHeader(
                 caption = stringResource(R.string.settings),
                 navCtrl = navCtrl,
             )
 
             AllOptions()
-
             Spacer(Modifier.height(20.dp))
-            AuthorInfo()
 
+            AuthorInfo()
             Spacer(Modifier.height(100.dp))
         }
 
@@ -77,6 +82,7 @@ fun SettingsScreen(navCtrl: NavController) {
             scrollState = null,
         ) {
             // TODO saving settings
+            navCtrl.popBackStack()
         }
     }
 }
@@ -84,13 +90,56 @@ fun SettingsScreen(navCtrl: NavController) {
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
 private fun AllOptions() {
-    val ctx = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     Option(
         icon = Icons.Rounded.Email,
         name = stringResource(R.string.notifications),
         description = stringResource(R.string.settings_notifications_desc),
-    ) { /* TODO make days input */ }
+    ) {
+        Column {
+            Spacer(Modifier.height(10.dp))
+            val selectedIndex = remember { mutableIntStateOf(0) }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                ValueBox(
+                    isSelected = selectedIndex.intValue == 0,
+                    value = "7",
+                ) {
+                    selectedIndex.intValue = 0
+                }
+
+                ValueBox(
+                    isSelected = selectedIndex.intValue == 1,
+                    value = "14",
+                ) {
+                    selectedIndex.intValue = 1
+                }
+
+                val showSingleValueDialog = remember { mutableStateOf(false) }
+                ValueBox(
+                    isSelected = selectedIndex.intValue == 2,
+                    value = ". . ."
+                ) {
+                    selectedIndex.intValue = 2
+                    if (it == null) {
+                        showSingleValueDialog.value = true
+                    }
+                }
+
+                if (showSingleValueDialog.value) {
+                    SingleValueDialog(
+                        headline = stringResource(R.string.number_of_days),
+                        placeholderText = stringResource(R.string.number_of_days),
+                        keyboardType = KeyboardType.Number,
+                    ) {
+
+                    }
+                }
+            }
+        }
+    }
 
     OptionButton(
         icon = Icons.Rounded.ArrowForward,
@@ -107,12 +156,9 @@ private fun AllOptions() {
         description = stringResource(R.string.export_data_to_a_file),
         iconRotate = 90f,
     ) {
-
         coroutineScope.launch {
             DataExchange.exportData()
         }
-
-
     }
 }
 
