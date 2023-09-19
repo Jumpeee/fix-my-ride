@@ -46,7 +46,7 @@ fun SingleValueDialog(
     keyboardType: KeyboardType = KeyboardType.Text,
     onDismiss: (String?) -> Unit,
 ) {
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+    Dialog(onDismissRequest = { onDismiss(null) }) {
         Surface(
             shape = Measurements.roundedShape,
             color = ColorPalette.background,
@@ -72,11 +72,12 @@ fun SingleValueDialog(
                             .clickable { onDismiss(null) },
                     )
                 }
+                Spacer(Modifier.height(10.dp))
 
                 val inputValue = remember { mutableStateOf("") }
                 TextField(
                     value = inputValue.value,
-                    onValueChange = { inputValue.value = it },
+                    onValueChange = { inputValue.value = it.replace(Regex("\\D+"), "") },
                     textStyle = Typing.textFieldText,
                     maxLines = 1,
                     shape = Measurements.roundedShape,

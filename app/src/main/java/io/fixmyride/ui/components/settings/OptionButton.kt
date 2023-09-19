@@ -45,7 +45,6 @@ fun OptionButton(
                     icon,
                     name,
                     description,
-                    iconRotate,
                     isExpanded.value,
                 )
             }

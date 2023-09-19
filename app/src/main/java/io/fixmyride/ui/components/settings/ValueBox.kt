@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
 
@@ -56,7 +58,7 @@ fun ValueBox(
     ) {
         Text(
             text = when (isValueNumber) {
-                true -> "$value days"
+                true -> "$value ${stringResource(R.string.days)}"
                 false -> value
             },
             style = when (isSelected) {

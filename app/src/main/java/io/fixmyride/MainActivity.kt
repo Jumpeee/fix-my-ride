@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import io.fixmyride.database.DatabaseManager
+import io.fixmyride.database.PrefsManager
 import io.fixmyride.ui.screens.AddVehicleScreen
 import io.fixmyride.ui.screens.EditVehicleScreen
 import io.fixmyride.ui.screens.HomeScreen
@@ -32,6 +33,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DatabaseManager.initialize(this)
+        PrefsManager.initialize(this)
         setContent {
             FixMyRideTheme {
                 Surface(

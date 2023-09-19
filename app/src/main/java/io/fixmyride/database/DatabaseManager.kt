@@ -13,7 +13,5 @@ object DatabaseManager {
         ).fallbackToDestructiveMigration().build()
     }
 
-    fun getInstance(): Database {
-        return database
-    }
+    fun getInstance(): Database = database
 }

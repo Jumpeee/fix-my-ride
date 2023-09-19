@@ -57,4 +57,5 @@
     <string name="by_collision_insurance">Według AC</string>
     <string name="by_inspection_date">Według daty przeglądu</string>
     <string name="number_of_days">Ilość dni</string>
+    <string name="days">dni</string>
 </resources>

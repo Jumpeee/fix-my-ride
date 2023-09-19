@@ -81,7 +81,6 @@ fun CustomDatePickerDialog(onDismiss: (LocalDate?) -> Unit) {
                             .clickable { onDismiss(null) },
                     )
                 }
-
                 Spacer(Modifier.height(10.dp))
 
                 Row(

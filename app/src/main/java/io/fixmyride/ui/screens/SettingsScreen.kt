@@ -2,7 +2,6 @@ package io.fixmyride.ui.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,18 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Email
-import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -30,23 +24,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
-import io.fixmyride.ui.components.FloatingButton
+import io.fixmyride.database.PrefsManager
 import io.fixmyride.ui.components.UniversalHeader
 import io.fixmyride.ui.components.dialogs.SingleValueDialog
+import io.fixmyride.ui.components.notifications.AuthorInfo
 import io.fixmyride.ui.components.settings.Option
 import io.fixmyride.ui.components.settings.OptionButton
 import io.fixmyride.ui.components.settings.ValueBox
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
-import io.fixmyride.ui.theme.Typing
 import io.fixmyride.utils.DataExchange
 import kotlinx.coroutines.launch
+
 
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
@@ -74,16 +68,6 @@ fun SettingsScreen(navCtrl: NavController) {
             AuthorInfo()
             Spacer(Modifier.height(100.dp))
         }
-
-        FloatingButton(
-            color = ColorPalette.primary,
-            icon = Icons.Rounded.Done,
-            alignment = Alignment.BottomEnd,
-            scrollState = null,
-        ) {
-            // TODO saving settings
-            navCtrl.popBackStack()
-        }
     }
 }
 
@@ -95,7 +79,9 @@ private fun AllOptions() {
         icon = Icons.Rounded.Email,
         name = stringResource(R.string.notifications),
         description = stringResource(R.string.settings_notifications_desc),
+        onClickSwitch = {},
     ) {
+        val prefs = PrefsManager.getInstance()
         Column {
             Spacer(Modifier.height(10.dp))
             val selectedIndex = remember { mutableIntStateOf(0) }
@@ -108,6 +94,7 @@ private fun AllOptions() {
                     value = "7",
                 ) {
                     selectedIndex.intValue = 0
+                    prefs.edit().putInt("notifications_days", it!!).apply()
                 }
 
                 ValueBox(
@@ -115,16 +102,18 @@ private fun AllOptions() {
                     value = "14",
                 ) {
                     selectedIndex.intValue = 1
+                    prefs.edit().putInt("notifications_days", it!!).apply()
                 }
 
                 val showSingleValueDialog = remember { mutableStateOf(false) }
+                val customBoxCaption = remember { mutableStateOf(". . .") }
                 ValueBox(
                     isSelected = selectedIndex.intValue == 2,
-                    value = ". . ."
+                    value = customBoxCaption.value,
                 ) {
-                    selectedIndex.intValue = 2
+                    showSingleValueDialog.value = true
                     if (it == null) {
-                        showSingleValueDialog.value = true
+                        selectedIndex.intValue = 2
                     }
                 }
 
@@ -134,7 +123,15 @@ private fun AllOptions() {
                         placeholderText = stringResource(R.string.number_of_days),
                         keyboardType = KeyboardType.Number,
                     ) {
-
+                        showSingleValueDialog.value = false
+                        if (it == null) {
+                            selectedIndex.intValue = 0
+                            prefs.edit().putInt("notifications_days", 7).apply()
+                            customBoxCaption.value = ". . ."
+                        } else {
+                            prefs.edit().putInt("notifications_days", Integer.parseInt(it)).apply()
+                            customBoxCaption.value = "$it"
+                        }
                     }
                 }
             }
@@ -159,26 +156,5 @@ private fun AllOptions() {
         coroutineScope.launch {
             DataExchange.exportData()
         }
-    }
-}
-
-@Composable
-private fun AuthorInfo() {
-    val uriOpener = LocalUriHandler.current
-
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            stringResource(R.string.made_by),
-            style = Typing.descriptionBody,
-        )
-        Text(" Jumpee ",
-            style = Typing.descriptionBody.copy(color = ColorPalette.primary),
-            modifier = Modifier.clickable { uriOpener.openUri("https://github.com/Jumpeee") })
-        Icon(
-            Icons.Rounded.Favorite,
-            contentDescription = "Heart",
-            tint = ColorPalette.lightRed,
-            modifier = Modifier.size(14.dp),
-        )
     }
 }

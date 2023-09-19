@@ -25,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,7 +39,7 @@ fun Option(
     icon: ImageVector,
     name: String,
     description: String,
-    iconRotate: Float = 0f,
+    onClickSwitch: (Boolean) -> Unit,
     content: @Composable () -> Unit,
 ) {
     Column {
@@ -52,11 +51,14 @@ fun Option(
                 icon,
                 name,
                 description,
-                iconRotate,
                 isExpanded.value,
             )
 
-            SwitchAndExpand(isExpanded.value) { isExpanded.value = !isExpanded.value }
+            SwitchAndExpand(
+                isExpanded = isExpanded.value,
+                onClickSwitch = { onClickSwitch(it) },
+                onClickExpand = { isExpanded.value = !isExpanded.value },
+            )
         }
         AnimatedVisibility(
             visible = isExpanded.value,
@@ -73,7 +75,6 @@ internal fun IconAndOptionName(
     icon: ImageVector,
     name: String,
     description: String,
-    iconRotate: Float,
     isExpanded: Boolean,
 ) {
     Box(
@@ -94,7 +95,6 @@ internal fun IconAndOptionName(
                     tint = ColorPalette.background,
                     modifier = Modifier
                         .padding(8.dp)
-                        .rotate(iconRotate),
                 )
             }
 
@@ -123,11 +123,10 @@ internal fun IconAndOptionName(
 @Composable
 private fun SwitchAndExpand(
     isExpanded: Boolean,
+    onClickSwitch: (Boolean) -> Unit,
     onClickExpand: () -> Unit,
 ) {
-    // TODO synchronize it with real settings
     val borderRadius = RoundedCornerShape(5.dp)
-
     val isEnabled = remember { mutableStateOf(false) }
     Box(
         contentAlignment = Alignment.TopEnd,
@@ -146,7 +145,10 @@ private fun SwitchAndExpand(
                     )
                     .clip(borderRadius)
                     .animateContentSize()
-                    .clickable { isEnabled.value = !isEnabled.value },
+                    .clickable {
+                        isEnabled.value = !isEnabled.value
+                        onClickSwitch(isEnabled.value)
+                    },
             ) {
                 Text(
                     text = when (isEnabled.value) {
