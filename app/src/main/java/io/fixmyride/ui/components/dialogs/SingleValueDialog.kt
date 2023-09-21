@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -27,9 +27,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -43,7 +43,6 @@ import io.fixmyride.ui.theme.Typing
 fun SingleValueDialog(
     headline: String,
     placeholderText: String,
-    keyboardType: KeyboardType = KeyboardType.Text,
     onDismiss: (String?) -> Unit,
 ) {
     Dialog(onDismissRequest = { onDismiss(null) }) {
@@ -69,6 +68,7 @@ fun SingleValueDialog(
                         tint = ColorPalette.lightRed,
                         modifier = Modifier
                             .size(18.dp)
+                            .clip(RoundedCornerShape(100))
                             .clickable { onDismiss(null) },
                     )
                 }
@@ -77,11 +77,18 @@ fun SingleValueDialog(
                 val inputValue = remember { mutableStateOf("") }
                 TextField(
                     value = inputValue.value,
-                    onValueChange = { inputValue.value = it.replace(Regex("\\D+"), "") },
+                    onValueChange = {
+                        if (it.length > 3) return@TextField
+                        val formattedValue = it.replace(Regex("\\D+"), "")
+                        if (it.isNotEmpty() && Integer.parseInt(formattedValue) > 365) {
+                            inputValue.value = "365"
+                        } else {
+                            inputValue.value = formattedValue
+                        }
+                    },
                     textStyle = Typing.textFieldText,
-                    maxLines = 1,
+                    singleLine = true,
                     shape = Measurements.roundedShape,
-                    keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = ColorPalette.tertiary,
                         focusedIndicatorColor = Color.Transparent,
@@ -114,12 +121,13 @@ fun SingleValueDialog(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .clip(Measurements.roundedShape)
                         .background(
                             color = ColorPalette.primary,
                             shape = Measurements.roundedShape,
                         )
                         .clickable(onClickLabel = "Save value") {
-                            if (inputValue.value.isBlank()) {
+                            if (inputValue.value.isBlank() || inputValue.value.matches(Regex("^0+\$"))) {
                                 onDismiss(null)
                             } else {
                                 onDismiss(inputValue.value)

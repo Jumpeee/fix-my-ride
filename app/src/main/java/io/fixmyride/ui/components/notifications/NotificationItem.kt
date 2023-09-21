@@ -80,7 +80,6 @@ fun NotificationItem(notification: Notification) {
 
                     Spacer(Modifier.height(10.dp))
 
-                    // TODO related vehicle
                     Text(
                         "08-19-2023",
                         style = Typing.descriptionBody,

@@ -7,7 +7,7 @@ import io.fixmyride.models.Notification
 import io.fixmyride.models.Vehicle
 
 @Database(
-    version = 2,
+    version = 1,
     entities = [
         Vehicle::class,
         Notification::class,

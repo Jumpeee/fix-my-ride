@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.ui.theme.ColorPalette
@@ -30,6 +31,7 @@ fun UniversalHeader(caption: String, navCtrl: NavController) {
             contentDescription = "Go back to previous page",
             tint = ColorPalette.background,
             modifier = Modifier
+                .clip(RoundedCornerShape(100))
                 .background(
                     color = ColorPalette.secondary,
                     shape = RoundedCornerShape(100),

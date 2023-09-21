@@ -18,6 +18,7 @@ import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,7 +26,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
@@ -107,6 +107,18 @@ private fun AllOptions() {
 
                 val showSingleValueDialog = remember { mutableStateOf(false) }
                 val customBoxCaption = remember { mutableStateOf(". . .") }
+                val daysString = stringResource(R.string.days)
+                LaunchedEffect(Unit) {
+                    when (val daysFromPrefs = prefs.getInt("notifications_days", -1)) {
+                        7 -> selectedIndex.intValue = 0
+                        14 -> selectedIndex.intValue = 1
+                        else -> {
+                            selectedIndex.intValue = 2
+                            customBoxCaption.value = "$daysFromPrefs $daysString"
+                        }
+                    }
+                }
+
                 ValueBox(
                     isSelected = selectedIndex.intValue == 2,
                     value = customBoxCaption.value,
@@ -121,7 +133,6 @@ private fun AllOptions() {
                     SingleValueDialog(
                         headline = stringResource(R.string.number_of_days),
                         placeholderText = stringResource(R.string.number_of_days),
-                        keyboardType = KeyboardType.Number,
                     ) {
                         showSingleValueDialog.value = false
                         if (it == null) {

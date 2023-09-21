@@ -6,8 +6,8 @@ import android.content.SharedPreferences
 /** Provides access to SharedPreferences in a more convenient way.
  *
  * List of all keys:
- * - "notifications_days"
  * - "notifications_enabled"
+ * - "notifications_days"
  * */
 object PrefsManager {
     private lateinit var prefs: SharedPreferences
