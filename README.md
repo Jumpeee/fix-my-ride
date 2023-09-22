@@ -31,9 +31,10 @@ Mobile application designed to help you keep track of important vehicle details 
 
 - When the app is ready to install, go to downloaded files and select the APK file.
 
-- Follow the steps shown on your screen.
+- Follow steps shown on your screen.
 
 
 ## License
 
 App is licensed under **GNU General Public License v3.0** which can be found [here](https://github.com/Jumpeee/fix-my-ride/blob/main/LICENSE).
+

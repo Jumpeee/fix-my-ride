@@ -75,13 +75,15 @@ fun SettingsScreen(navCtrl: NavController) {
 @Composable
 private fun AllOptions() {
     val coroutineScope = rememberCoroutineScope()
+    val prefs = PrefsManager.getInstance()
     Option(
         icon = Icons.Rounded.Email,
         name = stringResource(R.string.notifications),
         description = stringResource(R.string.settings_notifications_desc),
-        onClickSwitch = {},
+        onClickSwitch = {
+            prefs.edit().putBoolean("notifications_enabled", it).apply()
+        },
     ) {
-        val prefs = PrefsManager.getInstance()
         Column {
             Spacer(Modifier.height(10.dp))
             val selectedIndex = remember { mutableIntStateOf(0) }
@@ -112,6 +114,11 @@ private fun AllOptions() {
                     when (val daysFromPrefs = prefs.getInt("notifications_days", -1)) {
                         7 -> selectedIndex.intValue = 0
                         14 -> selectedIndex.intValue = 1
+                        -1 -> {
+                            prefs.edit().putInt("notifications_days", 7).apply()
+                            selectedIndex.intValue = 0
+                        }
+
                         else -> {
                             selectedIndex.intValue = 2
                             customBoxCaption.value = "$daysFromPrefs $daysString"

@@ -1,4 +1,4 @@
-package io.fixmyride.ui.components.settings
+package io.fixmyride.ui.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState

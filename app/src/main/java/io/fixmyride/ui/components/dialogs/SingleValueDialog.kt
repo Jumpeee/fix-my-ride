@@ -78,7 +78,7 @@ fun SingleValueDialog(
                 TextField(
                     value = inputValue.value,
                     onValueChange = {
-                        if (it.length > 3) return@TextField
+                        if (it.length > 3 || it.contains(" ")) return@TextField
                         val formattedValue = it.replace(Regex("\\D+"), "")
                         if (it.isNotEmpty() && Integer.parseInt(formattedValue) > 365) {
                             inputValue.value = "365"

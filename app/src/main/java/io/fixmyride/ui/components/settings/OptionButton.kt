@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import io.fixmyride.ui.components.ExpandButton
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
 
@@ -45,9 +46,11 @@ fun OptionButton(
                     icon,
                     name,
                     description,
+                    iconRotate,
                     isExpanded.value,
                 )
             }
+
             Box(
                 contentAlignment = Alignment.TopEnd,
                 modifier = Modifier.fillMaxSize(),
@@ -91,9 +94,8 @@ private fun ButtonAndExpand(
                     ),
             )
         }
-
         Spacer(Modifier.width(10.dp))
-
+        
         ExpandButton(isExpanded) { onClickExpand() }
     }
 }

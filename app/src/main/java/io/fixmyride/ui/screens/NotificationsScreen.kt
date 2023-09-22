@@ -1,5 +1,7 @@
 package io.fixmyride.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -7,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material3.Surface
@@ -24,37 +25,31 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.database.DatabaseManager
-import io.fixmyride.enums.Decision
 import io.fixmyride.models.Notification
 import io.fixmyride.ui.components.EmptyPageIndicator
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.ResultsBar
 import io.fixmyride.ui.components.UniversalHeader
-import io.fixmyride.ui.components.dialogs.DecisionDialog
 import io.fixmyride.ui.components.notifications.NotificationItem
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NotificationsScreen(navCtrl: NavController) {
     val notifications = remember { mutableStateOf<List<Notification>>(emptyList()) }
     LaunchedEffect(Unit) {
         val db = DatabaseManager.getInstance().dao
-        val coroutine = CoroutineScope(Dispatchers.Default)
-        coroutine.launch { notifications.value = db.getNotifications() }
+        // TODO get notifications
     }
 
     val scrollState = rememberScrollState()
-    val showDeleteNotificationsDialog = remember { mutableStateOf(false) }
     Surface(
         color = ColorPalette.background,
         modifier = Modifier.padding(horizontal = Measurements.screenPadding),
     ) {
-
         Column(
             modifier = when (notifications.value.size) {
                 0 -> Modifier
@@ -93,7 +88,8 @@ fun NotificationsScreen(navCtrl: NavController) {
     ) {
         coroutineScope.launch {
             scrollState.animateScrollTo(
-                0, animationSpec = Measurements.scrollAnimation(duration = 1000)
+                value = 0,
+                animationSpec = Measurements.scrollAnimation(duration = 1000),
             )
         }
     }
@@ -104,29 +100,4 @@ fun NotificationsScreen(navCtrl: NavController) {
         animationSpec = Measurements.scrollAnimation(delay = 250),
         scrollState = scrollState,
     )
-
-    FloatingButton(
-        color = ColorPalette.lightRed,
-        icon = Icons.Rounded.Delete,
-        alignment = Alignment.BottomStart,
-        animationSpec = Measurements.scrollAnimation(delay = 125),
-        scrollState = scrollState,
-    ) { showDeleteNotificationsDialog.value = true }
-
-    if (showDeleteNotificationsDialog.value) {
-        DecisionDialog(
-            headline = stringResource(R.string.delete_notifications_headline),
-            description = stringResource(R.string.delete_notifications_description),
-        ) {
-            if (it == Decision.YES) {
-                val db = DatabaseManager.getInstance().dao
-                val coroutine = CoroutineScope(Dispatchers.Default)
-                coroutine.launch {
-                    db.deleteNotifications()
-                    notifications.value = emptyList()
-                }
-            }
-            showDeleteNotificationsDialog.value = false
-        }
-    }
 }

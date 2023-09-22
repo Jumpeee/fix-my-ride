@@ -28,7 +28,10 @@ import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
 
 @Composable
-fun VehicleItem(navCtrl: NavController, vehicle: Vehicle) {
+fun VehicleItem(
+    navCtrl: NavController,
+    vehicle: Vehicle,
+) {
     Box(Modifier.padding(top = 20.dp)) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -76,7 +79,6 @@ private fun Info(vehicle: Vehicle) {
                     .size(24.dp),
             )
         }
-
         Spacer(Modifier.width(10.dp))
 
         Column {

@@ -25,11 +25,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.fixmyride.R
+import io.fixmyride.ui.components.ExpandButton
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
@@ -51,6 +53,7 @@ fun Option(
                 icon,
                 name,
                 description,
+                0f,
                 isExpanded.value,
             )
 
@@ -75,6 +78,7 @@ internal fun IconAndOptionName(
     icon: ImageVector,
     name: String,
     description: String,
+    rotate: Float,
     isExpanded: Boolean,
 ) {
     Box(
@@ -95,6 +99,7 @@ internal fun IconAndOptionName(
                     tint = ColorPalette.background,
                     modifier = Modifier
                         .padding(8.dp)
+                        .rotate(rotate),
                 )
             }
 

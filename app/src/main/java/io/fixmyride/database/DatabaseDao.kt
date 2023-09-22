@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
-import io.fixmyride.models.Notification
 import io.fixmyride.models.Vehicle
 
 @Dao
@@ -42,10 +41,4 @@ interface DatabaseDao {
 
     @Query("SELECT * FROM vehicle WHERE id = :id")
     suspend fun getVehicleById(id: Int): Vehicle
-
-    @Query("SELECT * FROM notification")
-    suspend fun getNotifications(): List<Notification>
-
-    @Query("DELETE FROM notification")
-    suspend fun deleteNotifications()
 }
