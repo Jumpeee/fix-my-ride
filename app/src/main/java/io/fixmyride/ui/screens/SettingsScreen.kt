@@ -80,9 +80,6 @@ private fun AllOptions() {
         icon = Icons.Rounded.Email,
         name = stringResource(R.string.notifications),
         description = stringResource(R.string.settings_notifications_desc),
-        onClickSwitch = {
-            prefs.edit().putBoolean("notifications_enabled", it).apply()
-        },
     ) {
         Column {
             Spacer(Modifier.height(10.dp))

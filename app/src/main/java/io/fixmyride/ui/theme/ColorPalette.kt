@@ -12,6 +12,6 @@ object ColorPalette {
     val lightRed = Color(0xFFFF7B60)
     val green = Color(0xFF01DB4B)
     val blue = Color(0xFF03A9F4)
-    val yellow = Color(0xFFFF9800)
+    val yellow = Color(0xFFFFC107)
 }
 

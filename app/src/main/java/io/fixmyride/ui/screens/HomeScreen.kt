@@ -99,7 +99,7 @@ fun HomeScreen(navCtrl: NavController) {
         }
 
         ResultsBar(
-            results = 25,
+            results = vehicles.value.size,
             alignment = Alignment.BottomStart,
             animationSpec = Measurements.scrollAnimation(delay = 125),
             scrollState = scrollState,
@@ -119,6 +119,5 @@ fun HomeScreen(navCtrl: NavController) {
                 )
             }
         }
-
     }
 }

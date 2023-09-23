@@ -7,7 +7,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,13 +22,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import io.fixmyride.R
 import io.fixmyride.ui.components.ExpandButton
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
@@ -41,14 +36,13 @@ fun Option(
     icon: ImageVector,
     name: String,
     description: String,
-    onClickSwitch: (Boolean) -> Unit,
     content: @Composable () -> Unit,
 ) {
     Column {
         Spacer(Modifier.height(30.dp))
 
         val isExpanded = remember { mutableStateOf(false) }
-        Box {
+        Box(contentAlignment = Alignment.TopEnd) {
             IconAndOptionName(
                 icon,
                 name,
@@ -57,11 +51,9 @@ fun Option(
                 isExpanded.value,
             )
 
-            SwitchAndExpand(
-                isExpanded = isExpanded.value,
-                onClickSwitch = { onClickSwitch(it) },
-                onClickExpand = { isExpanded.value = !isExpanded.value },
-            )
+            ExpandButton(isExpanded.value) {
+                isExpanded.value = !isExpanded.value
+            }
         }
         AnimatedVisibility(
             visible = isExpanded.value,
@@ -123,59 +115,6 @@ internal fun IconAndOptionName(
             }
         }
     }
-}
-
-@Composable
-private fun SwitchAndExpand(
-    isExpanded: Boolean,
-    onClickSwitch: (Boolean) -> Unit,
-    onClickExpand: () -> Unit,
-) {
-    val borderRadius = RoundedCornerShape(5.dp)
-    val isEnabled = remember { mutableStateOf(false) }
-    Box(
-        contentAlignment = Alignment.TopEnd,
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        Row {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .background(
-                        color = when (isEnabled.value) {
-                            true -> ColorPalette.green.copy(alpha = 0.1f)
-                            else -> ColorPalette.lightRed.copy(alpha = 0.1f)
-                        },
-                        shape = borderRadius,
-                    )
-                    .clip(borderRadius)
-                    .animateContentSize()
-                    .clickable {
-                        isEnabled.value = !isEnabled.value
-                        onClickSwitch(isEnabled.value)
-                    },
-            ) {
-                Text(
-                    text = when (isEnabled.value) {
-                        true -> stringResource(R.string.enabled)
-                        else -> stringResource(R.string.disabled)
-                    },
-                    style = when (isEnabled.value) {
-                        true -> Typing.enabled
-                        else -> Typing.disabled
-                    },
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 5.dp,
-                            vertical = 2.dp,
-                        ),
-                )
-            }
-            Spacer(Modifier.width(10.dp))
-            ExpandButton(isExpanded) { onClickExpand() }
-        }
-    }
-
 }
 
 

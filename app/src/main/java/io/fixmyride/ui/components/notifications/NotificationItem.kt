@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +22,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.fixmyride.R
 import io.fixmyride.database.DatabaseManager
@@ -70,17 +73,62 @@ fun NotificationItem(notification: Notification) {
 
                 Column {
                     Text(
-                        "Volvo XC40",
+                        text = when {
+                            vehicle.value.model.length > 12 -> {
+                                vehicle.value.model
+                                    .substring(0, 11)
+                                    .trim() + "..."
+                            }
+
+                            else -> vehicle.value.model
+                        },
+                        maxLines = 1,
                         style = Typing.subheading,
                     )
                     Text(
-                        "XDR 1238",
+                        vehicle.value.registration,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         style = Typing.descriptionBody,
                     )
                 }
-            }
 
-            ExpandButton(isExpanded.value) { isExpanded.value = !isExpanded.value }
+            }
+            WarningsAndExpand(notification.expirations.size, isExpanded.value) {
+                isExpanded.value = !isExpanded.value
+            }
         }
+    }
+}
+
+@Composable
+fun WarningsAndExpand(
+    warnings: Int,
+    expanded: Boolean,
+    onClickExpand: () -> Unit,
+) {
+    Row {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .background(
+                    color = ColorPalette.yellow.copy(alpha = 0.1f),
+                    shape = RoundedCornerShape(5.dp),
+                )
+                .clip(RoundedCornerShape(5.dp))
+        ) {
+            Text(
+                text = "$warnings warnings",
+                style = Typing.warningText,
+                modifier = Modifier
+                    .padding(
+                        horizontal = 5.dp,
+                        vertical = 2.dp,
+                    ),
+            )
+        }
+        Spacer(Modifier.width(10.dp))
+
+        ExpandButton(expanded) { onClickExpand() }
     }
 }

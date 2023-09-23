@@ -34,6 +34,7 @@ import io.fixmyride.ui.components.notifications.NotificationItem
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
 import io.fixmyride.ui.theme.Typing
+import io.fixmyride.utils.NotificationChecker
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -41,8 +42,22 @@ import kotlinx.coroutines.launch
 fun NotificationsScreen(navCtrl: NavController) {
     val notifications = remember { mutableStateOf<List<Notification>>(emptyList()) }
     LaunchedEffect(Unit) {
-        val db = DatabaseManager.getInstance().dao
-        // TODO get notifications
+        val allVehicles = DatabaseManager.getInstance().dao.getVehicles()
+        val tempNotifications = mutableListOf<Notification>()
+
+        for (v in allVehicles) {
+            val expirations = NotificationChecker.checkForNotifications(v)
+            if (expirations.isNotEmpty()) {
+                tempNotifications.add(
+                    Notification(
+                        v.id,
+                        expirations,
+                    ),
+                )
+            }
+        }
+
+        notifications.value = tempNotifications
     }
 
     val scrollState = rememberScrollState()
@@ -72,32 +87,39 @@ fun NotificationsScreen(navCtrl: NavController) {
                     iconColor = ColorPalette.secondary,
                 )
 
-                else -> for (n in notifications.value) NotificationItem(n)
+                else -> {
+                    for (n in notifications.value) {
+                        if (n.expirations.isNotEmpty()) {
+                            NotificationItem(n)
+                        }
+                    }
+                }
             }
 
             Spacer(Modifier.height(100.dp))
         }
-    }
 
-    val coroutineScope = rememberCoroutineScope()
-    FloatingButton(
-        color = ColorPalette.primary,
-        icon = Icons.Rounded.KeyboardArrowUp,
-        alignment = Alignment.BottomEnd,
-        scrollState = scrollState
-    ) {
-        coroutineScope.launch {
-            scrollState.animateScrollTo(
-                value = 0,
-                animationSpec = Measurements.scrollAnimation(duration = 1000),
-            )
+        val coroutineScope = rememberCoroutineScope()
+        FloatingButton(
+            color = ColorPalette.primary,
+            icon = Icons.Rounded.KeyboardArrowUp,
+            alignment = Alignment.BottomEnd,
+            scrollState = scrollState
+        ) {
+            coroutineScope.launch {
+                scrollState.animateScrollTo(
+                    value = 0,
+                    animationSpec = Measurements.scrollAnimation(duration = 1000),
+                )
+            }
         }
+
+        ResultsBar(
+            results = notifications.value.size,
+            alignment = Alignment.BottomStart,
+            animationSpec = Measurements.scrollAnimation(delay = 250),
+            scrollState = scrollState,
+        )
     }
 
-    ResultsBar(
-        results = 12,
-        alignment = Alignment.BottomCenter,
-        animationSpec = Measurements.scrollAnimation(delay = 250),
-        scrollState = scrollState,
-    )
 }
