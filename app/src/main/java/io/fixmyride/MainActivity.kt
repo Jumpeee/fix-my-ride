@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         DatabaseManager.initialize(this)
         PrefsManager.initialize(this)
-        
+
         val prefs = PrefsManager.getInstance()
         if (prefs.getInt("notifications_days", -1) == -1) {
             prefs.edit().putInt("notifications_days", 7).apply()

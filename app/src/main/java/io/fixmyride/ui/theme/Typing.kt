@@ -132,6 +132,15 @@ object Typing {
         lineHeight = 16.sp,
     )
 
+    /** e.g. notifications for every single vehicle expiration text */
+    val expiredText = TextStyle(
+        color = ColorPalette.lightRed,
+        fontFamily = customFont,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+    )
+
     /** Used only for text field texts */
     val textFieldText = TextStyle(
         color = ColorPalette.secondary,

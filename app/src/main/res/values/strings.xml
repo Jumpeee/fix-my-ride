@@ -58,4 +58,6 @@
     <string name="by_inspection_date">By inspection date</string>
     <string name="number_of_days">Number of days</string>
     <string name="days">days</string>
+    <string name="expirations">expirations</string>
+    <string name="warnings">warnings</string>
 </resources>

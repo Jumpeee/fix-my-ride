@@ -10,27 +10,34 @@ import java.time.LocalDate
 /** Provides methods used for checking if vehicle's insurance (or inspection) is about to expire */
 object NotificationChecker {
     @RequiresApi(Build.VERSION_CODES.O)
-    fun checkForNotifications(v: Vehicle): List<NotificationType> {
-        val expired = arrayListOf<NotificationType>()
-        val notifDays = PrefsManager.getInstance().getInt("notifications_days", -1)
+    fun checkForNotifications(v: Vehicle): List<Int> {
+        val expired = arrayListOf<Int>()
+        val notificationDays = PrefsManager.getInstance().getInt("notifications_days", -1)
 
-        fun dateDifference(date: LocalDate): Long {
-            return date.minusDays(LocalDate.now().toEpochDay()).toEpochDay()
-        }
+        fun dateDifference(date: LocalDate): Long =
+            date.minusDays(LocalDate.now().toEpochDay()).toEpochDay()
 
-        if (dateDifference(v.tplInsuranceExpiry) in 1..notifDays) {
-            expired.add(NotificationType.TPL_EXPIRY)
+
+        val tplDifference = dateDifference(v.tplInsuranceExpiry)
+        when {
+            tplDifference < 0 -> expired.add(NotificationType.TPL_EXPIRED)
+            tplDifference in 1..notificationDays -> expired.add(NotificationType.TPL_ABOUT_TO_EXPIRE)
         }
 
         if (v.collisionInsuranceExpiry != null) {
-            if (dateDifference(v.collisionInsuranceExpiry) in 1..notifDays) {
-                expired.add(NotificationType.CI_EXPIRY)
+            val ciDifference = dateDifference(v.collisionInsuranceExpiry)
+            when {
+                ciDifference < 0 -> expired.add(NotificationType.CI_EXPIRED)
+                ciDifference in 1..notificationDays -> expired.add(NotificationType.CI_ABOUT_TO_EXPIRE)
             }
         }
 
-        if (dateDifference(v.nextInspectionDate) in 1..notifDays) {
-            expired.add(NotificationType.UPCOMING_INSPECTION)
+        val inspectionDifference = dateDifference(v.nextInspectionDate)
+        when {
+            inspectionDifference < 0 -> expired.add(NotificationType.INSPECTION_EXPIRED)
+            inspectionDifference in 1..notificationDays -> expired.add(NotificationType.INSPECTION_UPCOMING)
         }
+
 
         return expired
     }

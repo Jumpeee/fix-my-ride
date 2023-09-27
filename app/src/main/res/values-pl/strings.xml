@@ -58,4 +58,6 @@
     <string name="by_inspection_date">Według daty przeglądu</string>
     <string name="number_of_days">Ilość dni</string>
     <string name="days">dni</string>
+    <string name="expirations">wygaśnięcia</string>
+    <string name="warnings">ostrzeżenia</string>
 </resources>

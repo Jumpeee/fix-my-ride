@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.fixmyride.R
@@ -94,7 +95,11 @@ fun NotificationItem(notification: Notification) {
                 }
 
             }
-            WarningsAndExpand(notification.expirations.size, isExpanded.value) {
+            WarningsAndExpand(
+                expired = notification.expirations.filter { it < 0 }.size,
+                warnings = notification.expirations.filter { it > 0 }.size,
+                expanded = isExpanded.value,
+            ) {
                 isExpanded.value = !isExpanded.value
             }
         }
@@ -103,29 +108,63 @@ fun NotificationItem(notification: Notification) {
 
 @Composable
 fun WarningsAndExpand(
+    expired: Int,
     warnings: Int,
     expanded: Boolean,
     onClickExpand: () -> Unit,
 ) {
+    val hasOnlyExpirationsOrWarnings = when {
+        expired == 0 && warnings != 0 -> true
+        expired != 0 && warnings == 0 -> true
+        else -> false
+    }
+
     Row {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .background(
-                    color = ColorPalette.yellow.copy(alpha = 0.1f),
-                    shape = RoundedCornerShape(5.dp),
-                )
-                .clip(RoundedCornerShape(5.dp))
-        ) {
-            Text(
-                text = "$warnings warnings",
-                style = Typing.warningText,
+        if (expired != 0) {
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .padding(
-                        horizontal = 5.dp,
-                        vertical = 2.dp,
-                    ),
-            )
+                    .background(
+                        color = ColorPalette.lightRed.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(5.dp),
+                    )
+                    .clip(RoundedCornerShape(5.dp))
+            ) {
+                Text(
+                    text = "$expired ${if (hasOnlyExpirationsOrWarnings) stringResource(R.string.expirations) else ""}".trim(),
+                    style = Typing.expiredText,
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 5.dp,
+                            vertical = 2.dp,
+                        ),
+                )
+            }
+        }
+
+        if (!hasOnlyExpirationsOrWarnings) Spacer(Modifier.width(5.dp))
+
+
+        if (warnings != 0) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .background(
+                        color = ColorPalette.yellow.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(5.dp),
+                    )
+                    .clip(RoundedCornerShape(5.dp))
+            ) {
+                Text(
+                    text = "$warnings ${if (hasOnlyExpirationsOrWarnings) stringResource(R.string.warnings) else ""}".trim(),
+                    style = Typing.warningText,
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 5.dp,
+                            vertical = 2.dp,
+                        ),
+                )
+            }
         }
         Spacer(Modifier.width(10.dp))
 
