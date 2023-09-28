@@ -114,15 +114,6 @@ object Typing {
         lineHeight = 16.sp,
     )
 
-    /** e.g. settings page for every single option button */
-    val optionButton = TextStyle(
-        color = ColorPalette.blue,
-        fontFamily = customFont,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
-    )
-
     /** e.g. notifications for every single vehicle warning text */
     val warningText = TextStyle(
         color = ColorPalette.yellow,
@@ -135,6 +126,15 @@ object Typing {
     /** e.g. notifications for every single vehicle expiration text */
     val expiredText = TextStyle(
         color = ColorPalette.lightRed,
+        fontFamily = customFont,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+    )
+
+    /** e.g. notifications for every single vehicle active text */
+    val activeText = TextStyle(
+        color = ColorPalette.green,
         fontFamily = customFont,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
@@ -186,6 +186,7 @@ object Typing {
         lineHeight = 22.sp,
     )
 
+    /** Used for value boxes in settings */
     val unselectedValueBoxText = TextStyle(
         color = ColorPalette.secondary,
         fontFamily = customFont,

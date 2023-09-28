@@ -26,14 +26,6 @@ data class Vehicle(
     @TypeConverters(DateConverter::class)
     val nextInspectionDate: LocalDate,
 ) {
-    fun toMap() = mapOf(
-        "id" to id,
-        "model" to model,
-        "registration" to registration,
-        "tplInsuranceExpiry" to tplInsuranceExpiry,
-        "collisionInsuranceExpiry" to collisionInsuranceExpiry,
-        "nextInspectionDate" to nextInspectionDate,
-    )
     companion object {
         @RequiresApi(Build.VERSION_CODES.O)
         val EMPTY = Vehicle(

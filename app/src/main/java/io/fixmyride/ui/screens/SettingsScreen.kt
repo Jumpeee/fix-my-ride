@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -22,7 +20,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,12 +31,9 @@ import io.fixmyride.ui.components.UniversalHeader
 import io.fixmyride.ui.components.dialogs.SingleValueDialog
 import io.fixmyride.ui.components.notifications.AuthorInfo
 import io.fixmyride.ui.components.settings.Option
-import io.fixmyride.ui.components.settings.OptionButton
 import io.fixmyride.ui.components.settings.ValueBox
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
-import io.fixmyride.utils.DataExchange
-import kotlinx.coroutines.launch
 
 
 @RequiresApi(Build.VERSION_CODES.R)
@@ -74,7 +68,6 @@ fun SettingsScreen(navCtrl: NavController) {
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
 private fun AllOptions() {
-    val coroutineScope = rememberCoroutineScope()
     val prefs = PrefsManager.getInstance()
     Option(
         icon = Icons.Rounded.Email,
@@ -150,26 +143,6 @@ private fun AllOptions() {
                     }
                 }
             }
-        }
-    }
-
-    OptionButton(
-        icon = Icons.Rounded.ArrowForward,
-        name = stringResource(R.string.import_data),
-        buttonText = stringResource(R.string.import_button),
-        description = stringResource(R.string.import_data_from_an_existing_file),
-        iconRotate = 90f,
-    ) { /* TODO importing data */ }
-
-    OptionButton(
-        icon = Icons.Rounded.ArrowBack,
-        name = stringResource(R.string.export_data),
-        buttonText = stringResource(R.string.export_button),
-        description = stringResource(R.string.export_data_to_a_file),
-        iconRotate = 90f,
-    ) {
-        coroutineScope.launch {
-            DataExchange.exportData()
         }
     }
 }

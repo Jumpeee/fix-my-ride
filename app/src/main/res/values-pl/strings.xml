@@ -38,12 +38,6 @@
     <string name="no">Nie</string>
     <string name="choose_from_gallery">Wybierz z galerii</string>
     <string name="you_have_no_notifications">Nie masz żadnych powiadomień</string>
-    <string name="import_data">Importuj dane</string>
-    <string name="import_button">Importuj</string>
-    <string name="import_data_from_an_existing_file">Importuj dane z pliku.</string>
-    <string name="export_data">Eksportuj dane</string>
-    <string name="export_button">Eksportuj</string>
-    <string name="export_data_to_a_file">Eksportuj dane do pliku.</string>
     <string name="edit_vehicle">Edytuj pojazd</string>
     <string name="delete_vehicle">Usunąć pojazd?</string>
     <string name="are_you_sure_you_want_to_delete_the_vehicle">Czy napewno chcesz usunąć pojazd?</string>
@@ -60,4 +54,8 @@
     <string name="days">dni</string>
     <string name="expirations">wygaśnięcia</string>
     <string name="warnings">ostrzeżenia</string>
+    <string name="expired">wygasło</string>
+    <string name="warning">ostrzeżenie</string>
+    <string name="active">aktywny</string>
+    <string name="inspection">Przegląd</string>
 </resources>

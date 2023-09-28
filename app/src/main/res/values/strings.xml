@@ -38,12 +38,6 @@
     <string name="no">No</string>
     <string name="choose_from_gallery">Choose from gallery</string>
     <string name="you_have_no_notifications">You have no notifications</string>
-    <string name="import_data">Import data</string>
-    <string name="import_button">Import</string>
-    <string name="import_data_from_an_existing_file">Import data from an existing file.</string>
-    <string name="export_data">Export data</string>
-    <string name="export_button">Export</string>
-    <string name="export_data_to_a_file">Export data to a file.</string>
     <string name="edit_vehicle">Edit vehicle</string>
     <string name="delete_vehicle">Delete vehicle?</string>
     <string name="are_you_sure_you_want_to_delete_the_vehicle">Are you sure you want to delete the vehicle?</string>
@@ -60,4 +54,8 @@
     <string name="days">days</string>
     <string name="expirations">expirations</string>
     <string name="warnings">warnings</string>
+    <string name="expired">expired</string>
+    <string name="warning">warning</string>
+    <string name="active">active</string>
+    <string name="inspection">Inspection</string>
 </resources>

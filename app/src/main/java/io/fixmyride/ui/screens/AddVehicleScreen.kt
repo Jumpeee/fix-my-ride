@@ -23,8 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
-import io.fixmyride.database.DateConverter
 import io.fixmyride.database.DatabaseManager
+import io.fixmyride.database.DateConverter
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.UniversalHeader
@@ -72,6 +72,7 @@ fun AddVehicleScreen(navCtrl: NavController) {
             FormField(
                 isError = 1 in emptyFields.value,
                 initialValue = registration.value,
+                upperCase = true,
                 caption = stringResource(R.string.addvehicle_registration_number_headline),
                 placeholder = stringResource(R.string.addvehicle_registration_number_placeholder),
             ) { registration.value = it }

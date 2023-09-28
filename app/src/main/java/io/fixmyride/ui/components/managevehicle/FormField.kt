@@ -44,6 +44,7 @@ fun FormField(
     initialValue: String? = null,
     caption: String,
     placeholder: String,
+    upperCase: Boolean = false,
     onInput: (String) -> Unit,
 ) {
     val fieldValue = remember { mutableStateOf("") }
@@ -68,8 +69,11 @@ fun FormField(
         TextField(
             value = fieldValue.value,
             onValueChange = {
-                fieldValue.value = it
-                onInput(it)
+                fieldValue.value = when (upperCase) {
+                    true -> it.uppercase()
+                    false -> it
+                }
+                onInput(fieldValue.value)
             },
             textStyle = Typing.textFieldText,
             maxLines = 1,

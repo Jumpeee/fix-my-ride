@@ -94,6 +94,7 @@ fun EditVehicleScreen(
             FormField(
                 isError = 1 in emptyFields.value,
                 initialValue = registration.value,
+                upperCase = true,
                 caption = stringResource(R.string.addvehicle_registration_number_headline),
                 placeholder = stringResource(R.string.addvehicle_registration_number_placeholder),
             ) { registration.value = it }

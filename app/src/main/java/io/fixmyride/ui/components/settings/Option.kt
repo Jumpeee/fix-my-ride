@@ -2,10 +2,6 @@ package io.fixmyride.ui.components.settings
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,11 +51,7 @@ fun Option(
                 isExpanded.value = !isExpanded.value
             }
         }
-        AnimatedVisibility(
-            visible = isExpanded.value,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically(),
-        ) {
+        AnimatedVisibility(visible = isExpanded.value) {
             content()
         }
     }
