@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.fixmyride.R
@@ -130,6 +131,7 @@ private fun AllOptions() {
                     SingleValueDialog(
                         headline = stringResource(R.string.number_of_days),
                         placeholderText = stringResource(R.string.number_of_days),
+                        keyboardType = KeyboardType.Number,
                     ) {
                         showSingleValueDialog.value = false
                         if (it == null) {

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -43,6 +45,7 @@ import io.fixmyride.ui.theme.Typing
 fun SingleValueDialog(
     headline: String,
     placeholderText: String,
+    keyboardType: KeyboardType = KeyboardType.Text,
     onDismiss: (String?) -> Unit,
 ) {
     Dialog(onDismissRequest = { onDismiss(null) }) {
@@ -106,6 +109,9 @@ fun SingleValueDialog(
                             overflow = TextOverflow.Ellipsis,
                         )
                     },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = keyboardType,
+                    ),
                     modifier = Modifier
                         .height(Measurements.textFieldHeight)
                         .fillMaxWidth()

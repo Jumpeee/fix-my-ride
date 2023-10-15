@@ -15,6 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -120,7 +123,7 @@ fun NotificationItem(notification: Notification) {
                             contentAlignment = Alignment.Center,
                             modifier = Modifier.background(
                                 color = ColorPalette.tertiary,
-                                shape = RoundedCornerShape(50.dp),
+                                shape = RoundedCornerShape(7.5.dp),
                             )
                         ) {
                             Text(
@@ -216,15 +219,29 @@ fun WarningsAndExpand(
                         shape = RoundedCornerShape(5.dp),
                     ),
             ) {
-                Text(
-                    text = "$expired ${if (hasOnlyExpirationsOrWarnings) stringResource(R.string.expirations) else ""}".trim(),
-                    style = Typing.expiredText,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .padding(
                             horizontal = 5.dp,
                             vertical = 2.dp,
                         ),
-                )
+                ) {
+                    Text(
+                        text = "$expired ${if (hasOnlyExpirationsOrWarnings) stringResource(R.string.expirations) else ""}".trim(),
+                        style = Typing.expiredText,
+                    )
+
+                    if (!hasOnlyExpirationsOrWarnings) {
+                        Spacer(Modifier.width(5.dp))
+                        Icon(
+                            Icons.Rounded.Info,
+                            contentDescription = "Expirations count",
+                            tint = ColorPalette.lightRed,
+                            modifier = Modifier.size(16.dp),
+                        )
+                    }
+                }
             }
         }
 
@@ -240,15 +257,29 @@ fun WarningsAndExpand(
                         shape = RoundedCornerShape(5.dp),
                     ),
             ) {
-                Text(
-                    text = "$warnings ${if (hasOnlyExpirationsOrWarnings) stringResource(R.string.warnings) else ""}".trim(),
-                    style = Typing.warningText,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .padding(
                             horizontal = 5.dp,
                             vertical = 2.dp,
                         ),
-                )
+                ) {
+                    Text(
+                        text = "$warnings ${if (hasOnlyExpirationsOrWarnings) stringResource(R.string.warnings) else ""}".trim(),
+                        style = Typing.warningText,
+                    )
+
+                    if (!hasOnlyExpirationsOrWarnings) {
+                        Spacer(Modifier.width(5.dp))
+                        Icon(
+                            Icons.Rounded.Warning,
+                            contentDescription = "Warning count",
+                            tint = ColorPalette.yellow,
+                            modifier = Modifier.size(16.dp),
+                        )
+                    }
+                }
             }
         }
         Spacer(Modifier.width(10.dp))
