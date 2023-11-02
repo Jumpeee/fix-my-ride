@@ -26,6 +26,7 @@ import io.fixmyride.R
 import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
+import io.fixmyride.utils.Routes
 
 @Composable
 fun VehicleItem(
@@ -52,7 +53,7 @@ fun VehicleItem(
                     contentDescription = "View selected vehicle's details",
                     tint = ColorPalette.secondary,
                     modifier = Modifier.clickable {
-                        navCtrl.navigate("/selected-vehicle/${vehicle.id}")
+                        navCtrl.navigate("${Routes.SELECTED_VEHICLE}/${vehicle.id}")
                     }
                 )
             }

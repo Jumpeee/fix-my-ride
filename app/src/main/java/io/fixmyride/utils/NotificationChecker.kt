@@ -14,10 +14,6 @@ object NotificationChecker {
         val expired = arrayListOf<Int>()
         val notificationDays = PrefsManager.getInstance().getInt("notifications_days", -1)
 
-        fun dateDifference(date: LocalDate): Long =
-            date.minusDays(LocalDate.now().toEpochDay()).toEpochDay()
-
-
         val tplDifference = dateDifference(v.tplInsuranceExpiry)
         when {
             tplDifference < 0 -> expired.add(NotificationType.TPL_EXPIRED)
@@ -38,7 +34,11 @@ object NotificationChecker {
             inspectionDifference in 1..notificationDays -> expired.add(NotificationType.INSPECTION_UPCOMING)
         }
 
-
         return expired
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun dateDifference(date: LocalDate): Long {
+        return date.minusDays(LocalDate.now().toEpochDay()).toEpochDay()
     }
 }

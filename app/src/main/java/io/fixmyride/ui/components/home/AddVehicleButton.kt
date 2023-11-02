@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
+import io.fixmyride.utils.Routes
 
 @Composable
 fun AddVehicleButton(navCtrl: NavController) {
@@ -44,7 +45,7 @@ fun AddVehicleButton(navCtrl: NavController) {
         modifier = Modifier
             .height(backgroundHeight)
             .clip(RoundedCornerShape(40.dp))
-            .clickable { navCtrl.navigate("/add-vehicle") },
+            .clickable { navCtrl.navigate(Routes.ADD_VEHICLE) },
     ) {
         val primaryBoxHeightPercent = 0.7f
         val topOffset = (backgroundHeight - backgroundHeight * primaryBoxHeightPercent).value

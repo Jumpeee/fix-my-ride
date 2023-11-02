@@ -45,6 +45,7 @@ fun EditVehicleScreen(
     navCtrl: NavController,
     vehicleId: Int,
 ) {
+    // TODO: Finish migrating to MVVM
     val emptyFields = remember { mutableStateOf(emptyArray<Int>()) }
     val showDeleteConfirmationDialog = remember { mutableStateOf(false) }
 

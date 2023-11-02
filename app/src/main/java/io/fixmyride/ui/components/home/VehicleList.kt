@@ -52,7 +52,6 @@ fun VehicleList(
     vehicles: List<Vehicle>,
     onSortSelect: (SortType) -> Unit,
 ) {
-
     if (vehicles.isNotEmpty()) {
         val showSortDialog = remember { mutableStateOf(false) }
         val topPadding = 36.dp

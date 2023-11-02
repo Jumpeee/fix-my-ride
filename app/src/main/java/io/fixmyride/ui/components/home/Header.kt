@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import io.fixmyride.R
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Typing
+import io.fixmyride.utils.Routes
 
 @Composable
 fun Header(navCtrl: NavController) {
@@ -43,9 +44,8 @@ fun Header(navCtrl: NavController) {
                     tint = ColorPalette.secondary,
                     modifier = Modifier
                         .clip(RoundedCornerShape(100))
-                        .clickable { navCtrl.navigate("/settings") }
+                        .clickable { navCtrl.navigate(Routes.SETTINGS) },
                 )
-
                 Spacer(Modifier.width(15.dp))
 
                 Icon(
@@ -54,7 +54,7 @@ fun Header(navCtrl: NavController) {
                     tint = ColorPalette.secondary,
                     modifier = Modifier
                         .clip(RoundedCornerShape(100))
-                        .clickable { navCtrl.navigate("/notifications") }
+                        .clickable { navCtrl.navigate(Routes.NOTIFICATIONS) },
                 )
             }
 

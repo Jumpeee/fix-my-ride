@@ -12,16 +12,10 @@ import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import io.fixmyride.database.DatabaseManager
-import io.fixmyride.enums.SortType
-import io.fixmyride.models.Vehicle
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.ResultsBar
 import io.fixmyride.ui.components.home.AddVehicleButton
@@ -29,15 +23,12 @@ import io.fixmyride.ui.components.home.Header
 import io.fixmyride.ui.components.home.VehicleList
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
+import io.fixmyride.ui.viewmodels.HomeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen(navCtrl: NavController) {
-    val vehicles = remember { mutableStateOf<List<Vehicle>>(emptyList()) }
-    LaunchedEffect(Unit) {
-        val db = DatabaseManager.getInstance().dao
-        vehicles.value = db.getVehicles()
-    }
+fun HomeScreen(viewModel: HomeViewModel) {
+    LaunchedEffect(Unit) { viewModel.loadVehicles() }
 
     val scrollState = rememberScrollState()
     Surface(
@@ -47,59 +38,28 @@ fun HomeScreen(navCtrl: NavController) {
             .padding(horizontal = Measurements.screenPadding),
     ) {
         Column(
-            modifier = when (vehicles.value.size) {
+            modifier = when (viewModel.vehicles.value.size) {
                 0 -> Modifier
                 else -> Modifier.verticalScroll(scrollState)
             },
         ) {
             Spacer(Modifier.height(Measurements.screenPadding))
 
-            Header(navCtrl)
+            Header(viewModel.navController)
             Spacer(Modifier.height(20.dp))
 
-            AddVehicleButton(navCtrl)
+            AddVehicleButton(viewModel.navController)
             Spacer(Modifier.height(20.dp))
 
-            val coroutineScope = rememberCoroutineScope()
-            VehicleList(navCtrl, vehicles.value) { st ->
-                val db = DatabaseManager.getInstance().dao
-                when (st) {
-                    SortType.MODEL -> {
-                        coroutineScope.launch {
-                            vehicles.value = db.getVehiclesOrderedByModel()
-                        }
-                    }
-
-                    SortType.REGISTRATION -> {
-                        coroutineScope.launch {
-                            vehicles.value = db.getVehiclesOrderedByRegistration()
-                        }
-                    }
-
-                    SortType.TPL_INSURANCE -> {
-                        coroutineScope.launch {
-                            vehicles.value = db.getVehiclesOrderedByTPLInsurance()
-                        }
-                    }
-
-                    SortType.COLLISION_INSURANCE -> {
-                        coroutineScope.launch {
-                            vehicles.value = db.getVehiclesOrderedByCIInsurance()
-                        }
-                    }
-
-                    SortType.NEXT_INSPECTION_DATE -> {
-                        coroutineScope.launch {
-                            vehicles.value = db.getVehiclesOrderedByNextInspectionDate()
-                        }
-                    }
-                }
-            }
+            VehicleList(
+                viewModel.navController,
+                viewModel.vehicles.value
+            ) { viewModel.setVehiclesOrder(it) }
             Spacer(Modifier.height(100.dp))
         }
 
         ResultsBar(
-            results = vehicles.value.size,
+            results = viewModel.vehicles.value.size,
             alignment = Alignment.BottomStart,
             animationSpec = Measurements.scrollAnimation(delay = 125),
             scrollState = scrollState,

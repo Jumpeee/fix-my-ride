@@ -8,7 +8,6 @@ import androidx.room.TypeConverters
 import io.fixmyride.database.DateConverter
 import java.time.LocalDate
 
-
 @Entity
 data class Vehicle(
     @PrimaryKey(autoGenerate = true)

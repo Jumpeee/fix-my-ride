@@ -10,6 +10,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -26,12 +27,18 @@ import io.fixmyride.ui.screens.PreviewVehicleScreen
 import io.fixmyride.ui.screens.SettingsScreen
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.FixMyRideTheme
+import io.fixmyride.ui.viewmodels.AddVehicleViewModel
+import io.fixmyride.ui.viewmodels.HomeViewModel
+import io.fixmyride.ui.viewmodels.NotificationsViewModel
+import io.fixmyride.ui.viewmodels.PreviewVehicleViewModel
+import io.fixmyride.utils.Routes
 
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         DatabaseManager.initialize(this)
         PrefsManager.initialize(this)
 
@@ -58,28 +65,38 @@ private fun App() {
 
     NavHost(
         navController = navCtrl,
-        startDestination = "/home",
+        startDestination = Routes.HOME,
         enterTransition = { fadeIn() },
         exitTransition = { fadeOut() },
     ) {
-        composable("/home") { HomeScreen(navCtrl) }
-        composable("/notifications") { NotificationsScreen(navCtrl) }
-        composable("/settings") { SettingsScreen(navCtrl) }
-        composable("/add-vehicle") { AddVehicleScreen(navCtrl) }
+        composable(Routes.HOME) {
+            val homeViewModel = remember { HomeViewModel(navCtrl) }
+            HomeScreen(homeViewModel)
+        }
+        composable(Routes.NOTIFICATIONS) {
+            val notificationsViewModel = remember { NotificationsViewModel(navCtrl) }
+            NotificationsScreen(notificationsViewModel)
+        }
+        composable(Routes.SETTINGS) { SettingsScreen(navCtrl) }
+        composable(Routes.ADD_VEHICLE) {
+            val addVehicleViewModel = remember { AddVehicleViewModel(navCtrl) }
+            AddVehicleScreen(addVehicleViewModel)
+        }
         composable(
-            route = "/edit-vehicle/{id}",
+            route = "${Routes.EDIT_VEHICLE}/{id}",
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
-            val vehicleId = it.arguments?.getString("id")
-            EditVehicleScreen(navCtrl, vehicleId!!.toInt())
+            val vehicleId = it.arguments?.getString("id")?.toInt()
+            EditVehicleScreen(navCtrl, vehicleId!!)
         }
 
         composable(
-            route = "/selected-vehicle/{id}",
+            route = "${Routes.SELECTED_VEHICLE}/{id}",
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
-            val vehicleId = it.arguments?.getString("id")
-            PreviewVehicleScreen(navCtrl, vehicleId!!.toInt())
+            val vehicleId = it.arguments?.getString("id")?.toInt()
+            val previewVehicleViewModel = remember { PreviewVehicleViewModel(navCtrl, vehicleId!!) }
+            PreviewVehicleScreen(previewVehicleViewModel)
         }
     }
 }
