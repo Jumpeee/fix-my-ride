@@ -38,7 +38,6 @@ fun UniversalHeader(caption: String, navCtrl: NavController) {
                 )
                 .clickable { navCtrl.popBackStack() },
         )
-
         Spacer(Modifier.width(10.dp))
 
         Text(

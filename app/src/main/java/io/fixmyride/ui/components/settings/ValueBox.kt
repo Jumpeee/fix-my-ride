@@ -24,7 +24,7 @@ fun ValueBox(
     value: String,
     onClick: (Int?) -> Unit,
 ) {
-    val isValueNumber = try {
+    val isValueANumber = try {
         Integer.parseInt(value)
         true
     } catch (_: NumberFormatException) {
@@ -57,7 +57,7 @@ fun ValueBox(
             },
     ) {
         Text(
-            text = when (isValueNumber) {
+            text = when (isValueANumber) {
                 true -> "$value ${stringResource(R.string.days)}"
                 false -> value
             },
@@ -66,7 +66,7 @@ fun ValueBox(
                 false -> Typing.unselectedValueBoxText
             },
             modifier = Modifier.padding(
-                horizontal = when (isValueNumber) {
+                horizontal = when (isValueANumber) {
                     true -> 10.dp
                     false -> 20.dp
                 },

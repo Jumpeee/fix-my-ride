@@ -31,7 +31,10 @@ fun ResultsBar(
     scrollState: ScrollState,
 ) {
     val offsetY = animateDpAsState(
-        targetValue = if (scrollState.value > Measurements.scrollPositionToShowToolbar()) 0.dp else 150.dp,
+        targetValue = when (scrollState.value > Measurements.scrollPositionToShowToolbar()) {
+            true -> 0.dp
+            false -> 150.dp
+        },
         animationSpec = animationSpec,
         label = "Results bar scroll animation",
     )

@@ -28,11 +28,11 @@ import io.fixmyride.ui.screens.SettingsScreen
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.FixMyRideTheme
 import io.fixmyride.ui.viewmodels.AddVehicleViewModel
+import io.fixmyride.ui.viewmodels.EditVehicleViewModel
 import io.fixmyride.ui.viewmodels.HomeViewModel
 import io.fixmyride.ui.viewmodels.NotificationsViewModel
 import io.fixmyride.ui.viewmodels.PreviewVehicleViewModel
 import io.fixmyride.utils.Routes
-
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
@@ -87,7 +87,8 @@ private fun App() {
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
             val vehicleId = it.arguments?.getString("id")?.toInt()
-            EditVehicleScreen(navCtrl, vehicleId!!)
+            val editVehicleViewModel = remember { EditVehicleViewModel(navCtrl, vehicleId!!) }
+            EditVehicleScreen(editVehicleViewModel)
         }
 
         composable(

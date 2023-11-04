@@ -40,7 +40,6 @@ import io.fixmyride.utils.Routes
 @Composable
 fun AddVehicleButton(navCtrl: NavController) {
     val backgroundHeight = 120.dp
-
     Box(
         modifier = Modifier
             .height(backgroundHeight)
@@ -50,7 +49,7 @@ fun AddVehicleButton(navCtrl: NavController) {
         val primaryBoxHeightPercent = 0.7f
         val topOffset = (backgroundHeight - backgroundHeight * primaryBoxHeightPercent).value
         Background(backgroundHeight, primaryBoxHeightPercent)
-        
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -68,6 +67,7 @@ fun AddVehicleButton(navCtrl: NavController) {
             }
         }
     }
+
 }
 
 
@@ -77,7 +77,6 @@ private fun Background(
     primaryBoxHeightPercent: Float,
 ) {
     val cornerRadius = 80f
-
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
@@ -116,7 +115,6 @@ private fun Background(
             path = curvePath,
             color = ColorPalette.primary,
         )
-
     }
 }
 
@@ -168,7 +166,6 @@ private fun Body() {
                 modifier = Modifier.padding(8.dp),
             )
         }
-
         Spacer(Modifier.width(10.dp))
 
         Column {
