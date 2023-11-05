@@ -54,6 +54,14 @@ class EditVehicleViewModel(
         }
     }
 
+    fun filterFieldValue(value: String?): String? {
+        return when (value) {
+            "" -> null
+            "null" -> null
+            else -> value
+        }
+    }
+
     fun updateModel(newValue: String) {
         _model.value = newValue
     }

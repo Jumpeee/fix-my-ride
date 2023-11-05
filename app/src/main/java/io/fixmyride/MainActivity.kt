@@ -32,6 +32,7 @@ import io.fixmyride.ui.viewmodels.EditVehicleViewModel
 import io.fixmyride.ui.viewmodels.HomeViewModel
 import io.fixmyride.ui.viewmodels.NotificationsViewModel
 import io.fixmyride.ui.viewmodels.PreviewVehicleViewModel
+import io.fixmyride.ui.viewmodels.SettingsViewModel
 import io.fixmyride.utils.Routes
 
 class MainActivity : ComponentActivity() {
@@ -70,25 +71,34 @@ private fun App() {
         exitTransition = { fadeOut() },
     ) {
         composable(Routes.HOME) {
-            val homeViewModel = remember { HomeViewModel(navCtrl) }
-            HomeScreen(homeViewModel)
+            val homeVM = remember { HomeViewModel(navCtrl) }
+            HomeScreen(homeVM)
         }
+
         composable(Routes.NOTIFICATIONS) {
-            val notificationsViewModel = remember { NotificationsViewModel(navCtrl) }
-            NotificationsScreen(notificationsViewModel)
+            val notificationsVM = remember { NotificationsViewModel(navCtrl) }
+            NotificationsScreen(notificationsVM)
         }
-        composable(Routes.SETTINGS) { SettingsScreen(navCtrl) }
+
+        composable(Routes.SETTINGS) {
+            val prefs = remember { PrefsManager.getInstance() }
+            val notificationsVM =
+                remember { SettingsViewModel.NotificationsViewModel(navCtrl, prefs) }
+            SettingsScreen(notificationsVM)
+        }
+
         composable(Routes.ADD_VEHICLE) {
-            val addVehicleViewModel = remember { AddVehicleViewModel(navCtrl) }
-            AddVehicleScreen(addVehicleViewModel)
+            val addVehicleVM = remember { AddVehicleViewModel(navCtrl) }
+            AddVehicleScreen(addVehicleVM)
         }
+
         composable(
             route = "${Routes.EDIT_VEHICLE}/{id}",
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
             val vehicleId = it.arguments?.getString("id")?.toInt()
-            val editVehicleViewModel = remember { EditVehicleViewModel(navCtrl, vehicleId!!) }
-            EditVehicleScreen(editVehicleViewModel)
+            val editVehicleVM = remember { EditVehicleViewModel(navCtrl, vehicleId!!) }
+            EditVehicleScreen(editVehicleVM)
         }
 
         composable(
@@ -96,8 +106,8 @@ private fun App() {
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
             val vehicleId = it.arguments?.getString("id")?.toInt()
-            val previewVehicleViewModel = remember { PreviewVehicleViewModel(navCtrl, vehicleId!!) }
-            PreviewVehicleScreen(previewVehicleViewModel)
+            val previewVehicleVM = remember { PreviewVehicleViewModel(navCtrl, vehicleId!!) }
+            PreviewVehicleScreen(previewVehicleVM)
         }
     }
 }

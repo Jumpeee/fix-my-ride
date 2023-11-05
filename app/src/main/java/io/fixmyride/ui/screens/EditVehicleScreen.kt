@@ -16,7 +16,6 @@ import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -69,20 +68,14 @@ fun EditVehicleScreen(viewModel: EditVehicleViewModel) {
 
             DateField(
                 isError = 2 in viewModel.emptyFields.value,
-                initialValue = when (viewModel.tplInsurance.value) {
-                    "" -> null
-                    else -> viewModel.tplInsurance.value
-                },
+                initialValue = viewModel.filterFieldValue(viewModel.tplInsurance.value),
                 caption = stringResource(R.string.tpl_insurance_expiry_date),
                 hintHeadline = stringResource(R.string.tpl_insurance),
                 hintDescription = stringResource(R.string.tpl_insurance_desc),
             ) { viewModel.updateTplInsurance(it.toString().replace("-", ".")) }
 
             DateField(
-                initialValue = when (viewModel.collisionInsurance.value) {
-                    "null" -> null
-                    else -> viewModel.collisionInsurance.value
-                },
+                initialValue = viewModel.filterFieldValue(viewModel.collisionInsurance.value),
                 caption = stringResource(R.string.ci_expiry_date),
                 hintHeadline = stringResource(R.string.ci),
                 hintDescription = stringResource(R.string.ci_insurance_desc),
@@ -90,10 +83,7 @@ fun EditVehicleScreen(viewModel: EditVehicleViewModel) {
 
             DateField(
                 isError = 3 in viewModel.emptyFields.value,
-                initialValue = when (viewModel.nextInspectionDate.value) {
-                    "" -> null
-                    else -> viewModel.nextInspectionDate.value
-                },
+                initialValue = viewModel.filterFieldValue(viewModel.nextInspectionDate.value),
                 caption = stringResource(R.string.next_inspection_date),
                 showHint = false,
             ) { viewModel.updateNextInspectionDate(it.toString().replace("-", ".")) }

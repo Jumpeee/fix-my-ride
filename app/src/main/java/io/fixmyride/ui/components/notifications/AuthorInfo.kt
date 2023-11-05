@@ -19,7 +19,7 @@ import io.fixmyride.ui.theme.Typing
 
 @Composable
 fun AuthorInfo() {
-    val uriOpener = LocalUriHandler.current
+    val uriHandler = LocalUriHandler.current
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
             stringResource(R.string.made_by),
@@ -27,7 +27,7 @@ fun AuthorInfo() {
         )
         Text(" Jumpee ",
             style = Typing.descriptionBody.copy(color = ColorPalette.primary),
-            modifier = Modifier.clickable { uriOpener.openUri("https://github.com/Jumpeee") })
+            modifier = Modifier.clickable { uriHandler.openUri("https://github.com/Jumpeee") })
         Icon(
             Icons.Rounded.Favorite,
             contentDescription = "Heart",

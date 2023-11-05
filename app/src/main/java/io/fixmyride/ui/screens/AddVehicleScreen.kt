@@ -31,7 +31,6 @@ import io.fixmyride.ui.viewmodels.AddVehicleViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AddVehicleScreen(viewModel: AddVehicleViewModel) {
-    LaunchedEffect(Unit) { viewModel.clearData() }
 
     Surface(
         color = ColorPalette.background,
@@ -66,20 +65,14 @@ fun AddVehicleScreen(viewModel: AddVehicleViewModel) {
 
             DateField(
                 isError = 2 in viewModel.emptyFields.value,
-                initialValue = when (viewModel.tplInsurance.value) {
-                    "" -> null
-                    else -> viewModel.tplInsurance.value
-                },
+                initialValue = viewModel.filterFieldValue(viewModel.tplInsurance.value),
                 caption = stringResource(R.string.tpl_insurance_expiry_date),
                 hintHeadline = stringResource(R.string.tpl_insurance),
                 hintDescription = stringResource(R.string.tpl_insurance_desc),
             ) { viewModel.updateTplInsurance(it.toString().replace("-", ".")) }
 
             DateField(
-                initialValue = when (viewModel.collisionInsurance.value) {
-                    "null" -> null
-                    else -> viewModel.collisionInsurance.value
-                },
+                initialValue = viewModel.filterFieldValue(viewModel.collisionInsurance.value),
                 caption = stringResource(R.string.ci_expiry_date),
                 hintHeadline = stringResource(R.string.ci),
                 hintDescription = stringResource(R.string.ci_insurance_desc),
@@ -87,10 +80,7 @@ fun AddVehicleScreen(viewModel: AddVehicleViewModel) {
 
             DateField(
                 isError = 3 in viewModel.emptyFields.value,
-                initialValue = when (viewModel.nextInspectionDate.value) {
-                    "" -> null
-                    else -> viewModel.nextInspectionDate.value
-                },
+                initialValue = viewModel.filterFieldValue(viewModel.nextInspectionDate.value),
                 caption = stringResource(R.string.next_inspection_date),
                 showHint = false,
             ) { viewModel.updateNextInspectionDate(it.toString().replace("-", ".")) }

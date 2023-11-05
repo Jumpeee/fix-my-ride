@@ -17,17 +17,12 @@ import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import io.fixmyride.R
-import io.fixmyride.database.PrefsManager
 import io.fixmyride.ui.components.UniversalHeader
 import io.fixmyride.ui.components.dialogs.SingleValueDialog
 import io.fixmyride.ui.components.notifications.AuthorInfo
@@ -35,11 +30,14 @@ import io.fixmyride.ui.components.settings.Option
 import io.fixmyride.ui.components.settings.ValueBox
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
+import io.fixmyride.ui.viewmodels.SettingsViewModel
 
 
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
-fun SettingsScreen(navCtrl: NavController) {
+fun SettingsScreen(
+    notificationsViewModel: SettingsViewModel.NotificationsViewModel,
+) {
     Surface(
         color = ColorPalette.background,
         modifier = Modifier
@@ -54,10 +52,12 @@ fun SettingsScreen(navCtrl: NavController) {
             Spacer(Modifier.height(Measurements.screenPadding))
             UniversalHeader(
                 caption = stringResource(R.string.settings),
-                navCtrl = navCtrl,
+                navCtrl = notificationsViewModel.navController,
             )
 
-            AllOptions()
+            AllOptions(
+                notificationsViewModel = notificationsViewModel,
+            )
             Spacer(Modifier.height(20.dp))
 
             AuthorInfo()
@@ -68,81 +68,45 @@ fun SettingsScreen(navCtrl: NavController) {
 
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
-private fun AllOptions() {
-    val prefs = PrefsManager.getInstance()
+private fun AllOptions(
+    notificationsViewModel: SettingsViewModel.NotificationsViewModel,
+) {
     Option(
         icon = Icons.Rounded.Email,
         name = stringResource(R.string.notifications),
         description = stringResource(R.string.settings_notifications_desc),
     ) {
+        val daysString = stringResource(R.string.days)
+        LaunchedEffect(Unit) { notificationsViewModel.loadDays(daysString) }
+
         Column {
             Spacer(Modifier.height(10.dp))
-            val selectedIndex = remember { mutableIntStateOf(0) }
+
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 ValueBox(
-                    isSelected = selectedIndex.intValue == 0,
+                    isSelected = notificationsViewModel.selectedIndex.intValue == 0,
                     value = "7",
-                ) {
-                    selectedIndex.intValue = 0
-                    prefs.edit().putInt("notifications_days", it!!).apply()
-                }
+                ) { notificationsViewModel.saveFixedDaysAndUpdateSelectedIndex(it!!, 0) }
 
                 ValueBox(
-                    isSelected = selectedIndex.intValue == 1,
+                    isSelected = notificationsViewModel.selectedIndex.intValue == 1,
                     value = "14",
-                ) {
-                    selectedIndex.intValue = 1
-                    prefs.edit().putInt("notifications_days", it!!).apply()
-                }
-
-                val showSingleValueDialog = remember { mutableStateOf(false) }
-                val customBoxCaption = remember { mutableStateOf(". . .") }
-                val daysString = stringResource(R.string.days)
-                LaunchedEffect(Unit) {
-                    when (val daysFromPrefs = prefs.getInt("notifications_days", -1)) {
-                        7 -> selectedIndex.intValue = 0
-                        14 -> selectedIndex.intValue = 1
-                        -1 -> {
-                            prefs.edit().putInt("notifications_days", 7).apply()
-                            selectedIndex.intValue = 0
-                        }
-
-                        else -> {
-                            selectedIndex.intValue = 2
-                            customBoxCaption.value = "$daysFromPrefs $daysString"
-                        }
-                    }
-                }
+                ) { notificationsViewModel.saveFixedDaysAndUpdateSelectedIndex(it!!, 1) }
 
                 ValueBox(
-                    isSelected = selectedIndex.intValue == 2,
-                    value = customBoxCaption.value,
-                ) {
-                    showSingleValueDialog.value = true
-                    if (it == null) {
-                        selectedIndex.intValue = 2
-                    }
-                }
+                    isSelected = notificationsViewModel.selectedIndex.intValue == 2,
+                    value = notificationsViewModel.customBoxCaption.value,
+                ) { notificationsViewModel.toggleSingleValueDialogAndUpdateSelectedIndex(it) }
 
-                if (showSingleValueDialog.value) {
+                if (notificationsViewModel.showSingleValueDialog.value) {
                     SingleValueDialog(
                         headline = stringResource(R.string.number_of_days),
                         placeholderText = stringResource(R.string.number_of_days),
                         keyboardType = KeyboardType.Number,
-                    ) {
-                        showSingleValueDialog.value = false
-                        if (it == null) {
-                            selectedIndex.intValue = 0
-                            prefs.edit().putInt("notifications_days", 7).apply()
-                            customBoxCaption.value = ". . ."
-                        } else {
-                            prefs.edit().putInt("notifications_days", Integer.parseInt(it)).apply()
-                            customBoxCaption.value = "$it"
-                        }
-                    }
+                    ) { notificationsViewModel.saveCustomDays(it) }
                 }
             }
         }

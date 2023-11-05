@@ -32,12 +32,12 @@ class AddVehicleViewModel(
     private val _emptyFields = mutableStateOf(emptyArray<Int>())
     val emptyFields: State<Array<Int>> = _emptyFields
 
-    fun clearData() {
-        _model.value = ""
-        _registration.value = ""
-        _tplInsurance.value = ""
-        _collisionInsurance.value = null
-        _nextInspectionDate.value = ""
+    fun filterFieldValue(value: String?): String? {
+        return when (value) {
+            "" -> null
+            "null" -> null
+            else -> value
+        }
     }
 
     fun updateModel(newValue: String) {
