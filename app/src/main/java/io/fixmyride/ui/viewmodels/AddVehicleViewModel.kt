@@ -5,13 +5,12 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import io.fixmyride.database.DatabaseManager
 import io.fixmyride.database.DateConverter
 import io.fixmyride.models.Vehicle
 import io.fixmyride.utils.ValidationUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddVehicleViewModel(
@@ -86,7 +85,7 @@ class AddVehicleViewModel(
         }
 
         val db = DatabaseManager.getInstance().dao
-        CoroutineScope(Dispatchers.Default).launch {
+        viewModelScope.launch {
             val vehicle = Vehicle(
                 model = _model.value,
                 registration = _registration.value,

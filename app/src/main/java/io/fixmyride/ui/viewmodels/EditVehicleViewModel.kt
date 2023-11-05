@@ -5,14 +5,13 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import io.fixmyride.database.DatabaseManager
 import io.fixmyride.database.DateConverter
 import io.fixmyride.enums.Decision
 import io.fixmyride.models.Vehicle
 import io.fixmyride.utils.ValidationUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class EditVehicleViewModel(
@@ -38,20 +37,18 @@ class EditVehicleViewModel(
     val showDeleteConfirmationDialog: State<Boolean> = _showDeleteConfirmationDialog
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun loadVehicle() {
-        CoroutineScope(Dispatchers.Default).launch {
-            val db = DatabaseManager.getInstance().dao
-            val vehicle = db.getVehicleById(vehicleId)
+    suspend fun loadVehicle() {
+        val db = DatabaseManager.getInstance().dao
+        val vehicle = db.getVehicleById(vehicleId)
 
-            _model.value = vehicle.model
-            _registration.value = vehicle.registration
-            _tplInsurance.value = DateConverter.fromLocalDate(vehicle.tplInsuranceExpiry)
-            _collisionInsurance.value = when (vehicle.collisionInsuranceExpiry) {
-                null -> null
-                else -> DateConverter.fromLocalDate(vehicle.collisionInsuranceExpiry)
-            }
-            _nextInspectionDate.value = DateConverter.fromLocalDate(vehicle.nextInspectionDate)
+        _model.value = vehicle.model
+        _registration.value = vehicle.registration
+        _tplInsurance.value = DateConverter.fromLocalDate(vehicle.tplInsuranceExpiry)
+        _collisionInsurance.value = when (vehicle.collisionInsuranceExpiry) {
+            null -> null
+            else -> DateConverter.fromLocalDate(vehicle.collisionInsuranceExpiry)
         }
+        _nextInspectionDate.value = DateConverter.fromLocalDate(vehicle.nextInspectionDate)
     }
 
     fun filterFieldValue(value: String?): String? {
@@ -113,7 +110,7 @@ class EditVehicleViewModel(
             return
         }
         val db = DatabaseManager.getInstance().dao
-        CoroutineScope(Dispatchers.Default).launch {
+        viewModelScope.launch {
             db.updateVehicle(
                 Vehicle(
                     vehicleId,
@@ -134,7 +131,7 @@ class EditVehicleViewModel(
     fun deleteVehicle(decision: Decision?) {
         if (decision == Decision.YES) {
             val db = DatabaseManager.getInstance().dao
-            CoroutineScope(Dispatchers.Default).launch { db.deleteVehicleById(vehicleId) }
+            viewModelScope.launch { db.deleteVehicleById(vehicleId) }
             for (i in 0..1) navController.popBackStack()
         }
         _showDeleteConfirmationDialog.value = false
