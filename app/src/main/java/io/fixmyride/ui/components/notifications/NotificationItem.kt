@@ -33,11 +33,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.fixmyride.R
-import io.fixmyride.database.DatabaseManager
-import io.fixmyride.enums.ExpirationStatus
-import io.fixmyride.enums.NotificationType
-import io.fixmyride.models.Notification
-import io.fixmyride.models.Vehicle
+import io.fixmyride.data.enums.ExpirationStatus
+import io.fixmyride.data.enums.NotificationType
+import io.fixmyride.data.models.Notification
+import io.fixmyride.data.models.Vehicle
 import io.fixmyride.ui.components.ExpandButton
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements
@@ -47,10 +46,7 @@ import io.fixmyride.ui.theme.Typing
 @Composable
 fun NotificationItem(notification: Notification) {
     val vehicle = remember { mutableStateOf(Vehicle.EMPTY) }
-    LaunchedEffect(Unit) {
-        val db = DatabaseManager.getInstance().dao
-        vehicle.value = db.getVehicleById(notification.relatedVehicleId)
-    }
+    LaunchedEffect(Unit) { vehicle.value = notification.relatedVehicle }
 
     Column {
         Spacer(Modifier.height(30.dp))

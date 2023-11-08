@@ -7,14 +7,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import io.fixmyride.database.DatabaseManager
-import io.fixmyride.database.DateConverter
-import io.fixmyride.models.Vehicle
+import io.fixmyride.utils.DateConverter
+import io.fixmyride.data.models.Vehicle
+import io.fixmyride.data.repositories.VehicleRepository
 import io.fixmyride.utils.ValidationUtils
 import kotlinx.coroutines.launch
 
 class AddVehicleViewModel(
     val navController: NavController,
+    private val repo: VehicleRepository,
 ) : ViewModel() {
     private val _model = mutableStateOf("")
     private val _registration = mutableStateOf("")
@@ -84,7 +85,6 @@ class AddVehicleViewModel(
             return
         }
 
-        val db = DatabaseManager.getInstance().dao
         viewModelScope.launch {
             val vehicle = Vehicle(
                 model = _model.value,
@@ -97,7 +97,7 @@ class AddVehicleViewModel(
                 nextInspectionDate = DateConverter.toLocalDate(_nextInspectionDate.value),
             )
 
-            db.addVehicle(vehicle)
+            repo.addVehicle(vehicle)
         }
         navController.popBackStack()
     }

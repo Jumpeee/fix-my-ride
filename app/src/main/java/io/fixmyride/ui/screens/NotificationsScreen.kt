@@ -65,9 +65,9 @@ fun NotificationsScreen(viewModel: NotificationsViewModel) {
                 )
 
                 else -> {
-                    for (n in viewModel.notifications.value) {
-                        if (n.expirations.isNotEmpty()) {
-                            NotificationItem(n)
+                    viewModel.notifications.value.forEach {
+                        if (it.expirations.isNotEmpty()) {
+                            NotificationItem(it)
                         }
                     }
                 }

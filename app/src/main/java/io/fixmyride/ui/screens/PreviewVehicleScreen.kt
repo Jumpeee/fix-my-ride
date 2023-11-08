@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.fixmyride.R
-import io.fixmyride.database.DateConverter
+import io.fixmyride.utils.DateConverter
 import io.fixmyride.ui.components.FloatingButton
 import io.fixmyride.ui.components.UniversalHeader
 import io.fixmyride.ui.components.previewvehicle.DataDisplayField

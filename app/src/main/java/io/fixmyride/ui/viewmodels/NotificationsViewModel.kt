@@ -6,12 +6,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import io.fixmyride.database.DatabaseManager
-import io.fixmyride.models.Notification
+import io.fixmyride.data.models.Notification
+import io.fixmyride.data.repositories.VehicleRepository
 import io.fixmyride.utils.NotificationChecker
 
 class NotificationsViewModel(
     val navController: NavController,
+    private val repo: VehicleRepository,
 ) : ViewModel() {
     private val _notifications = mutableStateOf<List<Notification>>(emptyList())
 
@@ -19,7 +20,7 @@ class NotificationsViewModel(
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun loadNotifications() {
-        val allVehicles = DatabaseManager.getInstance().dao.getVehicles()
+        val allVehicles = repo.getVehicles()
         val tempNotifications = mutableListOf<Notification>()
 
         for (v in allVehicles) {
@@ -27,7 +28,7 @@ class NotificationsViewModel(
             if (expirations.isNotEmpty()) {
                 tempNotifications.add(
                     Notification(
-                        v.id,
+                        repo.getVehicleById(v.id),
                         expirations,
                     ),
                 )

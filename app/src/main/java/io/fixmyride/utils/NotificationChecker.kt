@@ -2,9 +2,9 @@ package io.fixmyride.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import io.fixmyride.database.PrefsManager
-import io.fixmyride.enums.NotificationType
-import io.fixmyride.models.Vehicle
+import io.fixmyride.data.database.PrefsManager
+import io.fixmyride.data.enums.NotificationType
+import io.fixmyride.data.models.Vehicle
 import java.time.LocalDate
 
 /** Provides methods used for checking if vehicle's insurance (or inspection) is about to expire */

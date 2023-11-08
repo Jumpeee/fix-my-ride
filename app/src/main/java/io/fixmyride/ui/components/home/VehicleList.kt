@@ -39,8 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import io.fixmyride.R
-import io.fixmyride.enums.SortType
-import io.fixmyride.models.Vehicle
+import io.fixmyride.data.enums.SortType
+import io.fixmyride.data.models.Vehicle
 import io.fixmyride.ui.components.EmptyPageIndicator
 import io.fixmyride.ui.theme.ColorPalette
 import io.fixmyride.ui.theme.Measurements

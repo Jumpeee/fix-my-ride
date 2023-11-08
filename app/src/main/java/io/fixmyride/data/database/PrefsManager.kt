@@ -1,4 +1,4 @@
-package io.fixmyride.database
+package io.fixmyride.data.database
 
 import android.content.Context
 import android.content.SharedPreferences

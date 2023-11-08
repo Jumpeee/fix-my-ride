@@ -7,16 +7,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import io.fixmyride.database.DatabaseManager
-import io.fixmyride.database.DateConverter
-import io.fixmyride.enums.Decision
-import io.fixmyride.models.Vehicle
+import io.fixmyride.data.enums.Decision
+import io.fixmyride.data.models.Vehicle
+import io.fixmyride.utils.DateConverter
+import io.fixmyride.data.repositories.VehicleRepository
 import io.fixmyride.utils.ValidationUtils
 import kotlinx.coroutines.launch
 
 class EditVehicleViewModel(
     val navController: NavController,
     private val vehicleId: Int,
+    private val repo: VehicleRepository,
 ) : ViewModel() {
     private val _model = mutableStateOf("")
     private val _registration = mutableStateOf("")
@@ -38,8 +39,7 @@ class EditVehicleViewModel(
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun loadVehicle() {
-        val db = DatabaseManager.getInstance().dao
-        val vehicle = db.getVehicleById(vehicleId)
+        val vehicle = repo.getVehicleById(vehicleId)
 
         _model.value = vehicle.model
         _registration.value = vehicle.registration
@@ -109,9 +109,8 @@ class EditVehicleViewModel(
             _emptyFields.value = emptyRequiredFields.toTypedArray()
             return
         }
-        val db = DatabaseManager.getInstance().dao
         viewModelScope.launch {
-            db.updateVehicle(
+            repo.updateVehicle(
                 Vehicle(
                     vehicleId,
                     model.value,
@@ -130,8 +129,7 @@ class EditVehicleViewModel(
 
     fun deleteVehicle(decision: Decision?) {
         if (decision == Decision.YES) {
-            val db = DatabaseManager.getInstance().dao
-            viewModelScope.launch { db.deleteVehicleById(vehicleId) }
+            viewModelScope.launch { repo.deleteVehicleById(vehicleId) }
             for (i in 0..1) navController.popBackStack()
         }
         _showDeleteConfirmationDialog.value = false

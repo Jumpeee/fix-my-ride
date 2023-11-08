@@ -1,14 +1,14 @@
-package io.fixmyride.models
+package io.fixmyride.data.models
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import io.fixmyride.database.DateConverter
+import io.fixmyride.utils.DateConverter
 import java.time.LocalDate
 
-@Entity
+@Entity(tableName = "vehicles")
 data class Vehicle(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

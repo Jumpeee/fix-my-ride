@@ -1,5 +1,6 @@
 package io.fixmyride
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,8 +18,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import io.fixmyride.database.DatabaseManager
-import io.fixmyride.database.PrefsManager
+import androidx.room.Room
+import io.fixmyride.data.database.Database
+import io.fixmyride.data.database.PrefsManager
+import io.fixmyride.data.repositories.VehicleRepositoryImpl
 import io.fixmyride.ui.screens.AddVehicleScreen
 import io.fixmyride.ui.screens.EditVehicleScreen
 import io.fixmyride.ui.screens.HomeScreen
@@ -40,7 +43,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DatabaseManager.initialize(this)
         PrefsManager.initialize(this)
 
         val prefs = PrefsManager.getInstance()
@@ -53,7 +55,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = ColorPalette.background,
                     modifier = Modifier.fillMaxSize(),
-                ) { App() }
+                ) { App(this) }
             }
         }
     }
@@ -61,8 +63,15 @@ class MainActivity : ComponentActivity() {
 
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
-private fun App() {
+private fun App(context: Context) {
     val navCtrl = rememberNavController()
+
+    val dao = remember {
+        Room.databaseBuilder(
+            context.applicationContext,
+            Database::class.java, "fixmyride-db"
+        ).fallbackToDestructiveMigration().build().dao
+    }
 
     NavHost(
         navController = navCtrl,
@@ -71,12 +80,12 @@ private fun App() {
         exitTransition = { fadeOut() },
     ) {
         composable(Routes.HOME) {
-            val homeVM = remember { HomeViewModel(navCtrl) }
+            val homeVM = remember { HomeViewModel(navCtrl, VehicleRepositoryImpl(dao)) }
             HomeScreen(homeVM)
         }
 
         composable(Routes.NOTIFICATIONS) {
-            val notificationsVM = remember { NotificationsViewModel(navCtrl) }
+            val notificationsVM = remember { NotificationsViewModel(navCtrl, VehicleRepositoryImpl(dao)) }
             NotificationsScreen(notificationsVM)
         }
 
@@ -88,7 +97,7 @@ private fun App() {
         }
 
         composable(Routes.ADD_VEHICLE) {
-            val addVehicleVM = remember { AddVehicleViewModel(navCtrl) }
+            val addVehicleVM = remember { AddVehicleViewModel(navCtrl, VehicleRepositoryImpl(dao)) }
             AddVehicleScreen(addVehicleVM)
         }
 
@@ -97,7 +106,7 @@ private fun App() {
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
             val vehicleId = it.arguments?.getString("id")?.toInt()
-            val editVehicleVM = remember { EditVehicleViewModel(navCtrl, vehicleId!!) }
+            val editVehicleVM = remember { EditVehicleViewModel(navCtrl, vehicleId!!, VehicleRepositoryImpl(dao)) }
             EditVehicleScreen(editVehicleVM)
         }
 
@@ -106,7 +115,7 @@ private fun App() {
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
             val vehicleId = it.arguments?.getString("id")?.toInt()
-            val previewVehicleVM = remember { PreviewVehicleViewModel(navCtrl, vehicleId!!) }
+            val previewVehicleVM = remember { PreviewVehicleViewModel(navCtrl, vehicleId!!, VehicleRepositoryImpl(dao)) }
             PreviewVehicleScreen(previewVehicleVM)
         }
     }

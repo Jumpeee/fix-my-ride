@@ -1,4 +1,4 @@
-package io.fixmyride.database
+package io.fixmyride.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
