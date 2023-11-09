@@ -159,6 +159,7 @@ fun NotificationItem(notification: Notification) {
                     val ciStatus = when {
                         notification.expirations.contains(NotificationType.CI_EXPIRED) -> ExpirationStatus.EXPIRED
                         notification.expirations.contains(NotificationType.CI_ABOUT_TO_EXPIRE) -> ExpirationStatus.WARNING
+                        notification.expirations.contains(NotificationType.NOT_SET) -> ExpirationStatus.NOT_SET
                         else -> ExpirationStatus.ACTIVE
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -294,6 +295,7 @@ fun StatusLabel(status: ExpirationStatus) {
                     ExpirationStatus.EXPIRED -> ColorPalette.lightRed.copy(alpha = 0.1f)
                     ExpirationStatus.WARNING -> ColorPalette.yellow.copy(alpha = 0.1f)
                     ExpirationStatus.ACTIVE -> ColorPalette.green.copy(alpha = 0.1f)
+                    ExpirationStatus.NOT_SET -> ColorPalette.secondary.copy(alpha = 0.1f)
                 },
                 shape = RoundedCornerShape(5.dp),
             )
@@ -304,11 +306,13 @@ fun StatusLabel(status: ExpirationStatus) {
                 ExpirationStatus.EXPIRED -> stringResource(R.string.expired)
                 ExpirationStatus.WARNING -> stringResource(R.string.warning)
                 ExpirationStatus.ACTIVE -> stringResource(R.string.active)
+                ExpirationStatus.NOT_SET -> stringResource(R.string.not_set)
             },
             style = when (status) {
                 ExpirationStatus.EXPIRED -> Typing.expiredText
                 ExpirationStatus.WARNING -> Typing.warningText
                 ExpirationStatus.ACTIVE -> Typing.activeText
+                ExpirationStatus.NOT_SET -> Typing.notSetText
             },
             modifier = Modifier
                 .padding(

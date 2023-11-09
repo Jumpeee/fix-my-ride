@@ -52,7 +52,6 @@ fun FormField(
     if (initialValue != null) fieldValue.value = initialValue
 
     Column {
-
         Spacer(Modifier.height(20.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {

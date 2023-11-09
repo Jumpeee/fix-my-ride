@@ -57,5 +57,6 @@
     <string name="expired">wygasło</string>
     <string name="warning">ostrzeżenie</string>
     <string name="active">aktywny</string>
+    <string name="not_set">brak</string>
     <string name="inspection">Przegląd</string>
 </resources>

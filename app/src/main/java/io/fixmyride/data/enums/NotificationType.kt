@@ -1,6 +1,8 @@
 package io.fixmyride.data.enums
 
 object NotificationType {
+    const val NOT_SET = 0
+
     const val TPL_ABOUT_TO_EXPIRE = 1
     const val TPL_EXPIRED = -1
 

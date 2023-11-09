@@ -26,6 +26,8 @@ object NotificationChecker {
                 ciDifference < 0 -> expired.add(NotificationType.CI_EXPIRED)
                 ciDifference in 1..notificationDays -> expired.add(NotificationType.CI_ABOUT_TO_EXPIRE)
             }
+        } else {
+            expired.add(NotificationType.NOT_SET)
         }
 
         val inspectionDifference = dateDifference(v.nextInspectionDate)

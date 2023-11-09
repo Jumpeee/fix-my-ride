@@ -46,9 +46,7 @@ fun ExpandButton(
             tint = ColorPalette.background,
             modifier = Modifier
                 .animateContentSize()
-                .rotate(
-                    degrees = rotation.value,
-                ),
+                .rotate(rotation.value),
         )
     }
 }

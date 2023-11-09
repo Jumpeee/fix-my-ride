@@ -57,5 +57,6 @@
     <string name="expired">expired</string>
     <string name="warning">warning</string>
     <string name="active">active</string>
+    <string name="not_set">not set</string>
     <string name="inspection">Inspection</string>
 </resources>

@@ -65,7 +65,6 @@ fun DateField(
             Canvas(modifier = Modifier.size(10.dp)) {
                 drawCircle(color = ColorPalette.primary)
             }
-
             Spacer(Modifier.width(5.dp))
 
             Text(

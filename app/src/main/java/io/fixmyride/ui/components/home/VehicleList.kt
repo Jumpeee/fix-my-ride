@@ -157,8 +157,6 @@ private fun Headline(
     topPadding: Dp,
     onClickSortButton: () -> Unit,
 ) {
-    val headlineStyle = Typing.categoryHeadline
-
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -167,12 +165,12 @@ private fun Headline(
             .padding(
                 start = 30.dp,
                 end = 30.dp,
-                top = topPadding / 2 - (headlineStyle.lineHeight / 2).value.dp,
+                top = topPadding / 2 - (Typing.categoryHeadline.lineHeight / 2).value.dp,
             ),
     ) {
         Text(
             stringResource(R.string.all_vehicles),
-            style = headlineStyle,
+            style = Typing.categoryHeadline,
             overflow = TextOverflow.Ellipsis,
         )
 
