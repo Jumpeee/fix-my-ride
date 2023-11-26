@@ -6,6 +6,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
@@ -76,20 +80,63 @@ private fun App(context: Context) {
     NavHost(
         navController = navCtrl,
         startDestination = Routes.HOME,
-        enterTransition = { fadeIn() },
-        exitTransition = { fadeOut() },
+        enterTransition = { fadeIn(tween(200)) },
+        exitTransition = { fadeOut(tween(200)) },
     ) {
-        composable(Routes.HOME) {
+        composable(
+            Routes.HOME,
+        ) {
             val homeVM = remember { HomeViewModel(navCtrl, VehicleRepositoryImpl(dao)) }
             HomeScreen(homeVM)
         }
 
-        composable(Routes.NOTIFICATIONS) {
-            val notificationsVM = remember { NotificationsViewModel(navCtrl, VehicleRepositoryImpl(dao)) }
+        composable(
+            Routes.NOTIFICATIONS,
+            enterTransition = {
+                fadeIn(tween(150)) + slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow,
+                    )
+                )
+            },
+            exitTransition = {
+                fadeOut(tween(250)) + slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow,
+                    )
+                )
+            },
+        ) {
+            val notificationsVM =
+                remember { NotificationsViewModel(navCtrl, VehicleRepositoryImpl(dao)) }
             NotificationsScreen(notificationsVM)
         }
 
-        composable(Routes.SETTINGS) {
+        composable(
+            Routes.SETTINGS,
+            enterTransition = {
+                fadeIn(tween(150)) + slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow,
+                    )
+                )
+            },
+            exitTransition = {
+                fadeOut(tween(250)) + slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow,
+                    )
+                )
+            },
+        ) {
             val prefs = remember { PrefsManager.getInstance() }
             val notificationsVM =
                 remember { SettingsViewModel.NotificationsViewModel(navCtrl, prefs) }
@@ -106,7 +153,8 @@ private fun App(context: Context) {
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
             val vehicleId = it.arguments?.getString("id")?.toInt()
-            val editVehicleVM = remember { EditVehicleViewModel(navCtrl, vehicleId!!, VehicleRepositoryImpl(dao)) }
+            val editVehicleVM =
+                remember { EditVehicleViewModel(navCtrl, vehicleId!!, VehicleRepositoryImpl(dao)) }
             EditVehicleScreen(editVehicleVM)
         }
 
@@ -115,7 +163,13 @@ private fun App(context: Context) {
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
         ) {
             val vehicleId = it.arguments?.getString("id")?.toInt()
-            val previewVehicleVM = remember { PreviewVehicleViewModel(navCtrl, vehicleId!!, VehicleRepositoryImpl(dao)) }
+            val previewVehicleVM = remember {
+                PreviewVehicleViewModel(
+                    navCtrl,
+                    vehicleId!!,
+                    VehicleRepositoryImpl(dao)
+                )
+            }
             PreviewVehicleScreen(previewVehicleVM)
         }
     }
