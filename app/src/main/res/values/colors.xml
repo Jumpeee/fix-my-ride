@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#FFA2F263</color>
+    <color name="secondary">#FFFFFFFF</color>
+    <color name="tertiary">#FF262626</color>
+    <color name="background">#FF141414</color>
+
+    <!-- Widget text colors -->
+    <color name="green">#FF01DB4B</color>
+    <color name="yellow">#FFFFC107</color>
+    <color name="light_red">#FFFF7B60</color>
+
+    <!-- Widget rectangle colors -->
+    <color name="green_rect">#1A01DB4B</color>
+    <color name="yellow_rect">#1AFFC107</color>
+    <color name="light_red_rect">#1AFF7B60</color>
 </resources>

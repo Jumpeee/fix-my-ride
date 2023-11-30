@@ -64,7 +64,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.navigation:navigation-compose:2.7.5")
-    implementation("com.google.code.gson:gson:2.10.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
@@ -80,4 +79,8 @@ dependencies {
 
     // Jetpack Glance
     implementation("androidx.glance:glance-appwidget:1.0.0")
+
+    // WorkManager
+    implementation("androidx.work:work-runtime")
+
 }
