@@ -58,8 +58,7 @@ fun NotificationItem(notification: Notification) {
         ) {
             Row {
                 Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.background(
+                    contentAlignment = Alignment.Center, modifier = Modifier.background(
                         color = ColorPalette.primary,
                         shape = Measurements.roundedShape,
                     )
@@ -79,9 +78,7 @@ fun NotificationItem(notification: Notification) {
                     Text(
                         text = when {
                             vehicle.value.model.length > 12 -> {
-                                vehicle.value.model
-                                    .substring(0, 11)
-                                    .trim().plus("...")
+                                vehicle.value.model.substring(0, 11).trim().plus("...")
                             }
 
                             else -> vehicle.value.model
@@ -116,8 +113,7 @@ fun NotificationItem(notification: Notification) {
                     @Composable
                     fun TextWithBackground(text: String) {
                         Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier.background(
+                            contentAlignment = Alignment.Center, modifier = Modifier.background(
                                 color = ColorPalette.tertiary,
                                 shape = RoundedCornerShape(7.5.dp),
                             )
@@ -218,11 +214,10 @@ fun WarningsAndExpand(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 5.dp,
-                            vertical = 2.dp,
-                        ),
+                    modifier = Modifier.padding(
+                        horizontal = 5.dp,
+                        vertical = 2.dp,
+                    ),
                 ) {
                     Text(
                         text = "$expired ${if (hasOnlyExpirationsOrWarnings) stringResource(R.string.expirations) else ""}".trim(),
@@ -256,11 +251,10 @@ fun WarningsAndExpand(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 5.dp,
-                            vertical = 2.dp,
-                        ),
+                    modifier = Modifier.padding(
+                        horizontal = 5.dp,
+                        vertical = 2.dp,
+                    ),
                 ) {
                     Text(
                         text = "$warnings ${if (hasOnlyExpirationsOrWarnings) stringResource(R.string.warnings) else ""}".trim(),
@@ -288,8 +282,7 @@ fun WarningsAndExpand(
 @Composable
 fun StatusLabel(status: ExpirationStatus) {
     Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
+        contentAlignment = Alignment.Center, modifier = Modifier
             .background(
                 color = when (status) {
                     ExpirationStatus.EXPIRED -> ColorPalette.lightRed.copy(alpha = 0.1f)
@@ -314,11 +307,10 @@ fun StatusLabel(status: ExpirationStatus) {
                 ExpirationStatus.ACTIVE -> Typing.activeText
                 ExpirationStatus.NOT_SET -> Typing.notSetText
             },
-            modifier = Modifier
-                .padding(
-                    horizontal = 5.dp,
-                    vertical = 2.dp,
-                ),
+            modifier = Modifier.padding(
+                horizontal = 5.dp,
+                vertical = 2.dp,
+            ),
         )
     }
 }

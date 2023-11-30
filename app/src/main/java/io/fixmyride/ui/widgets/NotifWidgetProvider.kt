@@ -22,7 +22,7 @@ class NotifWidgetProvider : AppWidgetProvider() {
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         PrefsManager.initialize(context)
-        
+
         val dao = Room.databaseBuilder(
             context.applicationContext,
             Database::class.java,

@@ -94,7 +94,7 @@ fun NotificationsScreen(viewModel: NotificationsViewModel) {
         ResultsBar(
             results = viewModel.notifications.value.size,
             alignment = Alignment.BottomStart,
-            animationSpec = Measurements.scrollAnimation(delay = 250),
+            animationSpec = Measurements.scrollAnimation(delay = 120),
             scrollState = scrollState,
         )
     }
